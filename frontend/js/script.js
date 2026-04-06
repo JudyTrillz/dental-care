@@ -329,7 +329,7 @@
     /* -----------------------------
        Fetch Dentists
     ----------------------------- */
-    fetch("http://localhost:5000/api/dentists")
+    fetch("https://dental-clinic-backend-gilt.vercel.app/api/dentists")
       .then((res) => res.json())
       .then((dentists) =>
         dentists.forEach((d) => {
@@ -407,11 +407,14 @@
         submitBtn.disabled = true;
         submitBtn.textContent = "Processing...";
 
-        const response = await fetch("http://localhost:5000/api/bookings", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload),
-        });
+        const response = await fetch(
+          "https://dental-clinic-backend-gilt.vercel.app/api/bookings",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          },
+        );
         const data = await response.json();
 
         if (!response.ok) throw new Error(data.error || "Booking failed");
