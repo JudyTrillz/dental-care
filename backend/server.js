@@ -1,24 +1,32 @@
 require("dotenv").config();
-const dentistRoutes = require("./routes/dentistRoutes");
-
 const express = require("express");
 const cors = require("cors");
+
 const routes = require("./routes/index");
+const dentistRoutes = require("./routes/dentistRoutes");
 const serviceRoutes = require("./routes/serviceRoutes");
-const seedServices = require("./utils/seedServices");
 const bookingRoutes = require("./routes/bookingRoutes");
+const seedServices = require("./utils/seedServices");
 
 const app = express();
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 
-app.use(cors());
+// CORS: allow only your frontend
+app.use(
+  cors({
+    origin: "https://dentalcare-app.netlify.app/",
+  }),
+);
+
 app.use(express.json());
 
+// Routes
 app.use("/api", routes);
 app.use("/api/services", serviceRoutes);
 app.use("/api/dentists", dentistRoutes);
 app.use("/api/bookings", bookingRoutes);
 
+// Seed services and start server
 const startServer = async () => {
   try {
     await seedServices();
@@ -27,11 +35,11 @@ const startServer = async () => {
     });
   } catch (error) {
     console.error("Startup failed:", error);
+    // Start server anyway if seeding fails
+    app.listen(PORT, () => {
+      console.log(`Server running on port ${PORT} (seeding failed)`);
+    });
   }
 };
 
 startServer();
-
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
