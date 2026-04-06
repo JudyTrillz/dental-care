@@ -14,7 +14,12 @@ const PORT = process.env.PORT || 5000;
 // CORS: allow only your frontend
 app.use(
   cors({
-    origin: "https://dentalcare-app.netlify.app",
+    origin: [
+      "https://dentalcare-app.netlify.app", // frontend
+      "https://dental-clinic-backend-gilt.vercel.app", // allow same-domain requests if needed
+    ],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
   }),
 );
 
