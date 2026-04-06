@@ -14,7 +14,7 @@ const PORT = process.env.PORT || 5000;
 // CORS: allow only your frontend
 app.use(
   cors({
-    origin: "https://dentalcare-app.netlify.app/",
+    origin: "https://dentalcare-app.netlify.app",
   }),
 );
 
