@@ -1,0 +1,851 @@
+/* =========================================
+   about.css
+   Extends style.css — assumes :root variables
+   (--blue, --green, --white, --bg, --text-dark,
+   --text-mid, --text-light, --radius, etc.)
+   and shared utilities (.reveal, .btn-primary,
+   .navbar, .site-footer, etc.) are already loaded
+   via style.css linked before this file.
+========================================= */
+
+/* =========================================
+   PAGE-LEVEL ENTRANCE ANIMATIONS
+   Used on hero elements (not scroll-triggered)
+========================================= */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeRight {
+  from {
+    opacity: 0;
+    transform: translateX(28px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.anim-fade-up {
+  opacity: 0;
+  animation: fadeUp 0.75s cubic-bezier(0.16, 1, 0.3, 1) calc(var(--d, 0s)) forwards;
+}
+
+.anim-fade-right {
+  opacity: 0;
+  animation: fadeRight 0.85s cubic-bezier(0.16, 1, 0.3, 1) calc(var(--d, 0s)) forwards;
+}
+
+/* =========================================
+   SHARED PAGE UTILITIES
+========================================= */
+
+/* Active nav link — underlined */
+.nav-link--active {
+  color: var(--blue) !important;
+}
+
+.nav-link--active::after {
+  width: 100% !important;
+}
+
+/* Section label (small pill above headings) */
+.section-label {
+  display: inline-block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--green-dark);
+  background: rgba(0, 196, 154, 0.08);
+  border: 1px solid rgba(0, 196, 154, 0.2);
+  padding: 0.3rem 0.9rem;
+  border-radius: 50px;
+  margin-bottom: 1rem;
+}
+
+.section-label--light {
+  color: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Centered section headers */
+.section-header {
+  text-align: center;
+  max-width: 620px;
+  margin: 0 auto 3.5rem;
+}
+
+.section-header h2 {
+  font-size: clamp(1.75rem, 3vw, 2.4rem);
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  line-height: 1.2;
+  color: var(--text-dark);
+  margin-bottom: 0.85rem;
+}
+
+.section-subtext {
+  font-size: 1rem;
+  line-height: 1.75;
+  color: var(--text-mid);
+}
+
+/* Inverted btn-primary for dark backgrounds */
+.btn-primary--white {
+  background: var(--white) !important;
+  color: var(--blue) !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18) !important;
+}
+
+.btn-primary--white:hover {
+  background: var(--white) !important;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.22) !important;
+}
+
+/* Reuse homepage page-label style */
+.about-page-label {
+  display: inline-block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--green-dark);
+  background: rgba(0, 196, 154, 0.08);
+  border: 1px solid rgba(0, 196, 154, 0.2);
+  padding: 0.3rem 0.9rem;
+  border-radius: 50px;
+  margin-bottom: 1.25rem;
+}
+
+/* =========================================
+   1. ABOUT HERO
+========================================= */
+.about-hero {
+  position: relative;
+  min-height: 92vh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  padding-top: var(--nav-height);
+  background: var(--bg);
+}
+
+.about-hero-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 5rem 2rem 5rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 4rem;
+  width: 100%;
+}
+
+/* --- Left: copy --- */
+.about-hero-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.about-hero-headline {
+  font-size: clamp(2.4rem, 5vw, 3.8rem);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  color: var(--text-dark);
+  margin-bottom: 1.25rem;
+}
+
+.about-hero-sub {
+  font-size: 1.1rem;
+  line-height: 1.75;
+  color: var(--text-mid);
+  max-width: 480px;
+  margin-bottom: 2rem;
+}
+
+/* --- Right: stat card --- */
+.about-hero-visual {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.about-hero-card {
+  background: var(--white);
+  border-radius: 24px;
+  padding: 2.25rem 2rem;
+  box-shadow: 0 20px 60px rgba(30, 144, 255, 0.14);
+  border: 1px solid rgba(30, 144, 255, 0.07);
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  gap: 1.5rem;
+  width: 100%;
+}
+
+.ahc-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  text-align: center;
+}
+
+.ahc-stat strong {
+  font-size: 1.8rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  background: linear-gradient(135deg, var(--blue), var(--green));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.ahc-stat span {
+  font-size: 0.8rem;
+  color: var(--text-light);
+  font-weight: 500;
+}
+
+.ahc-divider {
+  width: 1px;
+  height: 40px;
+  background: rgba(30, 144, 255, 0.12);
+}
+
+.ahc-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(0, 196, 154, 0.08);
+  border: 1px solid rgba(0, 196, 154, 0.22);
+  color: var(--green-dark);
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.5rem 1.1rem;
+  border-radius: 50px;
+}
+
+/* =========================================
+   2. ABOUT THE CLINIC
+========================================= */
+.about-story {
+  background: var(--white);
+  padding: 6rem 2rem;
+  position: relative;
+}
+
+.about-story::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--blue), var(--green));
+  border-radius: 2px;
+}
+
+.about-story-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 5rem;
+  align-items: start;
+}
+
+.about-story-text h2 {
+  font-size: clamp(1.75rem, 3vw, 2.4rem);
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  line-height: 1.2;
+  color: var(--text-dark);
+  margin-bottom: 1.5rem;
+}
+
+.about-story-text p {
+  font-size: 0.975rem;
+  line-height: 1.8;
+  color: var(--text-mid);
+  margin-bottom: 1.1rem;
+}
+
+.about-story-text p:last-child {
+  margin-bottom: 0;
+}
+
+/* Values list */
+.story-values {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-top: 0.5rem;
+}
+
+.story-values li {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.sv-icon {
+  font-size: 1.4rem;
+  flex-shrink: 0;
+  margin-top: 0.1rem;
+}
+
+.story-values strong {
+  display: block;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin-bottom: 0.3rem;
+}
+
+.story-values p {
+  font-size: 0.875rem;
+  line-height: 1.65;
+  color: var(--text-mid);
+  margin: 0;
+}
+
+/* =========================================
+   3. TRUST STRIP
+========================================= */
+.trust-strip {
+  background: linear-gradient(135deg, var(--blue), #0ea8d0);
+  padding: 2rem 2rem;
+  text-align: center;
+}
+
+.trust-strip-text {
+  font-size: clamp(1rem, 2.5vw, 1.2rem);
+  font-weight: 600;
+  color: var(--white);
+  letter-spacing: -0.01em;
+  max-width: 700px;
+  margin: 0 auto;
+  line-height: 1.5;
+  opacity: 0;
+  transform: translateY(12px);
+  transition:
+    opacity 0.6s ease,
+    transform 0.6s ease;
+}
+
+.trust-strip-text.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* =========================================
+   4. FEATURE GRID
+========================================= */
+.about-features {
+  background: var(--bg);
+  padding: 6rem 2rem;
+  position: relative;
+}
+
+.about-features::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--green), var(--blue));
+  border-radius: 2px;
+}
+
+.about-features-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Reuse homepage feature card styles but define here
+   in case about.css is loaded independently */
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.25rem;
+}
+
+.feature-card {
+  background: var(--white);
+  border: 1px solid rgba(30, 144, 255, 0.08);
+  border-radius: var(--radius);
+  padding: 1.75rem 1.5rem;
+  box-shadow: 0 4px 16px rgba(30, 144, 255, 0.06);
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 14px 36px rgba(30, 144, 255, 0.14);
+}
+
+.feature-icon {
+  font-size: 1.75rem;
+  display: block;
+  margin-bottom: 0.85rem;
+}
+
+.feature-card h3 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.01em;
+}
+
+.feature-card p {
+  font-size: 0.855rem;
+  color: var(--text-mid);
+  line-height: 1.65;
+}
+
+/* =========================================
+   5. FOUNDER STORY
+========================================= */
+.founder-section {
+  background: var(--white);
+  padding: 6rem 2rem;
+  position: relative;
+}
+
+.founder-section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--blue), var(--green));
+  border-radius: 2px;
+}
+
+.founder-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 5rem;
+  align-items: start;
+}
+
+.founder-img-wrap {
+  border-radius: 20px;
+  overflow: hidden;
+  aspect-ratio: 3 / 4;
+  background: var(--bg);
+  box-shadow: 0 16px 48px rgba(30, 144, 255, 0.12);
+}
+
+.founder-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.founder-caption {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-top: 1rem;
+  gap: 0.2rem;
+}
+
+.founder-caption strong {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-dark);
+}
+
+.founder-caption span {
+  font-size: 0.82rem;
+  color: var(--text-light);
+}
+
+.founder-text h2 {
+  font-size: clamp(1.75rem, 3vw, 2.4rem);
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  line-height: 1.2;
+  color: var(--text-dark);
+  margin-bottom: 1.5rem;
+}
+
+.founder-text p {
+  font-size: 0.975rem;
+  line-height: 1.85;
+  color: var(--text-mid);
+  margin-bottom: 1.1rem;
+}
+
+.founder-text em {
+  color: var(--blue);
+  font-style: normal;
+  font-weight: 600;
+}
+
+.founder-signature {
+  font-size: 1.3rem;
+  font-style: italic;
+  color: var(--blue);
+  margin-top: 1.5rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+/* =========================================
+   6. TEAM SECTION
+========================================= */
+.team-section {
+  background: var(--bg);
+  padding: 6rem 2rem;
+  position: relative;
+}
+
+.team-section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--green), var(--blue));
+  border-radius: 2px;
+}
+
+.team-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.25rem;
+}
+
+.team-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: 1.5rem 1.25rem;
+  text-align: center;
+  box-shadow: 0 4px 16px rgba(30, 144, 255, 0.06);
+  border: 1px solid rgba(30, 144, 255, 0.08);
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.team-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(30, 144, 255, 0.12);
+}
+
+.team-img-wrap {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin: 0 auto 1rem;
+  border: 3px solid rgba(30, 144, 255, 0.12);
+  box-shadow: 0 4px 14px rgba(30, 144, 255, 0.12);
+}
+
+.team-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.team-name {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin-bottom: 0.25rem;
+  letter-spacing: -0.01em;
+}
+
+.team-role {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--blue);
+  margin-bottom: 0.65rem;
+  letter-spacing: 0.01em;
+}
+
+.team-bio {
+  font-size: 0.8rem;
+  line-height: 1.6;
+  color: var(--text-mid);
+}
+
+/* =========================================
+   7. QUALIFICATIONS
+========================================= */
+.qualifications-section {
+  background: var(--white);
+  padding: 6rem 2rem;
+  position: relative;
+}
+
+.qualifications-section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--blue), var(--green));
+  border-radius: 2px;
+}
+
+.qual-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.qual-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem 4rem;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.qual-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+.qual-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  font-size: 0.925rem;
+  line-height: 1.65;
+  color: var(--text-mid);
+}
+
+.qual-check {
+  color: var(--blue);
+  font-size: 0.7rem;
+  flex-shrink: 0;
+  margin-top: 0.35rem;
+}
+
+/* =========================================
+   8. ABOUT FINAL CTA
+========================================= */
+.about-final-cta {
+  background: linear-gradient(135deg, #1060d0, var(--blue) 50%, #0ea8d0);
+  padding: 6rem 2rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Decorative blobs */
+.about-final-cta::before,
+.about-final-cta::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.12;
+  pointer-events: none;
+}
+
+.about-final-cta::before {
+  width: 500px;
+  height: 500px;
+  background: white;
+  top: -200px;
+  right: -100px;
+  filter: blur(80px);
+}
+
+.about-final-cta::after {
+  width: 350px;
+  height: 350px;
+  background: var(--green);
+  bottom: -120px;
+  left: -80px;
+  filter: blur(70px);
+}
+
+.about-final-cta-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 620px;
+  margin: 0 auto;
+}
+
+.about-final-cta-inner h2 {
+  font-size: clamp(1.9rem, 4vw, 2.8rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  color: var(--white);
+  margin-bottom: 1rem;
+}
+
+.about-final-cta-inner p {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.82);
+  margin-bottom: 2.25rem;
+}
+
+/* =========================================
+   ABOUT — RESPONSIVE
+========================================= */
+
+/* --- Tablet (≤ 1024px) --- */
+@media (max-width: 1024px) {
+  .features-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .team-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* --- Tablet (≤ 900px) --- */
+@media (max-width: 900px) {
+  .about-hero-inner {
+    grid-template-columns: 1fr;
+    text-align: center;
+    padding: 3.5rem 1.5rem 4rem;
+  }
+
+  .about-hero-content {
+    align-items: center;
+  }
+
+  .about-hero-sub {
+    max-width: 520px;
+  }
+
+  .about-story-inner {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  .founder-inner {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  .founder-img-wrap {
+    max-width: 260px;
+    margin: 0 auto;
+    aspect-ratio: 1;
+  }
+
+  .founder-text {
+    text-align: center;
+  }
+
+  .founder-signature {
+    text-align: center;
+  }
+
+  .qual-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .about-hero-card {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem 2rem;
+    padding: 1.75rem;
+  }
+
+  .ahc-divider {
+    display: none;
+  }
+}
+
+/* --- Mobile (≤ 600px) --- */
+@media (max-width: 600px) {
+  .about-hero {
+    min-height: auto;
+    padding-top: var(--nav-height);
+  }
+
+  .about-hero-inner {
+    padding: 3rem 1.25rem;
+    gap: 2.5rem;
+  }
+
+  .about-story,
+  .about-features,
+  .founder-section,
+  .team-section,
+  .qualifications-section {
+    padding: 4rem 1.25rem;
+  }
+
+  .features-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .team-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .team-card {
+    padding: 1.25rem 1rem;
+  }
+
+  .about-final-cta {
+    padding: 4rem 1.25rem;
+  }
+
+  .btn-primary--white {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* --- Narrow mobile (≤ 400px) --- */
+@media (max-width: 400px) {
+  .team-grid {
+    grid-template-columns: 1fr;
+  }
+}

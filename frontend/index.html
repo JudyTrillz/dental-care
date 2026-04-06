@@ -1,0 +1,899 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DentalClinic — Book Your Smile Today</title>
+    <link rel="stylesheet" href="./css/style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet" />
+  </head>
+  <body>
+    <!-- ==============================
+       SITE HEADER + NAVIGATION
+  ================================= -->
+    <header class="navbar" id="navbar">
+      <div class="nav-inner">
+        <!-- Brand Logo -->
+        <a href="#" class="nav-logo" aria-label="DentalClinic home">
+          <span class="logo-icon" aria-hidden="true">✦</span> DentalClinic
+        </a>
+
+        <!-- Primary Navigation -->
+        <nav aria-label="Primary navigation">
+          <ul class="nav-links" id="navLinks">
+            <li><a href="#hero" class="nav-link">Home</a></li>
+            <li><a href="#about" class="nav-link">About</a></li>
+            <li><a href="#services" class="nav-link">Services</a></li>
+            <li><a href="tel:+2348000000000" class="nav-link">Call</a></li>
+            <li><a href="#book" class="nav-link nav-cta-link">Book Now</a></li>
+          </ul>
+        </nav>
+
+        <!-- Mobile Hamburger -->
+        <button
+          class="hamburger"
+          id="hamburger"
+          aria-label="Toggle navigation"
+          aria-expanded="false"
+          aria-controls="navLinks">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </button>
+      </div>
+    </header>
+
+    <!-- ==============================
+       MAIN PAGE CONTENT
+  ================================= -->
+    <main>
+      <!-- HERO SECTION -->
+      <section class="hero" id="hero" aria-labelledby="hero-heading">
+        <!-- Decorative background blobs (aria-hidden: purely visual) -->
+        <div class="blob blob-1" aria-hidden="true"></div>
+        <div class="blob blob-2" aria-hidden="true"></div>
+        <div class="blob blob-3" aria-hidden="true"></div>
+
+        <div class="hero-inner">
+          <!-- LEFT COLUMN: Copy & CTA -->
+          <section class="hero-content">
+            <!-- Status badge -->
+            <p class="hero-badge">
+              <span class="badge-dot" aria-hidden="true"></span> Accepting New Patients
+            </p>
+
+            <h1 class="hero-headline" id="hero-heading">
+              Book Your<br />
+              <span class="headline-accent">Smile</span> Today
+            </h1>
+
+            <p class="hero-sub">
+              Trusted dental care made simple. Schedule your appointment in just a few
+              clicks.
+            </p>
+
+            <!-- CTA buttons -->
+            <div class="hero-actions" role="group" aria-label="Call to action">
+              <a href="#book" class="btn-primary">
+                Book Now
+                <svg
+                  class="btn-arrow"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.5"
+                  aria-hidden="true">
+                  <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
+              </a>
+              <a href="#services" class="btn-ghost">View Services</a>
+            </div>
+
+            <!-- Social Proof -->
+            <div class="hero-proof" aria-label="Patient reviews">
+              <figure class="proof-avatars">
+                <img
+                  src="https://i.pravatar.cc/32?img=1"
+                  alt="Happy patient"
+                  class="avatar" />
+                <img
+                  src="https://i.pravatar.cc/32?img=2"
+                  alt="Happy patient"
+                  class="avatar" />
+                <img
+                  src="https://i.pravatar.cc/32?img=3"
+                  alt="Happy patient"
+                  class="avatar" />
+                <figcaption class="proof-text">
+                  <span class="proof-stars" aria-label="5 out of 5 stars">★★★★★</span>
+                  <span class="proof-label">500+ happy patients this month</span>
+                </figcaption>
+              </figure>
+            </div>
+          </section>
+
+          <!-- RIGHT COLUMN: Dental illustration -->
+          <figure class="hero-visual" aria-label="Dental clinic illustration">
+            <div class="visual-card">
+              <!-- SVG Dental Illustration -->
+              <svg
+                class="dental-svg"
+                viewBox="0 0 400 420"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                role="img"
+                aria-label="Illustration of a dental professional">
+                <circle cx="200" cy="210" r="180" fill="#e8f4ff" />
+                <ellipse
+                  cx="200"
+                  cy="340"
+                  rx="90"
+                  ry="70"
+                  fill="#1e90ff"
+                  opacity="0.15" />
+                <ellipse cx="200" cy="320" rx="72" ry="58" fill="#1e90ff" />
+                <path
+                  d="M170 285 L200 310 L230 285 L240 320 L200 350 L160 320 Z"
+                  fill="white"
+                  opacity="0.3" />
+                <rect x="188" y="255" width="24" height="30" rx="8" fill="#f0c8a0" />
+                <ellipse cx="200" cy="235" rx="52" ry="58" fill="#f0c8a0" />
+                <path
+                  d="M148 220 Q150 165 200 162 Q250 165 252 220 Q245 185 200 183 Q155 185 148 220Z"
+                  fill="#3a2a1a" />
+                <ellipse cx="183" cy="228" rx="7" ry="8" fill="white" />
+                <ellipse cx="217" cy="228" rx="7" ry="8" fill="white" />
+                <circle cx="185" cy="230" r="4" fill="#1a1a2e" />
+                <circle cx="219" cy="230" r="4" fill="#1a1a2e" />
+                <circle cx="187" cy="228" r="1.5" fill="white" />
+                <circle cx="221" cy="228" r="1.5" fill="white" />
+                <path
+                  d="M185 248 Q200 260 215 248"
+                  stroke="#c8855a"
+                  stroke-width="2.5"
+                  stroke-linecap="round"
+                  fill="none" />
+                <line
+                  x1="248"
+                  y1="270"
+                  x2="295"
+                  y2="230"
+                  stroke="#aaa"
+                  stroke-width="3"
+                  stroke-linecap="round" />
+                <circle
+                  cx="295"
+                  cy="228"
+                  r="12"
+                  stroke="#1e90ff"
+                  stroke-width="2.5"
+                  fill="white" />
+                <circle cx="295" cy="228" r="6" fill="#1e90ff" opacity="0.3" />
+                <path
+                  d="M168 295 Q155 310 160 330 Q165 350 180 348"
+                  stroke="white"
+                  stroke-width="3"
+                  fill="none"
+                  stroke-linecap="round"
+                  opacity="0.6" />
+                <circle cx="180" cy="350" r="6" fill="white" opacity="0.6" />
+                <!-- Floating tooth icon -->
+                <g transform="translate(310, 110)">
+                  <path
+                    d="M25 0 C10 0 0 12 0 25 C0 35 5 42 8 50 C11 58 12 68 18 68 C22 68 24 60 25 55 C26 60 28 68 32 68 C38 68 39 58 42 50 C45 42 50 35 50 25 C50 12 40 0 25 0Z"
+                    fill="white"
+                    stroke="#1e90ff"
+                    stroke-width="2" />
+                  <path
+                    d="M15 18 Q25 10 35 18"
+                    stroke="#00c49a"
+                    stroke-width="2"
+                    fill="none"
+                    stroke-linecap="round" />
+                </g>
+                <!-- Certified badge -->
+                <g transform="translate(30, 100)">
+                  <rect
+                    width="90"
+                    height="44"
+                    rx="22"
+                    fill="white"
+                    filter="url(#shadow)" />
+                  <text
+                    x="14"
+                    y="20"
+                    font-family="Poppins, sans-serif"
+                    font-size="11"
+                    font-weight="600"
+                    fill="#1e90ff">
+                    ✦ Certified
+                  </text>
+                  <text
+                    x="14"
+                    y="34"
+                    font-family="Poppins, sans-serif"
+                    font-size="10"
+                    fill="#666">
+                    Dental Expert
+                  </text>
+                </g>
+                <!-- Booking card -->
+                <g transform="translate(55, 340)">
+                  <rect
+                    width="120"
+                    height="52"
+                    rx="14"
+                    fill="white"
+                    filter="url(#shadow)" />
+                  <circle cx="22" cy="26" r="12" fill="#00c49a" opacity="0.15" />
+                  <text x="19" y="30" font-family="Poppins, sans-serif" font-size="14">
+                    📅
+                  </text>
+                  <text
+                    x="40"
+                    y="20"
+                    font-family="Poppins, sans-serif"
+                    font-size="10"
+                    font-weight="600"
+                    fill="#333">
+                    Next Slot
+                  </text>
+                  <text
+                    x="40"
+                    y="34"
+                    font-family="Poppins, sans-serif"
+                    font-size="10"
+                    fill="#00c49a"
+                    font-weight="600">
+                    Today 2:00 PM
+                  </text>
+                </g>
+                <defs>
+                  <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+                    <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#0002" />
+                  </filter>
+                </defs>
+              </svg>
+
+              <!-- Floating stat pills -->
+              <div class="stat-pill stat-1" aria-label="12 services available">
+                <span class="stat-icon" aria-hidden="true">🦷</span>
+                <div>
+                  <strong>12 Services</strong>
+                  <span>Available</span>
+                </div>
+              </div>
+
+              <div class="stat-pill stat-2" aria-label="Average visit: 30 minutes">
+                <span class="stat-icon" aria-hidden="true">⏱</span>
+                <div>
+                  <strong>30 min</strong>
+                  <span>Avg. Visit</span>
+                </div>
+              </div>
+            </div>
+          </figure>
+        </div>
+
+        <!-- Scroll indicator (decorative) -->
+        <div class="scroll-hint" aria-hidden="true">
+          <span>Scroll</span>
+          <div class="scroll-line"></div>
+        </div>
+      </section>
+
+      <!-- ABOUT SECTION -->
+      <section id="about" class="about" aria-labelledby="about-heading">
+        <div class="about-container">
+          <!-- LEFT: Text content -->
+          <div class="about-text reveal">
+            <p class="about-label">About Our Clinic</p>
+            <h2 class="about-headline" id="about-heading">
+              Most dental visits leave you with more questions than answers.
+            </h2>
+            <p class="about-description">
+              Most clinics move fast and leave you to figure things out after. Ours
+              doesn’t. From the moment you sit down, you know what’s happening, what it
+              costs, and what comes next. That clarity is why patients keep coming back
+              and why over 500 people choose us every month.
+            </p>
+            <a href="./pages/about.html" class="about-learn-more">
+              Read the thinking behind the clinic
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                aria-hidden="true">
+                <path d="M5 12h14M12 5l7 7-7 7" />
+              </svg>
+            </a>
+          </div>
+
+          <!-- RIGHT: Trust cards grid -->
+          <div class="about-cards" aria-label="Why choose us">
+            <article class="about-card reveal" style="--delay: 0.05s">
+              <span class="about-card-icon" aria-hidden="true">🦷</span>
+              <h3>Experienced Dentists</h3>
+              <p>
+                Work with highly trained professionals focused on precision and patient
+                comfort.
+              </p>
+            </article>
+
+            <article class="about-card reveal" style="--delay: 0.15s">
+              <span class="about-card-icon" aria-hidden="true">⚙️</span>
+              <h3>Modern Equipment</h3>
+              <p>
+                We use advanced tools to ensure faster, safer, and more accurate
+                treatments.
+              </p>
+            </article>
+
+            <article class="about-card reveal" style="--delay: 0.25s">
+              <span class="about-card-icon" aria-hidden="true">💳</span>
+              <h3>Transparent Pricing</h3>
+              <p>
+                No surprises. Clear pricing before every procedure so you stay in control.
+              </p>
+            </article>
+
+            <article class="about-card reveal" style="--delay: 0.35s">
+              <span class="about-card-icon" aria-hidden="true">📅</span>
+              <h3>Flexible Scheduling</h3>
+              <p>Book appointments that fit your schedule without long waiting times.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- SERVICES SECTION -->
+      <section id="services" class="services" aria-labelledby="services-heading">
+        <div class="services-container">
+          <!-- Section header -->
+          <header class="services-header reveal">
+            <p class="services-label">Our Services</p>
+            <h2 class="services-headline" id="services-heading">
+              Simple treatments. Clear outcomes.
+            </h2>
+            <p class="services-subtext">
+              Choose the service you need and book in seconds. Each treatment is clearly
+              defined so you know exactly what to expect.
+            </p>
+          </header>
+
+          <!-- 2x2 service card grid -->
+          <div class="services-grid" aria-label="Available services">
+            <article class="service-card reveal" style="--delay: 0.05s">
+              <div class="service-card-top">
+                <span class="service-icon" aria-hidden="true">🪥</span>
+                <span class="service-duration">30 mins</span>
+              </div>
+              <h3 class="service-name">Dental Cleaning</h3>
+              <p class="service-description">
+                Routine cleaning to maintain healthy teeth and gums.
+              </p>
+              <a
+                href="index.html#book?service=mXthkR7JeTL1uqgLyq3X"
+                class="service-button"
+                >Book this service</a
+              >
+            </article>
+
+            <article class="service-card reveal" style="--delay: 0.15s">
+              <div class="service-card-top">
+                <span class="service-icon" aria-hidden="true">✨</span>
+                <span class="service-duration">45 mins</span>
+              </div>
+              <h3 class="service-name">Teeth Whitening</h3>
+              <p class="service-description">
+                Brighten your smile with safe and effective whitening.
+              </p>
+              <a href="#book?service=rlPDaT4Z1srzqCipGbKo" class="service-button"
+                >Book this service</a
+              >
+            </article>
+
+            <article class="service-card reveal" style="--delay: 0.25s">
+              <div class="service-card-top">
+                <span class="service-icon" aria-hidden="true">🦷</span>
+                <span class="service-duration">60 mins</span>
+              </div>
+              <h3 class="service-name">Tooth Extraction</h3>
+              <p class="service-description">
+                Quick and careful removal with minimal discomfort.
+              </p>
+              <a href="#book?service=k5igrUdf7KEHDW7Wm9rW" class="service-button"
+                >Book this service</a
+              >
+            </article>
+
+            <article class="service-card reveal" style="--delay: 0.35s">
+              <div class="service-card-top">
+                <span class="service-icon" aria-hidden="true">👑</span>
+                <span class="service-duration">60 mins</span>
+              </div>
+              <h3 class="service-name">Crowns</h3>
+              <p class="service-description">
+                Restore damaged teeth with durable, natural-looking crowns.
+              </p>
+              <a href="#book?service=HzFGVUKsPsc4XFQSkKA2" class="service-button"
+                >Book this service</a
+              >
+            </article>
+          </div>
+
+          <!-- Secondary CTA: view all services -->
+          <div class="services-footer reveal" style="--delay: 0.45s">
+            <a href="pages/service.html" class="services-view-all">See All Treatments</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==============================
+         HOW IT WORKS
+    ================================= -->
+      <section id="how-it-works" class="how-it-works" aria-labelledby="how-heading">
+        <div class="how-container">
+          <!-- Section header -->
+          <header class="how-header reveal">
+            <p class="how-label">How It Works</p>
+            <h2 class="how-headline" id="how-heading">
+              Book your appointment in 3 simple steps
+            </h2>
+            <p class="how-subtext">
+              No calls. No confusion. Just a clear, guided process from start to finish.
+            </p>
+          </header>
+
+          <!-- Steps -->
+          <ol class="how-steps" aria-label="Booking steps">
+            <li class="how-step reveal" style="--delay: 0.1s">
+              <div class="how-step-number" aria-hidden="true">01</div>
+              <h3 class="how-step-title">Choose your service</h3>
+              <p class="how-step-text">
+                Select the treatment you need so we can prepare everything in advance.
+              </p>
+            </li>
+
+            <!-- Connector arrow (desktop only, decorative) -->
+            <li class="how-connector" aria-hidden="true">
+              <svg viewBox="0 0 40 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M0 6 Q20 0 40 6"
+                  stroke="#1e90ff"
+                  stroke-width="1.5"
+                  stroke-dasharray="4 3"
+                  stroke-linecap="round" />
+                <path
+                  d="M34 3 L40 6 L34 9"
+                  stroke="#1e90ff"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+            </li>
+
+            <li class="how-step reveal" style="--delay: 0.2s">
+              <div class="how-step-number" aria-hidden="true">02</div>
+              <h3 class="how-step-title">Pick a time</h3>
+              <p class="how-step-text">
+                See real-time availability and choose a slot that fits your schedule.
+              </p>
+            </li>
+
+            <!-- Connector arrow -->
+            <li class="how-connector" aria-hidden="true">
+              <svg viewBox="0 0 40 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M0 6 Q20 0 40 6"
+                  stroke="#1e90ff"
+                  stroke-width="1.5"
+                  stroke-dasharray="4 3"
+                  stroke-linecap="round" />
+                <path
+                  d="M34 3 L40 6 L34 9"
+                  stroke="#1e90ff"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+            </li>
+
+            <li class="how-step reveal" style="--delay: 0.3s">
+              <div class="how-step-number" aria-hidden="true">03</div>
+              <h3 class="how-step-title">Confirm your booking</h3>
+              <p class="how-step-text">
+                Lock in your appointment instantly and show up knowing everything is set.
+              </p>
+            </li>
+          </ol>
+
+          <!-- Section-level CTA -->
+          <div class="how-cta reveal" style="--delay: 0.4s">
+            <a href="./pages/service.html" class="btn-primary">
+              Choose a treatment
+              <svg
+                class="btn-arrow"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                aria-hidden="true">
+                <path d="M5 12h14M12 5l7 7-7 7" />
+              </svg>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==============================
+         TESTIMONIALS
+    ================================= -->
+      <section
+        id="testimonials"
+        class="testimonials"
+        aria-labelledby="testimonials-heading">
+        <div class="testimonials-container">
+          <!-- Section header -->
+          <header class="testimonials-header reveal">
+            <p class="testimonials-label">Patient Reviews</p>
+            <h2 class="testimonials-headline" id="testimonials-heading">
+              What our patients say after their visit
+            </h2>
+            <p class="testimonials-subtext">
+              Real experiences from people who chose us for their dental care.
+            </p>
+            <br />
+
+            <p class="testimonials-trust">Trusted by 500+ patients across Lagos</p>
+          </header>
+
+          <!-- Slider -->
+          <div class="testimonial-slider" aria-label="Patient testimonials">
+            <div class="testimonial-track" id="testimonialTrack">
+              <article class="testimonial-card">
+                <p class="testimonial-stars" aria-label="5 stars">★★★★★</p>
+                <blockquote class="testimonial-text">
+                  "Booking was simple and everything was clearly explained. I didn't have
+                  to wait long and the whole process felt very smooth."
+                </blockquote>
+                <p class="testimonial-name">Sarah M.</p>
+              </article>
+
+              <article class="testimonial-card">
+                <p class="testimonial-stars" aria-label="5 stars">★★★★★</p>
+                <blockquote class="testimonial-text">
+                  "I usually avoid dental visits, but this was different. The dentist made
+                  me feel comfortable from the start."
+                </blockquote>
+                <p class="testimonial-name">David O.</p>
+              </article>
+
+              <article class="testimonial-card">
+                <p class="testimonial-stars" aria-label="5 stars">★★★★★</p>
+                <blockquote class="testimonial-text">
+                  "No stress at all. I booked online, went in, and everything was handled
+                  quickly. I'll definitely be coming back."
+                </blockquote>
+                <p class="testimonial-name">Chinedu K.</p>
+              </article>
+
+              <article class="testimonial-card">
+                <p class="testimonial-stars" aria-label="5 stars">★★★★★</p>
+                <blockquote class="testimonial-text">
+                  "I no go lie, I been dey fear before I come. But everything sharp. No
+                  delay, no wahala. I even book my next appointment immediately."
+                </blockquote>
+                <p class="testimonial-name">Tolu A.</p>
+              </article>
+
+              <article class="testimonial-card">
+                <p class="testimonial-stars" aria-label="5 stars">★★★★★</p>
+                <blockquote class="testimonial-text">
+                  "This one sweet me. From booking reach treatment, everything just
+                  smooth. Dem really try."
+                </blockquote>
+                <p class="testimonial-name">Amaka E.</p>
+              </article>
+
+              <article class="testimonial-card">
+                <p class="testimonial-stars" aria-label="5 stars">★★★★★</p>
+                <blockquote class="testimonial-text">
+                  "Clean environment, professional staff, and no confusion at any point.
+                  That's exactly what I needed."
+                </blockquote>
+                <p class="testimonial-name">Ibrahim S.</p>
+              </article>
+            </div>
+            <!-- /.testimonial-track -->
+          </div>
+          <!-- /.testimonial-slider -->
+
+          <!-- Controls: arrows + dots -->
+          <div class="testimonial-controls" role="group" aria-label="Slider controls">
+            <button
+              class="testimonial-arrow"
+              id="prevBtn"
+              aria-label="Previous testimonials">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                aria-hidden="true">
+                <path d="M15 18l-6-6 6-6" />
+              </svg>
+            </button>
+
+            <div
+              class="testimonial-dots"
+              id="testimonialDots"
+              role="tablist"
+              aria-label="Testimonial pages"></div>
+
+            <button class="testimonial-arrow" id="nextBtn" aria-label="Next testimonials">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                aria-hidden="true">
+                <path d="M9 18l6-6-6-6" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==============================
+         FINAL CTA
+    ================================= -->
+      <section id="cta" class="final-cta" aria-labelledby="cta-heading">
+        <div class="final-cta-container reveal">
+          <h2 class="final-cta-headline" id="cta-heading">
+            Get the care you need without the stress
+          </h2>
+          <p class="final-cta-subtext">
+            Choose your treatment, pick a time, and confirm in minutes. No calls. No
+            delays.
+          </p>
+          <a href="#book" class="final-cta-button">
+            Check available slots
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              aria-hidden="true">
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
+          </a>
+          <p class="final-cta-reassurance" aria-label="Takes less than 2 minutes to book">
+            <span aria-hidden="true">⏱</span> Takes less than 2 minutes to book
+          </p>
+        </div>
+      </section>
+
+      <!-- ==============================
+         BOOKING SECTION
+    ================================= -->
+      <section id="book" class="booking" aria-labelledby="booking-heading">
+        <div class="booking-container reveal">
+          <!-- Section header -->
+          <header class="booking-header">
+            <p class="booking-label">Book Appointment</p>
+            <h2 class="booking-headline" id="booking-heading">
+              Choose your treatment and secure your time
+            </h2>
+            <p class="booking-subtext">
+              Select your service, pick an available time, and confirm your visit in
+              minutes.
+            </p>
+          </header>
+
+          <!-- Booking form -->
+          <form class="booking-form" id="bookingForm" novalidate>
+            <!-- A. Service select -->
+            <div class="booking-field">
+              <label for="serviceSelect">Treatment</label>
+              <select id="serviceSelect" name="service" required>
+                <option value="" disabled selected>Choose the treatment you need</option>
+                <option value="ftHSiF0ZR6fmcnmEl6Qe">General Check-up — 30 mins</option>
+                <option value="mXthkR7JeTL1uqgLyq3X">Teeth Cleaning — 45 mins</option>
+                <option value="yocMn2DUjhUpiqRk4JtM">Fillings — 45 mins</option>
+                <option value="bmPC13Go0IS2aTTZmO0U">Root Canal — 90 mins</option>
+                <option value="jZRYOOVMKMSsApAlPReb">Dental Implants — 120 mins</option>
+                <option value="hIJjTzV9lGZTBjL1ywPg">Bridges — 60 mins</option>
+                <option value="HzFGVUKsPsc4XFQSkKA2">Crowns — 60 mins</option>
+                <option value="JBBpE5ndFUojoxuzpTfh">Dentures — 60 mins</option>
+                <option value="rlPDaT4Z1srzqCipGbKo">Teeth Whitening — 60 mins</option>
+                <option value="ZsaZfB4M7iFYZIiiD5pX">Veneers — 90 mins</option>
+                <option value="vHpvYcUiZSrBHpypGPRQ">Orthodontics — 60 mins</option>
+                <option value="k5igrUdf7KEHDW7Wm9rW">Tooth Extraction — 45 mins</option>
+              </select>
+            </div>
+
+            <!-- B. Dentist select -->
+            <div class="booking-field">
+              <label for="dentistSelect">Dentist</label>
+              <select id="dentistSelect" name="dentist" required>
+                <option value="" disabled selected>Choose Dentist</option>
+              </select>
+            </div>
+
+            <!-- C. Date -->
+            <div class="booking-field">
+              <label for="appointmentDate">Date</label>
+              <input
+                type="date"
+                id="appointmentDate"
+                name="date"
+                required
+                aria-label="Select appointment date" />
+            </div>
+
+            <!-- D. Time slots -->
+            <div class="booking-field">
+              <label id="timeSlotsLabel">Available Times</label>
+              <div class="time-slots" role="group" aria-labelledby="timeSlotsLabel">
+                <button type="button" class="time-slot" data-time="09:00 AM">
+                  09:00 AM
+                </button>
+                <button type="button" class="time-slot" data-time="10:00 AM">
+                  10:00 AM
+                </button>
+                <button type="button" class="time-slot" data-time="11:00 AM">
+                  11:00 AM
+                </button>
+                <button type="button" class="time-slot" data-time="12:00 PM">
+                  12:00 PM
+                </button>
+                <button type="button" class="time-slot" data-time="01:00 PM">
+                  01:00 PM
+                </button>
+                <button type="button" class="time-slot" data-time="02:00 PM">
+                  02:00 PM
+                </button>
+                <button type="button" class="time-slot" data-time="03:00 PM">
+                  03:00 PM
+                </button>
+
+                <button type="button" class="time-slot" data-time="04:00 PM">
+                  04:00 PM
+                </button>
+              </div>
+              <p class="selected-time-display" id="selectedTimeDisplay"></p>
+              <!-- Hidden input stores selected time for form submission -->
+              <input type="hidden" id="selectedTime" name="time" />
+            </div>
+
+            <!-- E. Patient details -->
+            <div class="booking-field">
+              <label for="patientName">Full Name</label>
+              <input
+                type="text"
+                id="patientName"
+                name="fullName"
+                placeholder="Full Name"
+                required
+                autocomplete="name" />
+            </div>
+
+            <div class="booking-field">
+              <label for="patientEmail">Email Address</label>
+              <input
+                type="email"
+                id="patientEmail"
+                name="email"
+                placeholder="Your Email Address"
+                required
+                autocomplete="email" />
+            </div>
+
+            <div class="booking-field">
+              <label for="patientPhone">Phone Number</label>
+              <input
+                type="tel"
+                id="patientPhone"
+                name="phone"
+                placeholder="Phone Number"
+                required
+                autocomplete="tel" />
+            </div>
+
+            <!-- F. Submit -->
+            <div class="booking-submit-wrap">
+              <button type="submit" class="booking-submit">
+                Confirm Appointment
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.5"
+                  aria-hidden="true">
+                  <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
+              </button>
+
+              <div
+                id="bookingNotification"
+                class="booking-notification"
+                aria-live="polite"></div>
+              <p class="booking-micro">No payment required to book</p>
+            </div>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <!-- ==============================
+       SITE FOOTER
+  ================================= -->
+    <footer class="site-footer" aria-label="Site footer">
+      <div class="footer-container">
+        <!-- 3-column grid -->
+        <div class="footer-grid">
+          <!-- COLUMN 1: Brand -->
+          <div class="footer-column">
+            <p class="footer-brand">
+              <span class="footer-brand-icon" aria-hidden="true">✦</span> Dental Clinic
+            </p>
+            <p class="footer-description">
+              Modern dental care focused on comfort, clarity, and convenience. Book your
+              appointment in minutes.
+            </p>
+            <br />
+            <p class="footer-trust">Trusted by hundreds of patients across Lagos</p>
+          </div>
+
+          <!-- COLUMN 2: Quick links -->
+          <nav class="footer-column" aria-label="Footer navigation">
+            <h3 class="footer-title">Quick Links</h3>
+            <ul class="footer-links">
+              <li><a href="#">Home</a></li>
+              <li><a href="#about">About</a></li>
+              <li><a href="#services">Services</a></li>
+              <li><a href="#how-it-works">How It Works</a></li>
+              <li><a href="#book">Book Appointment</a></li>
+            </ul>
+          </nav>
+
+          <!-- COLUMN 3: Contact -->
+          <address class="footer-column footer-contact" aria-label="Contact information">
+            <h3 class="footer-title">Contact Us</h3>
+            <ul class="footer-contact-list">
+              <li>
+                <span class="footer-contact-icon" aria-hidden="true">📍</span>
+                12 Park Avenue, Lekki, Lagos, Nigeria
+              </li>
+              <li>
+                <span class="footer-contact-icon" aria-hidden="true">📞</span>
+                <a href="tel:+2348000000000">+234 800 000 0000</a>
+              </li>
+              <li>
+                <span class="footer-contact-icon" aria-hidden="true">✉️</span>
+                <a href="mailto:hello@urbandental.com">hello@urbandental.com</a>
+              </li>
+              <li class="footer-hours">
+                <span class="footer-contact-icon" aria-hidden="true">🕘</span>
+                Open: Mon – Sat, 9:00 AM – 5:00 PM
+              </li>
+            </ul>
+          </address>
+        </div>
+        <!-- /.footer-grid -->
+
+        <!-- Bottom bar -->
+        <div class="footer-bottom">
+          <p>© 2026 Dental Clinic. All rights reserved.</p>
+        </div>
+      </div>
+      <!-- /.footer-container -->
+    </footer>
+
+    <script src="./js/script.js"></script>
+  </body>
+</html>

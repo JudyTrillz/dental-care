@@ -1,0 +1,372 @@
+/* =========================================
+   services.css
+   Extends style.css + about.css.
+   Only defines services-page-specific styles.
+   All shared utilities (.reveal, .btn-primary,
+   .navbar, .site-footer, .section-label,
+   .trust-strip, .about-final-cta, .anim-fade-up)
+   are inherited from style.css + about.css.
+========================================= */
+
+/* =========================================
+   SERVICES HERO
+========================================= */
+
+/* Active nav link — underlined */
+.nav-link--active {
+  color: var(--blue) !important;
+}
+
+.nav-link--active::after {
+  width: 100% !important;
+}
+
+.services-hero {
+  position: relative;
+  background: var(--bg);
+  padding-top: var(--nav-height);
+  padding-bottom: 1rem;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+
+.services-hero-inner {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 5rem 2rem 4rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+
+.services-hero-headline {
+  font-size: clamp(2.4rem, 5vw, 3.6rem);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  color: var(--text-dark);
+  margin-bottom: 1.25rem;
+}
+
+.services-hero-sub {
+  font-size: 1.1rem;
+  line-height: 1.75;
+  color: var(--text-mid);
+  max-width: 600px;
+  margin-bottom: 2.25rem;
+}
+
+/* --- Filter pills --- */
+.services-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  justify-content: center;
+}
+
+.filter-pill {
+  padding: 0.5rem 1.2rem;
+  font-family: "Poppins", sans-serif;
+  font-size: 0.82rem;
+  font-weight: 600;
+  border-radius: 50px;
+  border: 1.5px solid rgba(30, 144, 255, 0.2);
+  background: transparent;
+  color: var(--text-mid);
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.filter-pill:hover {
+  border-color: var(--blue);
+  color: var(--blue);
+  background: rgba(30, 144, 255, 0.05);
+}
+
+.filter-pill.active {
+  background: var(--blue);
+  border-color: var(--blue);
+  color: var(--white);
+  box-shadow: 0 4px 14px rgba(30, 144, 255, 0.28);
+}
+
+/* =========================================
+   SERVICES LISTING SECTION
+========================================= */
+.services-listing {
+  background: var(--white);
+  padding: 5rem 2rem 6rem;
+  position: relative;
+}
+
+.services-listing::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--blue), var(--green));
+  border-radius: 2px;
+}
+
+.services-listing-inner {
+  max-width: 1260px;
+  margin: 0 auto;
+}
+
+/* =========================================
+   SERVICE CARD GRID
+========================================= */
+.services-card-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.75rem;
+  /* Cards animate out of view when filtered */
+  transition: grid-template-rows 0.3s ease;
+}
+
+/* =========================================
+   INDIVIDUAL SERVICE CARD
+========================================= */
+.svc-card {
+  background: var(--bg);
+  border: 1px solid rgba(30, 144, 255, 0.07);
+  border-radius: 20px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 18px rgba(30, 144, 255, 0.06);
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    opacity 0.3s ease;
+}
+
+.svc-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 18px 48px rgba(30, 144, 255, 0.14);
+}
+
+/* Cards hidden by filter */
+.svc-card.hidden {
+  display: none;
+}
+
+/* --- Image wrapper — fixed-height crop --- */
+.svc-img-wrap {
+  position: relative;
+  height: 200px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #dbeeff, #e8f7f2);
+  flex-shrink: 0;
+}
+
+.svc-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.45s ease;
+}
+
+.svc-card:hover .svc-img-wrap img {
+  transform: scale(1.04);
+}
+
+/* Category tag over image */
+.svc-category-tag {
+  position: absolute;
+  top: 0.85rem;
+  left: 0.85rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: rgba(30, 144, 255, 0.9);
+  color: var(--white);
+  padding: 0.25rem 0.65rem;
+  border-radius: 50px;
+  backdrop-filter: blur(4px);
+}
+
+.svc-category-tag--cosmetic {
+  background: rgba(0, 196, 154, 0.9);
+}
+
+/* --- Card body --- */
+.svc-body {
+  padding: 1.5rem 1.5rem 1.6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  flex: 1;
+}
+
+.svc-name {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  letter-spacing: -0.02em;
+}
+
+/* "For" line */
+.svc-for {
+  font-size: 0.845rem;
+  line-height: 1.6;
+  color: var(--text-mid);
+  display: flex;
+  gap: 0.4rem;
+  align-items: flex-start;
+}
+
+.svc-for-label {
+  flex-shrink: 0;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--blue);
+  background: rgba(30, 144, 255, 0.08);
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+  margin-top: 0.1rem;
+  line-height: 1.5;
+}
+
+/* What it is */
+.svc-what {
+  font-size: 0.855rem;
+  line-height: 1.7;
+  color: var(--text-mid);
+  border-top: 1px solid rgba(30, 144, 255, 0.07);
+  padding-top: 0.7rem;
+}
+
+/* Outcome */
+.svc-outcome {
+  font-size: 0.845rem;
+  line-height: 1.6;
+  color: var(--text-mid);
+  display: flex;
+  gap: 0.4rem;
+  align-items: flex-start;
+}
+
+.svc-outcome-label {
+  flex-shrink: 0;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--green-dark);
+  background: rgba(0, 196, 154, 0.1);
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+  margin-top: 0.1rem;
+  line-height: 1.5;
+}
+
+/* CTA link */
+.svc-cta {
+  display: inline-flex;
+  align-items: center;
+  margin-top: auto;
+  padding-top: 0.75rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--blue);
+  text-decoration: none;
+  border-top: 1px solid rgba(30, 144, 255, 0.08);
+  transition:
+    color 0.25s ease,
+    gap 0.25s ease;
+  gap: 0.3rem;
+}
+
+.svc-cta::after {
+  content: "→";
+  transition: transform 0.25s ease;
+}
+
+.svc-cta:hover {
+  color: var(--green-dark);
+}
+
+.svc-cta:hover::after {
+  transform: translateX(4px);
+}
+
+/* =========================================
+   SCREEN-READER ONLY UTILITY
+========================================= */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* =========================================
+   SERVICES — RESPONSIVE
+========================================= */
+
+/* Tablet: 2 columns */
+@media (max-width: 1024px) {
+  .services-card-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.4rem;
+  }
+}
+
+@media (max-width: 900px) {
+  .services-hero-inner {
+    padding: 3.5rem 1.5rem 3rem;
+  }
+
+  .services-listing {
+    padding: 4rem 1.5rem 5rem;
+  }
+}
+
+/* Mobile: 1 column */
+@media (max-width: 600px) {
+  .services-hero-inner {
+    padding: 3rem 1.25rem 2.5rem;
+  }
+
+  .services-hero-headline {
+    font-size: 2.2rem;
+  }
+
+  .services-listing {
+    padding: 3.5rem 1.25rem 4rem;
+  }
+
+  .services-card-grid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .svc-img-wrap {
+    height: 180px;
+  }
+
+  .services-filter {
+    gap: 0.5rem;
+  }
+
+  .filter-pill {
+    font-size: 0.78rem;
+    padding: 0.45rem 1rem;
+  }
+}
