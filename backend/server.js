@@ -16,7 +16,6 @@ app.use(
   cors({
     origin: [
       "https://dentalcare-app.netlify.app", // frontend
-      "https://dental-clinic-backend-gilt.vercel.app", // allow same-domain requests if needed
     ],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,

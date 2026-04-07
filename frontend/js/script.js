@@ -329,7 +329,7 @@
     /* -----------------------------
        Fetch Dentists
     ----------------------------- */
-    fetch("https://dental-clinic-backend-gilt.vercel.app/api/dentists")
+    fetch("https://dental-care--ojudy007.replit.app/api/dentists")
       .then((res) => res.json())
       .then((dentists) =>
         dentists.forEach((d) => {
@@ -408,7 +408,7 @@
         submitBtn.textContent = "Processing...";
 
         const response = await fetch(
-          "https://dental-clinic-backend-gilt.vercel.app/api/bookings",
+          "https://dental-care--ojudy007.replit.app/api/bookings",
           {
             method: "POST",
             headers: { "Content-Type": "application/json" },
