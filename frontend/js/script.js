@@ -457,9 +457,9 @@
   (function setActiveNavLink() {
     const navLinks = document.querySelectorAll(".nav-link");
 
-    // Get current pathname
-    const path = window.location.pathname;
-    const page = path.substring(path.lastIndexOf("/") + 1); // e.g., "index.html" or "service.html"
+    // Get current pathname and remove leading slash
+    const path = window.location.pathname.replace(/^\/+/, ""); // "about.html" or "services.html" or ""
+    const page = path || "index.html"; // default to index.html for home
 
     navLinks.forEach((link) => {
       const href = link.getAttribute("href");
@@ -467,14 +467,17 @@
       // Skip tel: or external links
       if (!href || href.startsWith("tel:") || href.startsWith("http")) return;
 
-      // Home page: highlight only #hero
-      if (page === "index.html" || page === "") {
-        if (href === "#hero") {
+      // Normalize href
+      const linkHref = href.replace(/^\/+/, ""); // remove leading slash
+
+      if (page === "index.html") {
+        // Home page: highlight only #hero
+        if (linkHref === "#hero") {
           link.classList.add("nav-link--active");
         }
       } else {
         // Subpages: highlight link matching current HTML
-        if (href === page) {
+        if (linkHref === page) {
           link.classList.add("nav-link--active");
         }
       }
