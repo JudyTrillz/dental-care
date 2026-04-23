@@ -91,10 +91,15 @@ const createBooking = async (req, res) => {
       fullName,
       phone,
       email,
+      status: "pending",
       createdAt: new Date(),
     });
 
-    res.status(201).json({ id: ref.id });
+    res.status(201).json({
+      success: true,
+      data: { id: ref.id },
+      message: "Booking created successfully",
+    });
   } catch (error) {
     res.status(500).json({ error: "Failed to create booking" });
   }
@@ -125,10 +130,59 @@ const getBookings = async (req, res) => {
       }),
     );
 
-    res.json(bookings);
+    res.status(200).json({
+      success: true,
+      data: bookings,
+    });
   } catch (error) {
     res.status(500).json({ error: "Failed to fetch bookings" });
   }
 };
 
-module.exports = { createBooking, getBookings };
+const updateBookingStatus = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { status } = req.body;
+
+    if (!id || !status) {
+      res.status(400).json({
+        success: false,
+        message: "Booking id and status required",
+      });
+    }
+
+    // Only allow valid statuses
+    const allowed = ["pending", "confirmed", "cancelled"];
+    if (!allowed.includes(status)) {
+      res.status(400).json({
+        success: false,
+        message: "Invalid status fields",
+      });
+    }
+
+    const bookingRef = db.collection("bookings").doc(id);
+    const doc = await bookingRef.get();
+
+    if (!doc.exists) {
+      res.status(404).json({
+        success: false,
+        message: "Booking not found",
+      });
+    }
+
+    await bookingRef.update({ status });
+
+    res.status(200).json({
+      success: true,
+      message: "Booking status updated",
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      success: false,
+      message: "Failed to update booking status",
+    });
+  }
+};
+
+module.exports = { createBooking, getBookings, updateBookingStatus };
