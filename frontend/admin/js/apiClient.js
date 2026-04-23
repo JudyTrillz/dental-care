@@ -6,8 +6,12 @@ function getToken() {
   return localStorage.getItem("adminToken");
 }
 
-export async function apiFetch(url, options = {}) {
+export async function apiFetch(endpoint, options = {}) {
   const isFormData = options.body instanceof FormData;
+
+  const url = endpoint.startsWith("http")
+    ? endpoint // allow absolute if ever needed
+    : `${API_BASE}${endpoint}`;
 
   const res = await fetch(url, {
     method: options.method || "GET",
