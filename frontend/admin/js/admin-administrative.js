@@ -10,7 +10,6 @@
    admin-dentists.js
 ========================================= */
 import { apiFetch, validateSession } from "./apiClient.js";
-import { API_BASE } from "./config.js";
 
 import "../js/connectionManager.js";
 
@@ -20,7 +19,7 @@ import "../js/connectionManager.js";
   const isValid = await validateSession();
   if (!isValid) return;
 
-  const user = JSON.parse(localStorage.getItem("adminUser") || {});
+  const user = JSON.parse(localStorage.getItem("adminUser") || "{}");
 
   if (user.role !== "super_admin") {
     window.location.href = "index.html";
@@ -31,9 +30,9 @@ import "../js/connectionManager.js";
      CONFIG — change endpoints here only
   ========================================= */
   const API = {
-    list: `${API_BASE}/api/auth/admins`,
-    create: `${API_BASE}/api/auth/create-admin`,
-    delete: (id) => `${API_BASE}/api/auth/delete-admin/${encodeURIComponent(id)}`,
+    list: "/api/auth/admins",
+    create: "/api/auth/create-admin",
+    delete: (id) => `/api/auth/delete-admin/${encodeURIComponent(id)}`,
   };
 
   /* =========================================

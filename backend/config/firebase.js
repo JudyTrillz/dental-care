@@ -19,6 +19,14 @@ requiredEnv.forEach((key) => {
 /* =========================================
    SERVICE ACCOUNT CONFIG
 ========================================= */
+let privateKey = process.env.FIREBASE_PRIVATE_KEY || "";
+if (privateKey.includes("\\n")) {
+  privateKey = privateKey.replace(/\\n/g, "\n");
+}
+
+/* =========================================
+   SERVICE ACCOUNT CONFIG
+========================================= */
 const serviceAccount = {
   projectId: process.env.FIREBASE_PROJECT_ID,
   clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
