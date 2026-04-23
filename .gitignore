@@ -16,3 +16,5 @@ logs/
 # Build
 dist/
 build/
+
+uploads/
