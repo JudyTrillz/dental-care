@@ -45,6 +45,25 @@
       </div>
     </header>
 
+    <!-- Success Notification -->
+    <div id="successToast" class="svc-toast">
+      <div class="svc-toast-content">
+        <svg class="svc-toast-icon" viewBox="0 0 24 24">
+          <path d="M20 6L9 17l-5-5" />
+        </svg>
+        <span></span>
+      </div>
+    </div>
+
+    <div id="errorToast" class="svc-toast-error">
+      <div class="svc-toast-content">
+        <svg class="svc-toast-icon" viewBox="0 0 24 24">
+          <path d="M6 6l12 12M6 18L18 6" />
+        </svg>
+        <span id="errorToastText"></span>
+      </div>
+    </div>
+
     <!-- ==============================
        MAIN PAGE CONTENT
   ================================= -->
@@ -366,63 +385,7 @@
 
           <!-- 2x2 service card grid -->
           <div class="services-grid" aria-label="Available services">
-            <article class="service-card reveal" style="--delay: 0.05s">
-              <div class="service-card-top">
-                <span class="service-icon" aria-hidden="true">🪥</span>
-                <span class="service-duration">30 mins</span>
-              </div>
-              <h3 class="service-name">Dental Cleaning</h3>
-              <p class="service-description">
-                Routine cleaning to maintain healthy teeth and gums.
-              </p>
-              <a
-                href="index.html#book?service=mXthkR7JeTL1uqgLyq3X"
-                class="service-button"
-                >Book this service</a
-              >
-            </article>
-
-            <article class="service-card reveal" style="--delay: 0.15s">
-              <div class="service-card-top">
-                <span class="service-icon" aria-hidden="true">✨</span>
-                <span class="service-duration">45 mins</span>
-              </div>
-              <h3 class="service-name">Teeth Whitening</h3>
-              <p class="service-description">
-                Brighten your smile with safe and effective whitening.
-              </p>
-              <a href="#book?service=rlPDaT4Z1srzqCipGbKo" class="service-button"
-                >Book this service</a
-              >
-            </article>
-
-            <article class="service-card reveal" style="--delay: 0.25s">
-              <div class="service-card-top">
-                <span class="service-icon" aria-hidden="true">🦷</span>
-                <span class="service-duration">60 mins</span>
-              </div>
-              <h3 class="service-name">Tooth Extraction</h3>
-              <p class="service-description">
-                Quick and careful removal with minimal discomfort.
-              </p>
-              <a href="#book?service=k5igrUdf7KEHDW7Wm9rW" class="service-button"
-                >Book this service</a
-              >
-            </article>
-
-            <article class="service-card reveal" style="--delay: 0.35s">
-              <div class="service-card-top">
-                <span class="service-icon" aria-hidden="true">👑</span>
-                <span class="service-duration">60 mins</span>
-              </div>
-              <h3 class="service-name">Crowns</h3>
-              <p class="service-description">
-                Restore damaged teeth with durable, natural-looking crowns.
-              </p>
-              <a href="#book?service=HzFGVUKsPsc4XFQSkKA2" class="service-button"
-                >Book this service</a
-              >
-            </article>
+            <!-- Rendered in script.js -->
           </div>
 
           <!-- Secondary CTA: view all services -->
@@ -700,19 +663,7 @@
             <div class="booking-field">
               <label for="serviceSelect">Treatment</label>
               <select id="serviceSelect" name="service" required>
-                <option value="" disabled selected>Choose the treatment you need</option>
-                <option value="ftHSiF0ZR6fmcnmEl6Qe">General Check-up — 30 mins</option>
-                <option value="mXthkR7JeTL1uqgLyq3X">Teeth Cleaning — 45 mins</option>
-                <option value="yocMn2DUjhUpiqRk4JtM">Fillings — 45 mins</option>
-                <option value="bmPC13Go0IS2aTTZmO0U">Root Canal — 90 mins</option>
-                <option value="jZRYOOVMKMSsApAlPReb">Dental Implants — 120 mins</option>
-                <option value="hIJjTzV9lGZTBjL1ywPg">Bridges — 60 mins</option>
-                <option value="HzFGVUKsPsc4XFQSkKA2">Crowns — 60 mins</option>
-                <option value="JBBpE5ndFUojoxuzpTfh">Dentures — 60 mins</option>
-                <option value="rlPDaT4Z1srzqCipGbKo">Teeth Whitening — 60 mins</option>
-                <option value="ZsaZfB4M7iFYZIiiD5pX">Veneers — 90 mins</option>
-                <option value="vHpvYcUiZSrBHpypGPRQ">Orthodontics — 60 mins</option>
-                <option value="k5igrUdf7KEHDW7Wm9rW">Tooth Extraction — 45 mins</option>
+                <!-- loaded from script.js -->
               </select>
             </div>
 
@@ -894,6 +845,6 @@
       <!-- /.footer-container -->
     </footer>
 
-    <script src="./js/script.js"></script>
+    <script type="module" src="./js/script.js"></script>
   </body>
 </html>
