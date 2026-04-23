@@ -5,12 +5,13 @@
    No frameworks. Self-contained IIFE.
 ========================================= */
 import { apiFetch } from "./apiClient.js";
+import { API_BASE } from "./config.js";
 
 (function () {
   "use strict";
 
   /* ── Config ── */
-  const AUTH_ENDPOINT = "http://localhost:5000/api/auth/login";
+  const AUTH_ENDPOINT = `${API_BASE}/api/auth/login`;
   const TOKEN_KEY = "adminToken";
   const DASHBOARD_URL = "index.html"; // relative to /pages/
 

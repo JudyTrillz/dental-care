@@ -8,7 +8,7 @@
      - Testimonials slider
      - Booking form with hash preselect
 ========================================= */
-
+import { API_BASE } from "../admin/js/config.js";
 import { apiFetch } from "../admin/js/apiClient.js";
 
 import { showErrorToast, showSuccessToast } from "../admin/js/toast.js";
@@ -398,7 +398,7 @@ window.addEventListener("online", () => {
 
     async function loadDentists() {
       try {
-        const res = await fetch("http://localhost:5000/api/public/dentists");
+        const res = await fetch(`${API_BASE}/api/public/dentists`);
 
         if (!res.ok) throw new Error("Failed to fetch dentists");
 
@@ -436,7 +436,7 @@ window.addEventListener("online", () => {
 
     async function loadServicesForForm() {
       try {
-        const res = await fetch("http://localhost:5000/api/public/services");
+        const res = await fetch(`${API_BASE}/api/public/services`);
 
         if (!res.ok) throw new Error("Failed to fetch services");
 
@@ -532,7 +532,7 @@ window.addEventListener("online", () => {
         submitBtn.disabled = true;
         submitBtn.textContent = "Processing...";
 
-        const response = await fetch("http://localhost:5000/api/bookings", {
+        const response = await fetch(`${API_BASE}/api/bookings`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload),
@@ -618,7 +618,7 @@ window.addEventListener("online", () => {
       if (!container) return;
 
       try {
-        const res = await apiFetch("http://localhost:5000/api/public/services");
+        const res = await apiFetch(`${API_BASE}/api/public/services`);
 
         if (!res.success) {
           throw new Error(res.message || "Failed to load services");

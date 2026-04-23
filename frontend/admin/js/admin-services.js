@@ -9,6 +9,7 @@
 
 import { apiFetch, validateSession } from "./apiClient.js";
 import "../js/connectionManager.js";
+import { API_BASE } from "./config.js";
 
 (async function () {
   "use strict";
@@ -146,7 +147,7 @@ import "../js/connectionManager.js";
     showLoading(true);
 
     try {
-      const res = await apiFetch("http://localhost:5000/api/services");
+      const res = await apiFetch(`${API_BASE}/api/services`);
 
       if (!res.success) {
         throw new Error(res.message || "Failed to load services");
@@ -194,7 +195,7 @@ import "../js/connectionManager.js";
     if (image.startsWith("http")) return image;
 
     // Otherwise build it
-    return `http://localhost:5000/uploads/${image}`;
+    return `${API_BASE}/uploads/${image}`;
   }
 
   /* Build a single service card DOM element */
@@ -315,7 +316,7 @@ import "../js/connectionManager.js";
 
       formData.append("image", file);
 
-      const res = await apiFetch("http://localhost:5000/api/services", {
+      const res = await apiFetch(`${API_BASE}/api/services`, {
         method: "POST",
         body: formData, // or { name, price } depending on your form
       });
@@ -394,12 +395,9 @@ import "../js/connectionManager.js";
     btn.textContent = "Deleting…";
 
     try {
-      const res = await apiFetch(
-        `http://localhost:5000/api/services/${encodeURIComponent(id)}`,
-        {
-          method: "DELETE",
-        },
-      );
+      const res = await apiFetch(`${API_BASE}/api/services/${encodeURIComponent(id)}`, {
+        method: "DELETE",
+      });
 
       if (!res.success) {
         // Optional: allow silent ignore if already deleted

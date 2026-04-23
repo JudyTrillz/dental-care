@@ -1,3 +1,4 @@
+import { API_BASE } from "./config.js";
 import { showErrorToast, showSuccessToast } from "./toast.js";
 
 let isOffline = !navigator.onLine;
@@ -12,7 +13,7 @@ async function checkServer() {
   checkingServer = true;
 
   try {
-    const res = await fetch("http://localhost:5000/api/public/services", {
+    const res = await fetch(`${API_BASE}/api/public/services`, {
       method: "GET",
       cache: "no-store",
     });

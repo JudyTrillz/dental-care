@@ -11,6 +11,7 @@
 
 import { apiFetch, validateSession } from "./apiClient.js";
 import "../js/connectionManager.js";
+import { API_BASE } from "./config.js";
 
 (async function () {
   "use strict";
@@ -114,7 +115,7 @@ import "../js/connectionManager.js";
     showLoading(true);
 
     try {
-      const res = await apiFetch("http://localhost:5000/api/bookings", {
+      const res = await apiFetch(`${API_BASE}/api/bookings`, {
         headers: {
           Authorization: `Bearer ${window.__adminToken}`,
         },
@@ -405,7 +406,7 @@ import "../js/connectionManager.js";
     btn.textContent = action === "confirm" ? "Confirming..." : "Cancelling...";
 
     try {
-      const res = await apiFetch(`http://localhost:5000/api/bookings/${id}`, {
+      const res = await apiFetch(`${API_BASE}/api/bookings/${id}`, {
         method: "PATCH",
         body: { status: newStatus }, // ✅ FIXED HERE
       });

@@ -9,6 +9,7 @@
 ========================================= */
 import { apiFetch, validateSession } from "./apiClient.js";
 import "../js/connectionManager.js";
+import { API_BASE } from "./config.js";
 
 (async function () {
   "use strict";
@@ -32,8 +33,6 @@ import "../js/connectionManager.js";
   /* =========================================
      CONFIG — change endpoints here only
   ========================================= */
-  const API_BASE = "http://localhost:5000";
-
   const API = {
     list: `${API_BASE}/api/dentists`,
     create: `${API_BASE}/api/dentists`,
@@ -111,7 +110,7 @@ import "../js/connectionManager.js";
         name: d.name,
         role: d.role,
         bio: d.bio,
-        image: d.image ? `http://localhost:5000/uploads/${d.image}` : "",
+        image: d.image ? `${API_BASE}/uploads/${d.image}` : "",
       }));
     },
 
@@ -136,7 +135,7 @@ import "../js/connectionManager.js";
         name: created.name,
         role: created.role,
         bio: created.bio,
-        image: created.image ? `http://localhost:5000/uploads/${created.image}` : "",
+        image: created.image ? `${API_BASE}/uploads/${created.image}` : "",
       };
     },
 

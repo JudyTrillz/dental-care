@@ -1,5 +1,6 @@
 import { showErrorToast } from "./toast.js";
 import { initConnectionManager } from "./connectionManager.js";
+import { API_BASE } from "./config.js";
 
 function getToken() {
   return localStorage.getItem("adminToken");
@@ -35,7 +36,7 @@ export async function apiFetch(url, options = {}) {
 
 export async function validateSession() {
   try {
-    const res = await apiFetch("http://localhost:5000/api/auth/me");
+    const res = await apiFetch(`${API_BASE}/api/auth/me`);
 
     if (res.status === 401 || res.status === 403) {
       throw new Error("Invalid session");
