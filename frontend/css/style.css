@@ -13,6 +13,36 @@
   box-sizing: border-box;
 }
 
+:root {
+  --blue: #1e90ff;
+  --blue-dark: #0070e0;
+  --blue-faint: rgba(30, 144, 255, 0.08);
+  --green: #00c49a;
+  --green-dark: #00a882;
+  --white: #ffffff;
+  --bg: #f0f7ff;
+  --text-dark: #1a1a2e;
+  --text-mid: #4a5568;
+  --text-light: #718096;
+
+  --admin-nav-bg: #0d1117;
+  --admin-sidebar-w: 250px;
+  --admin-topbar-h: 56px;
+  --admin-surface: #ffffff;
+  --admin-border: rgba(30, 144, 255, 0.1);
+  --admin-stripe: rgba(240, 247, 255, 0.6);
+
+  --status-pending: #f59e0b;
+  --status-pending-bg: rgba(245, 158, 11, 0.1);
+  --status-confirmed: #00c49a;
+  --status-confirmed-bg: rgba(0, 196, 154, 0.1);
+  --status-cancelled: #ef4444;
+  --status-cancelled-bg: rgba(239, 68, 68, 0.1);
+
+  --radius: 12px;
+  --radius-sm: 8px;
+}
+
 /* Remove browser default margins on semantic elements used for layout */
 article,
 figure,
@@ -85,6 +115,82 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+
+.svc-toast {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  background: var(--status-confirmed);
+  color: var(--bg);
+  padding: 14px 20px;
+  border-radius: 8px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  z-index: 9999;
+  transition: transform 0.4s ease;
+  transform: translate(-50%, -120px);
+}
+
+/* Visible state */
+.svc-toast.show {
+  top: 1.56rem;
+  transform: translate(-50%, 20px);
+}
+
+/* Content */
+.svc-toast-content {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* Icon */
+.svc-toast-icon {
+  width: 20px;
+  height: 20px;
+  stroke: white;
+  stroke-width: 3;
+  fill: none;
+}
+
+.svc-toast-delete {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  background: var(--status-cancelled);
+  color: var(--bg);
+  padding: 14px 20px;
+  border-radius: 8px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  z-index: 9999;
+  transition: transform 0.4s ease;
+  transform: translate(-50%, -120%);
+}
+
+.svc-toast-delete.show {
+  top: 1.56rem;
+  transform: translate(-50%, 20px);
+}
+
+.svc-toast-error {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  background: var(--status-pending);
+  color: var(--bg);
+  padding: 14px 20px;
+  border-radius: 8px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  z-index: 9999;
+  transition: transform 0.4s ease;
+  transform: translate(-50%, -120%);
+}
+
+.svc-toast-error.show {
+  top: 1.56rem;
+  transform: translate(-50%, 20px);
 }
 
 /* Brand */

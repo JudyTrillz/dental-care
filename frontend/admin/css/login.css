@@ -1,0 +1,865 @@
+/* =========================================
+   login.css  — DentalCare Admin Login
+   Aesthetic additions over original:
+     1. Animated mesh-gradient background
+     2. Floating particle dots
+     3. Slow-rotating glow ring behind card
+     4. Brand strip shimmer sweep on load
+     5. Staggered field slide-in entrance
+     6. Input glow pulse on focus
+   All animations use prefers-reduced-motion
+   fallback for accessibility.
+========================================= */
+
+/* ── Reset ── */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ── Tokens ── */
+:root {
+  --blue: #1e90ff;
+  --blue-dark: #0070e0;
+  --green: #00c49a;
+  --green-dark: #00a882;
+  --white: #ffffff;
+  --bg: #f0f7ff;
+  --text-dark: #1a1a2e;
+  --text-mid: #4a5568;
+  --text-light: #718096;
+  --admin-dark: #0d1117;
+  --radius: 16px;
+  --radius-sm: 8px;
+  --admin-border: rgba(30, 144, 255, 0.1);
+}
+
+/* =========================================
+   BODY — animated mesh gradient background
+   Two slow-moving radial colour stops drift
+   across the bg like a gentle aurora.
+========================================= */
+html {
+  font-size: 16px;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  color: var(--text-dark);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+
+  /* Animated mesh: two colour points shift position */
+  background-color: #eaf4ff;
+  background-image:
+    radial-gradient(
+      ellipse 60% 50% at 20% 20%,
+      rgba(30, 144, 255, 0.18) 0%,
+      transparent 70%
+    ),
+    radial-gradient(
+      ellipse 50% 60% at 80% 80%,
+      rgba(0, 196, 154, 0.14) 0%,
+      transparent 70%
+    ),
+    radial-gradient(
+      ellipse 40% 40% at 60% 10%,
+      rgba(30, 144, 255, 0.08) 0%,
+      transparent 60%
+    );
+  animation: meshShift 14s ease-in-out infinite alternate;
+}
+
+@keyframes meshShift {
+  0% {
+    background-image:
+      radial-gradient(
+        ellipse 60% 50% at 20% 20%,
+        rgba(30, 144, 255, 0.18) 0%,
+        transparent 70%
+      ),
+      radial-gradient(
+        ellipse 50% 60% at 80% 80%,
+        rgba(0, 196, 154, 0.14) 0%,
+        transparent 70%
+      ),
+      radial-gradient(
+        ellipse 40% 40% at 60% 10%,
+        rgba(30, 144, 255, 0.08) 0%,
+        transparent 60%
+      );
+  }
+  33% {
+    background-image:
+      radial-gradient(
+        ellipse 60% 50% at 30% 50%,
+        rgba(30, 144, 255, 0.16) 0%,
+        transparent 70%
+      ),
+      radial-gradient(
+        ellipse 50% 60% at 70% 60%,
+        rgba(0, 196, 154, 0.18) 0%,
+        transparent 70%
+      ),
+      radial-gradient(
+        ellipse 40% 40% at 20% 80%,
+        rgba(30, 144, 255, 0.1) 0%,
+        transparent 60%
+      );
+  }
+  66% {
+    background-image:
+      radial-gradient(
+        ellipse 60% 50% at 70% 30%,
+        rgba(30, 144, 255, 0.14) 0%,
+        transparent 70%
+      ),
+      radial-gradient(
+        ellipse 50% 60% at 30% 70%,
+        rgba(0, 196, 154, 0.16) 0%,
+        transparent 70%
+      ),
+      radial-gradient(
+        ellipse 40% 40% at 80% 60%,
+        rgba(30, 144, 255, 0.1) 0%,
+        transparent 60%
+      );
+  }
+  100% {
+    background-image:
+      radial-gradient(
+        ellipse 60% 50% at 80% 80%,
+        rgba(30, 144, 255, 0.18) 0%,
+        transparent 70%
+      ),
+      radial-gradient(
+        ellipse 50% 60% at 20% 20%,
+        rgba(0, 196, 154, 0.14) 0%,
+        transparent 70%
+      ),
+      radial-gradient(
+        ellipse 40% 40% at 40% 90%,
+        rgba(30, 144, 255, 0.08) 0%,
+        transparent 60%
+      );
+  }
+}
+
+/* =========================================
+   PARTICLES — 12 tiny floating dots
+   Each .particle gets a unique position,
+   size, and animation duration via nth-child.
+========================================= */
+.login-particles {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.particle {
+  position: absolute;
+  bottom: -20px;
+  border-radius: 50%;
+  background: rgba(30, 144, 255, 0.22);
+  animation: particleRise linear infinite;
+}
+
+/* Individual particle customisation */
+.particle:nth-child(1) {
+  left: 8%;
+  width: 6px;
+  height: 6px;
+  animation-duration: 12s;
+  animation-delay: 0s;
+  background: rgba(30, 144, 255, 0.2);
+}
+.particle:nth-child(2) {
+  left: 16%;
+  width: 4px;
+  height: 4px;
+  animation-duration: 16s;
+  animation-delay: 1.5s;
+  background: rgba(0, 196, 154, 0.25);
+}
+.particle:nth-child(3) {
+  left: 25%;
+  width: 8px;
+  height: 8px;
+  animation-duration: 10s;
+  animation-delay: 3s;
+  background: rgba(30, 144, 255, 0.15);
+}
+.particle:nth-child(4) {
+  left: 34%;
+  width: 4px;
+  height: 4px;
+  animation-duration: 18s;
+  animation-delay: 0.5s;
+  background: rgba(0, 196, 154, 0.18);
+}
+.particle:nth-child(5) {
+  left: 43%;
+  width: 5px;
+  height: 5px;
+  animation-duration: 13s;
+  animation-delay: 4s;
+  background: rgba(30, 144, 255, 0.22);
+}
+.particle:nth-child(6) {
+  left: 54%;
+  width: 3px;
+  height: 3px;
+  animation-duration: 20s;
+  animation-delay: 2s;
+  background: rgba(0, 196, 154, 0.3);
+}
+.particle:nth-child(7) {
+  left: 62%;
+  width: 7px;
+  height: 7px;
+  animation-duration: 11s;
+  animation-delay: 6s;
+  background: rgba(30, 144, 255, 0.18);
+}
+.particle:nth-child(8) {
+  left: 70%;
+  width: 4px;
+  height: 4px;
+  animation-duration: 15s;
+  animation-delay: 1s;
+  background: rgba(0, 196, 154, 0.2);
+}
+.particle:nth-child(9) {
+  left: 78%;
+  width: 6px;
+  height: 6px;
+  animation-duration: 9s;
+  animation-delay: 7s;
+  background: rgba(30, 144, 255, 0.15);
+}
+.particle:nth-child(10) {
+  left: 86%;
+  width: 3px;
+  height: 3px;
+  animation-duration: 22s;
+  animation-delay: 0.8s;
+  background: rgba(0, 196, 154, 0.25);
+}
+.particle:nth-child(11) {
+  left: 92%;
+  width: 5px;
+  height: 5px;
+  animation-duration: 14s;
+  animation-delay: 5s;
+  background: rgba(30, 144, 255, 0.2);
+}
+.particle:nth-child(12) {
+  left: 4%;
+  width: 4px;
+  height: 4px;
+  animation-duration: 17s;
+  animation-delay: 2.5s;
+  background: rgba(0, 196, 154, 0.18);
+}
+
+@keyframes particleRise {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 0;
+  }
+  5% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateY(-110vh) scale(0.6);
+    opacity: 0;
+  }
+}
+
+/* =========================================
+   BLOBS — same as original, slightly enhanced
+========================================= */
+.login-blob {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: 0.5;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.login-blob--1 {
+  width: 550px;
+  height: 550px;
+  background: radial-gradient(circle, rgba(30, 144, 255, 0.25), transparent 70%);
+  top: -140px;
+  right: -110px;
+  animation: blobFloat 10s ease-in-out infinite;
+}
+
+.login-blob--2 {
+  width: 420px;
+  height: 420px;
+  background: radial-gradient(circle, rgba(0, 196, 154, 0.2), transparent 70%);
+  bottom: -100px;
+  left: -100px;
+  animation: blobFloat 13s ease-in-out infinite reverse;
+}
+
+.login-blob--3 {
+  width: 280px;
+  height: 280px;
+  background: radial-gradient(circle, rgba(30, 144, 255, 0.12), transparent 70%);
+  top: 55%;
+  left: 55%;
+  animation: blobFloat 17s ease-in-out infinite;
+  animation-delay: -5s;
+}
+
+@keyframes blobFloat {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(22px, -28px) scale(1.04);
+  }
+  66% {
+    transform: translate(-16px, 18px) scale(0.97);
+  }
+}
+
+/* =========================================
+   LAYOUT
+========================================= */
+.login-wrap {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 440px;
+  padding: 1.5rem;
+  /* Centres the glow ring relative to the card */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* =========================================
+   GLOW RING — conic gradient that rotates
+   slowly behind the card
+========================================= */
+.login-glow-ring {
+  position: absolute;
+  width: calc(100% + 32px);
+  aspect-ratio: 1;
+  border-radius: 28px;
+  /* Conic gradient creates the arc-of-light effect */
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    rgba(30, 144, 255, 0.35) 60deg,
+    rgba(0, 196, 154, 0.3) 120deg,
+    transparent 180deg,
+    transparent 360deg
+  );
+  filter: blur(18px);
+  animation: ringRotate 8s linear infinite;
+  z-index: 0;
+  pointer-events: none;
+  /* Sits slightly behind the card */
+  top: -16px;
+  left: -16px;
+}
+
+@keyframes ringRotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* =========================================
+   LOGIN CARD
+========================================= */
+.login-card {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  background: var(--white);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow:
+    0 4px 6px rgba(0, 0, 0, 0.04),
+    0 24px 64px rgba(30, 144, 255, 0.14),
+    0 0 0 1px rgba(30, 144, 255, 0.08);
+
+  /* Card entrance — slides up and fades in */
+  animation: cardIn 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes cardIn {
+  from {
+    opacity: 0;
+    transform: translateY(22px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* =========================================
+   BRAND HEADER STRIP
+   Dark bar with a shimmer sweep on load
+========================================= */
+.login-brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 1.4rem 2rem;
+  background: var(--admin-dark);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Shimmer sweep — a light stripe that crosses the header once */
+.login-brand::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -75%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    105deg,
+    transparent 40%,
+    rgba(255, 255, 255, 0.07) 50%,
+    transparent 60%
+  );
+  animation: shimmerSweep 1.8s ease-out 0.4s 1 forwards;
+}
+
+@keyframes shimmerSweep {
+  from {
+    left: -75%;
+  }
+  to {
+    left: 125%;
+  }
+}
+
+.login-brand-icon {
+  color: var(--green);
+  font-size: 1rem;
+  line-height: 1;
+  /* Subtle pulse on the star icon */
+  animation: starPulse 3s ease-in-out infinite;
+}
+
+@keyframes starPulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.15);
+  }
+}
+
+.login-brand-name {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--white);
+  letter-spacing: -0.02em;
+}
+
+.login-brand-tag {
+  font-size: 0.62rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--blue);
+  background: rgba(30, 144, 255, 0.15);
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+}
+
+/* =========================================
+   CARD BODY
+========================================= */
+.login-body {
+  padding: 2rem 2rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.login-heading-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  /* Heading slides in after card */
+  animation: fieldSlideIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.25s both;
+}
+
+.login-title {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--text-dark);
+  letter-spacing: -0.025em;
+}
+
+.login-subtitle {
+  font-size: 0.855rem;
+  color: var(--text-light);
+  font-weight: 400;
+}
+
+/* =========================================
+   ERROR BANNER
+========================================= */
+.login-error {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  padding: 0.75rem 1rem;
+  background: rgba(239, 68, 68, 0.08);
+  border: 1px solid rgba(239, 68, 68, 0.22);
+  border-radius: var(--radius-sm);
+  font-size: 0.84rem;
+  font-weight: 500;
+  color: #c0392b;
+  line-height: 1.5;
+  /* Shake animation triggered by JS adding .login-error--shake */
+  animation: none;
+}
+
+.login-error[hidden] {
+  display: none;
+}
+
+.login-error svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  margin-top: 0.1rem;
+}
+
+/* Shake on error (class toggled by login.js) */
+.login-error--shake {
+  animation: shake 0.45s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+
+@keyframes shake {
+  10%,
+  90% {
+    transform: translateX(-2px);
+  }
+  20%,
+  80% {
+    transform: translateX(3px);
+  }
+  30%,
+  50%,
+  70% {
+    transform: translateX(-4px);
+  }
+  40%,
+  60% {
+    transform: translateX(4px);
+  }
+}
+
+/* =========================================
+   FORM FIELDS — staggered entrance
+   .login-field--1, --2, --3 appear in sequence
+========================================= */
+.login-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  opacity: 0; /* animated in */
+}
+
+.login-field--1 {
+  animation: fieldSlideIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.35s both;
+}
+.login-field--2 {
+  animation: fieldSlideIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.48s both;
+}
+
+@keyframes fieldSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* =========================================
+   LABELS
+========================================= */
+.login-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--text-light);
+}
+
+/* =========================================
+   INPUTS
+========================================= */
+.login-input-wrap {
+  position: relative;
+}
+
+.login-input {
+  width: 100%;
+  font-family: "Poppins", sans-serif;
+  font-size: 0.9rem;
+  color: var(--text-dark);
+  background: var(--bg);
+  border: 1.5px solid rgba(30, 144, 255, 0.15);
+  border-radius: var(--radius-sm);
+  padding: 0.72rem 1rem;
+  outline: none;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.25s ease,
+    background 0.2s ease;
+}
+
+.login-input-wrap .login-input {
+  padding-right: 2.8rem;
+}
+
+.login-input::placeholder {
+  color: var(--text-light);
+  font-size: 0.87rem;
+}
+
+/* Focus — glow pulse */
+.login-input:focus {
+  border-color: var(--blue);
+  background: var(--white);
+  box-shadow:
+    0 0 0 3px rgba(30, 144, 255, 0.12),
+    0 0 12px rgba(30, 144, 255, 0.08);
+  animation: focusPulse 1.8s ease-in-out infinite;
+}
+
+@keyframes focusPulse {
+  0%,
+  100% {
+    box-shadow:
+      0 0 0 3px rgba(30, 144, 255, 0.12),
+      0 0 12px rgba(30, 144, 255, 0.06);
+  }
+  50% {
+    box-shadow:
+      0 0 0 3px rgba(30, 144, 255, 0.18),
+      0 0 20px rgba(30, 144, 255, 0.12);
+  }
+}
+
+.login-input.is-error {
+  border-color: #ef4444;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+  animation: none;
+}
+
+/* =========================================
+   EYE TOGGLE
+========================================= */
+.login-eye {
+  position: absolute;
+  right: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-light);
+  transition: color 0.2s ease;
+  padding: 0;
+}
+
+.login-eye:hover {
+  color: var(--blue);
+}
+.login-eye svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* =========================================
+   SUBMIT BUTTON — staggered + hover lift
+========================================= */
+.login-submit {
+  width: 100%;
+  margin-top: 1rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.85rem 1.5rem;
+  font-family: "Poppins", sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--white);
+  background: linear-gradient(
+    135deg,
+    var(--green) 0%,
+    var(--green-dark) 50%,
+    #007a64 100%
+  );
+  background-size: 200% 200%;
+  background-position: 0% 50%;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(0, 196, 154, 0.32);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background-position 0.4s ease;
+  letter-spacing: 0.01em;
+
+  /* Staggered entrance */
+  opacity: 0;
+  animation: fieldSlideIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.6s both;
+}
+
+.login-submit:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 32px rgba(0, 196, 154, 0.44);
+  background-position: 100% 50%;
+}
+
+.login-submit:active {
+  transform: scale(0.98);
+}
+
+.login-submit:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Loading state */
+.login-submit-loading {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.login-submit-loading[hidden] {
+  display: none;
+}
+.login-submit-label[hidden] {
+  display: none;
+}
+
+.login-spinner {
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: var(--white);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* =========================================
+   FOOTER NOTE
+========================================= */
+.login-footer-note {
+  text-align: center;
+  font-size: 0.75rem;
+  color: var(--text-light);
+  padding: 1rem 2rem 1.4rem;
+  border-top: 1px solid var(--admin-border);
+  animation: fieldSlideIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.7s both;
+}
+
+/* =========================================
+   REDUCED MOTION — respect system preference
+========================================= */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  /* Still show elements that relied on animation to become visible */
+  .login-field,
+  .login-submit,
+  .login-footer-note,
+  .login-heading-group {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+@media (max-width: 480px) {
+  .login-wrap {
+    padding: 1rem;
+  }
+  .login-body {
+    padding: 1.5rem 1.25rem 1.25rem;
+  }
+  .login-title {
+    font-size: 1.2rem;
+  }
+
+  .login-blob--3 {
+    display: none;
+  }
+
+  .login-glow-ring {
+    width: calc(100% + 20px);
+    top: -10px;
+    left: -10px;
+    filter: blur(14px);
+  }
+}

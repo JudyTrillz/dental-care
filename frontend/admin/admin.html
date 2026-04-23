@@ -1,0 +1,413 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Management | DentalCare Admin</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet" />
+    <link rel="stylesheet" href="./css/admin.css" />
+  </head>
+  <body>
+    <!-- Sidebar overlay (mobile) -->
+    <div class="admin-nav-overlay" id="adminNavOverlay" aria-hidden="true"></div>
+
+    <!-- Success Notification -->
+    <div id="successToast" class="svc-toast">
+      <div class="svc-toast-content">
+        <svg class="svc-toast-icon" viewBox="0 0 24 24">
+          <path d="M20 6L9 17l-5-5" />
+        </svg>
+        <span>Service Added Successfully</span>
+      </div>
+    </div>
+
+    <!-- Deleted Notification -->
+    <div id="deleteToast" class="svc-toast-delete">
+      <div class="svc-toast-content">
+        <svg class="svc-toast-icon" viewBox="0 0 24 24">
+          <path d="M20 6L9 17l-5-5" />
+        </svg>
+        <span>Service Deleted Successfully</span>
+      </div>
+    </div>
+
+    <div id="errorToast" class="svc-toast-error">
+      <div class="svc-toast-content">
+        <svg class="svc-toast-icon" viewBox="0 0 24 24">
+          <path d="M6 6l12 12M6 18L18 6" />
+        </svg>
+        <span id="errorToastText">Something went wrong. Please Try again</span>
+      </div>
+    </div>
+
+    <!-- ==============================
+       CREATE ADMIN MODAL
+  ================================= -->
+    <div
+      class="dnt-modal-backdrop"
+      id="createAdminModal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="createAdminModalTitle"
+      hidden>
+      <div class="dnt-modal adm-create-modal">
+        <div class="dnt-modal-header">
+          <div>
+            <h2 class="dnt-modal-title" id="createAdminModalTitle">Create New Admin</h2>
+            <p class="adm-modal-subtitle">Add a new admin to the system</p>
+          </div>
+          <button
+            class="adm-modal-x"
+            id="createModalClose"
+            type="button"
+            aria-label="Close modal">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              aria-hidden="true">
+              <path d="M18 6L6 18M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+
+        <!-- Inline feedback -->
+        <div
+          class="svc-feedback svc-feedback--error"
+          id="createAdminError"
+          hidden
+          role="alert"></div>
+
+        <form id="createAdminForm" novalidate>
+          <!-- Email -->
+          <div class="svc-field adm-form-field">
+            <label class="filter-label" for="adminEmail">
+              Email address <span class="svc-required" aria-hidden="true">*</span>
+            </label>
+            <input
+              type="email"
+              id="adminEmail"
+              name="email"
+              class="filter-input"
+              placeholder="Enter admin email"
+              required
+              autocomplete="off"
+              aria-required="true" />
+          </div>
+
+          <!-- Password -->
+          <div class="svc-field adm-form-field">
+            <label class="filter-label" for="adminPassword">
+              Password <span class="svc-required" aria-hidden="true">*</span>
+            </label>
+            <input
+              type="password"
+              id="adminPassword"
+              name="password"
+              class="filter-input"
+              placeholder="Enter secure password"
+              required
+              autocomplete="new-password"
+              aria-required="true" />
+          </div>
+
+          <!-- Role -->
+          <div class="svc-field adm-form-field">
+            <label class="filter-label" for="adminRole">
+              Role <span class="svc-required" aria-hidden="true">*</span>
+            </label>
+            <select
+              id="adminRole"
+              name="role"
+              class="filter-select"
+              required
+              aria-required="true">
+              <option value="admin" selected>admin</option>
+              <option value="super_admin">super_admin</option>
+            </select>
+          </div>
+
+          <!-- Actions -->
+          <div class="dnt-modal-actions adm-create-actions">
+            <button class="dnt-modal-cancel" id="createAdminCancel" type="button">
+              Cancel
+            </button>
+            <button class="svc-submit-btn" id="createAdminSubmit" type="submit">
+              <span class="adm-create-label">Create Admin</span>
+              <span class="adm-create-loading" hidden aria-hidden="true">
+                <span class="svc-spinner"></span> Creating…
+              </span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- ==============================
+       DELETE CONFIRMATION MODAL
+  ================================= -->
+    <div
+      class="dnt-modal-backdrop"
+      id="deleteAdminModal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="deleteAdminModalTitle"
+      hidden>
+      <div class="dnt-modal">
+        <div class="dnt-modal-header">
+          <div class="dnt-modal-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="8" x2="12" y2="12" />
+              <line x1="12" y1="16" x2="12.01" y2="16" />
+            </svg>
+          </div>
+          <h2 class="dnt-modal-title" id="deleteAdminModalTitle">Delete Admin</h2>
+        </div>
+
+        <p class="dnt-modal-body">
+          Are you sure you want to delete the admin account for<br />
+          <strong id="deleteAdminEmail" class="adm-delete-email"></strong>? This action
+          cannot be undone.
+        </p>
+
+        <div
+          class="dnt-modal-error svc-feedback svc-feedback--error"
+          id="deleteAdminError"
+          hidden
+          role="alert"></div>
+
+        <div class="dnt-modal-actions">
+          <button class="dnt-modal-cancel" id="deleteAdminCancel" type="button">
+            Cancel
+          </button>
+          <button class="dnt-modal-confirm" id="deleteAdminConfirm" type="button">
+            <span class="dnt-confirm-label">Delete Admin</span>
+            <span class="dnt-confirm-loading" hidden aria-hidden="true">
+              <span class="svc-spinner"></span> Deleting…
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==============================
+       SIDEBAR
+  ================================= -->
+    <aside class="sidebar" id="sidebar" aria-label="Admin navigation">
+      <div class="admin-logo">
+        <span class="admin-logo-icon" aria-hidden="true">✦</span>
+        DentalCare <span class="admin-logo-tag">Admin</span>
+      </div>
+      <nav role="navigation" aria-label="Primary admin navigation">
+        <ul class="admin-nav-links" id="adminNavLinks">
+          <li class="admin-nav-item">
+            <a href="index.html" class="admin-nav-link">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                aria-hidden="true">
+                <rect x="3" y="3" width="7" height="7" rx="1" />
+                <rect x="14" y="3" width="7" height="7" rx="1" />
+                <rect x="3" y="14" width="7" height="7" rx="1" />
+                <rect x="14" y="14" width="7" height="7" rx="1" />
+              </svg>
+              Dashboard
+            </a>
+          </li>
+
+          <li class="admin-nav-item">
+            <a href="services.html" class="admin-nav-link">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                aria-hidden="true">
+                <path
+                  d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+              </svg>
+              Services
+            </a>
+          </li>
+
+          <li class="admin-nav-item">
+            <a href="dentists.html" class="admin-nav-link">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                aria-hidden="true">
+                <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
+                <circle cx="9" cy="7" r="4" />
+                <path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" />
+              </svg>
+              Dentists
+            </a>
+          </li>
+
+          <!-- Admin Management — active -->
+          <li class="admin-nav-item active">
+            <a href="admins.html" class="admin-nav-link" aria-current="page">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                aria-hidden="true">
+                <circle cx="12" cy="8" r="4" />
+                <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
+                <path d="M18 14l2 2 4-4" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+              Admins
+            </a>
+          </li>
+
+          <li class="admin-nav-item admin-nav-item--logout">
+            <a href="#" id="logout-btn" class="admin-nav-link admin-nav-link--logout">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                aria-hidden="true">
+                <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9" />
+              </svg>
+              Logout
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </aside>
+
+    <!-- ==============================
+       MAIN CONTENT
+  ================================= -->
+    <div class="admin-content-wrap">
+      <!-- Mobile top bar -->
+      <div class="admin-topbar" role="banner">
+        <button
+          class="menu-toggle"
+          id="menu-toggle"
+          aria-label="Toggle navigation menu"
+          aria-expanded="false"
+          aria-controls="sidebar">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </button>
+        <span class="topbar-title">DentalCare Admin</span>
+      </div>
+
+      <main class="admin-main">
+        <!-- ============================
+           PAGE HEADER
+      ============================= -->
+        <div class="svc-page-header">
+          <div>
+            <h1 class="dashboard-title">Admin Management</h1>
+            <p class="dashboard-sub">Manage admin access and permissions</p>
+          </div>
+          <button
+            class="svc-toggle-form-btn"
+            id="createAdminBtn"
+            type="button"
+            aria-haspopup="dialog"
+            aria-controls="createAdminModal">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              aria-hidden="true">
+              <path d="M12 5v14M5 12h14" />
+            </svg>
+            Add New Admin
+          </button>
+        </div>
+
+        <!-- ============================
+           ADMIN LIST SECTION
+      ============================= -->
+        <section aria-label="Admin accounts">
+          <!-- Loading state -->
+          <div
+            class="table-loading"
+            id="adminsLoading"
+            aria-live="polite"
+            aria-busy="true">
+            <div class="spinner" aria-hidden="true"></div>
+            <p>Loading admins…</p>
+          </div>
+
+          <!-- Error state -->
+          <div class="table-empty" id="adminsError" hidden>
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              class="adm-state-icon"
+              aria-hidden="true">
+              <circle cx="12" cy="12" r="10" />
+              <path d="M12 8v4M12 16h.01" />
+            </svg>
+            <p>Failed to load admins.</p>
+            <p class="adm-state-sub">
+              Check your connection and try refreshing the page.
+            </p>
+          </div>
+
+          <!-- Empty state -->
+          <div class="table-empty" id="adminsEmpty" hidden>
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              class="adm-state-icon"
+              aria-hidden="true">
+              <circle cx="12" cy="8" r="4" />
+              <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
+            </svg>
+            <p>No admins found</p>
+            <p class="adm-state-sub">Create a new admin to get started</p>
+          </div>
+
+          <!-- Admin table -->
+          <div class="table-container" id="adminsTableWrap" hidden>
+            <div class="table-wrapper">
+              <table
+                class="bookings-table adm-table"
+                id="adminsTable"
+                aria-label="Admin accounts">
+                <thead>
+                  <tr>
+                    <th scope="col">Email</th>
+                    <th scope="col">Role</th>
+                    <th scope="col">Created</th>
+                    <th scope="col" class="col-actions">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="adminsTableBody">
+                  <!-- JS injects rows here -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+    <!-- /.admin-content-wrap -->
+
+    <script src="./js/auth-guard.js"></script>
+    <script type="module" src="./js/admin-administrative.js"></script>
+    pt
+  </body>
+</html>

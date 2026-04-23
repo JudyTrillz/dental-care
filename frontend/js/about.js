@@ -12,6 +12,24 @@
   const hamburger = document.getElementById("hamburger");
   const navLinks = document.getElementById("navLinks");
 
+  if (hamburger && navLinks) {
+    hamburger.addEventListener("click", () => {
+      const isOpen = navLinks.classList.toggle("open");
+      hamburger.classList.toggle("active", isOpen);
+      hamburger.setAttribute("aria-expanded", isOpen ? "true" : "false");
+      document.body.style.overflow = isOpen ? "hidden" : "";
+    });
+
+    navLinks.querySelectorAll(".nav-link").forEach((link) => {
+      link.addEventListener("click", () => {
+        hamburger.classList.remove("active");
+        hamburger.setAttribute("aria-expanded", "false");
+        navLinks.classList.remove("open");
+        document.body.style.overflow = "";
+      });
+    });
+  }
+
   /* ------------------------------------------
      Sticky nav: .scrolled on scroll
   ------------------------------------------ */

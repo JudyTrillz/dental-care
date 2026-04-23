@@ -1,0 +1,2146 @@
+/* =========================================
+   admin.css  — DentalCare Admin Dashboard
+   Layout: fixed sidebar + margin-left main
+   Table: div.table-wrapper owns overflow-x
+   Breakpoints: >=1024 desktop, 768-1023 tablet,
+                <=767 mobile
+========================================= */
+
+/* Reset */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Design tokens */
+:root {
+  --blue: #1e90ff;
+  --blue-dark: #0070e0;
+  --blue-faint: rgba(30, 144, 255, 0.08);
+  --green: #00c49a;
+  --green-dark: #00a882;
+  --white: #ffffff;
+  --bg: #f0f7ff;
+  --text-dark: #1a1a2e;
+  --text-mid: #4a5568;
+  --text-light: #718096;
+
+  --admin-nav-bg: #0d1117;
+  --admin-sidebar-w: 250px;
+  --admin-topbar-h: 56px;
+  --admin-surface: #ffffff;
+  --admin-border: rgba(30, 144, 255, 0.1);
+  --admin-stripe: rgba(240, 247, 255, 0.6);
+
+  --status-pending: #f59e0b;
+  --status-pending-bg: rgba(245, 158, 11, 0.1);
+  --status-confirmed: #00c49a;
+  --status-confirmed-bg: rgba(0, 196, 154, 0.1);
+  --status-cancelled: #ef4444;
+  --status-cancelled-bg: rgba(239, 68, 68, 0.1);
+
+  --radius: 12px;
+  --radius-sm: 8px;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  background: var(--bg);
+  color: var(--text-dark);
+  overflow-x: auto;
+  min-height: 100vh;
+}
+
+/* =========================================
+   OVERLAY
+========================================= */
+.admin-nav-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 150;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.admin-nav-overlay.active {
+  display: block;
+  opacity: 1;
+}
+
+/* =========================================
+   SIDEBAR — fixed left, always visible desktop
+========================================= */
+.sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100%;
+  background: var(--admin-nav-bg);
+  display: flex;
+  flex-direction: column;
+  padding: 1.75rem 0 2rem;
+  z-index: 200;
+  overflow-y: auto;
+  transition: transform 0.3s ease;
+}
+
+.admin-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0 1.5rem 1.75rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--white);
+  letter-spacing: -0.02em;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  margin-bottom: 1.25rem;
+  flex-shrink: 0;
+}
+
+.admin-logo-icon {
+  color: var(--green);
+  font-size: 0.95rem;
+}
+
+.admin-logo-tag {
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--blue);
+  background: rgba(30, 144, 255, 0.15);
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+  margin-left: 0.1rem;
+}
+
+.admin-nav-links {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 0.25rem;
+  padding: 0 0.75rem;
+}
+
+.admin-nav-link {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 0.9rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.58);
+  text-decoration: none;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
+}
+
+.admin-nav-link svg {
+  width: 17px;
+  height: 17px;
+  flex-shrink: 0;
+  opacity: 0.7;
+  transition: opacity 0.2s ease;
+}
+
+.admin-nav-link:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--white);
+}
+.admin-nav-link:hover svg {
+  opacity: 1;
+}
+
+.admin-nav-item.active .admin-nav-link {
+  background: rgba(30, 144, 255, 0.18);
+  color: var(--blue);
+  font-weight: 600;
+}
+
+.admin-nav-item.active .admin-nav-link svg {
+  opacity: 1;
+}
+.admin-nav-item--logout {
+  margin-top: auto;
+}
+
+.admin-nav-link--logout:hover {
+  background: rgba(239, 68, 68, 0.1) !important;
+  color: #ef4444 !important;
+}
+
+/* =========================================
+   CONTENT WRAP — offset by sidebar width
+========================================= */
+.admin-content-wrap {
+  margin-left: var(--admin-sidebar-w);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* =========================================
+   TOP BAR — mobile only
+========================================= */
+.admin-topbar {
+  display: none;
+  align-items: center;
+  gap: 1rem;
+  height: var(--admin-topbar-h);
+  padding: 0 1rem;
+  background: var(--admin-nav-bg);
+  position: sticky;
+  top: 0;
+  z-index: 190;
+  flex-shrink: 0;
+}
+
+.topbar-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--white);
+  letter-spacing: -0.01em;
+}
+
+.menu-toggle {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  flex-shrink: 0;
+}
+
+.menu-toggle span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--white);
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+.menu-toggle.active span:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+.menu-toggle.active span:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0);
+}
+.menu-toggle.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(5px, -5px);
+}
+
+/* =========================================
+   MAIN CONTENT
+========================================= */
+.admin-main {
+  flex: 1;
+  padding: 2.5rem 2.25rem 4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+  min-width: 0;
+}
+
+/* =========================================
+   STAT CARDS
+========================================= */
+.admin-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.25rem;
+}
+
+.stat-card {
+  background: var(--admin-surface);
+  border: 1px solid var(--admin-border);
+  border-radius: var(--radius);
+  padding: 1.4rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+  box-shadow: 0 2px 12px rgba(30, 144, 255, 0.05);
+  transition:
+    box-shadow 0.25s ease,
+    transform 0.25s ease;
+}
+
+.stat-card:hover {
+  box-shadow: 0 6px 24px rgba(30, 144, 255, 0.1);
+  transform: translateY(-2px);
+}
+
+.stat-card-icon {
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.stat-card-icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.stat-card-icon--blue {
+  background: rgba(30, 144, 255, 0.1);
+  color: var(--blue);
+}
+.stat-card-icon--yellow {
+  background: rgba(245, 158, 11, 0.1);
+  color: var(--status-pending);
+}
+.stat-card-icon--green {
+  background: rgba(0, 196, 154, 0.1);
+  color: var(--green);
+}
+.stat-card-icon--red {
+  background: rgba(239, 68, 68, 0.1);
+  color: var(--status-cancelled);
+}
+
+.stat-card-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-light);
+  margin-bottom: 0.25rem;
+}
+
+.stat-card-value {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--text-dark);
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+
+/* =========================================
+   DASHBOARD HEADER + FILTERS
+========================================= */
+.dashboard-header {
+  background: var(--admin-surface);
+  border: 1px solid var(--admin-border);
+  border-radius: var(--radius);
+  padding: 1.5rem 1.75rem;
+  box-shadow: 0 2px 12px rgba(30, 144, 255, 0.04);
+}
+
+.dashboard-header-top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+}
+
+.dashboard-title {
+  font-size: 1.4rem;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  color: var(--text-dark);
+}
+
+.dashboard-sub {
+  font-size: 0.82rem;
+  color: var(--text-light);
+  font-weight: 500;
+}
+
+.filters {
+  display: flex;
+  align-items: flex-end;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  flex: 1;
+  min-width: 140px;
+}
+
+.filter-group--search {
+  flex: 2;
+  min-width: 220px;
+}
+
+.filter-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--text-light);
+  margin-bottom: -0.5rem;
+}
+
+.filter-input,
+.filter-select {
+  font-family: "Poppins", sans-serif;
+  font-size: 0.875rem;
+  color: var(--text-dark);
+  background: var(--bg);
+  border: 1.5px solid rgba(30, 144, 255, 0.15);
+  border-radius: var(--radius-sm);
+  padding: 0.6rem 0.9rem;
+  outline: none;
+  width: 100%;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.filter-select {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' fill='none' stroke='%231e90ff' stroke-width='2.5' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 14px;
+  padding-right: 2.2rem;
+  cursor: pointer;
+}
+
+.filter-input:focus,
+.filter-select:focus {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px rgba(30, 144, 255, 0.1);
+  background: var(--white);
+}
+
+.search-wrap {
+  position: relative;
+}
+
+.search-icon {
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 15px;
+  height: 15px;
+  color: var(--text-light);
+  pointer-events: none;
+}
+
+.filter-input--search {
+  padding-left: 2.25rem;
+}
+
+.filter-reset {
+  padding: 0.62rem 1.1rem;
+  font-family: "Poppins", sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-mid);
+  background: transparent;
+  border: 1.5px solid rgba(30, 144, 255, 0.2);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+  align-self: flex-end;
+}
+
+.filter-reset:hover {
+  border-color: var(--blue);
+  color: var(--blue);
+  background: var(--blue-faint);
+}
+
+/* =========================================
+   TABLE CONTAINER + SCROLL WRAPPER
+========================================= */
+.table-container {
+  background: var(--admin-surface);
+  border: 1px solid var(--admin-border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(30, 144, 255, 0.04);
+}
+
+.table-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 4rem 2rem;
+  color: var(--text-light);
+  font-size: 0.875rem;
+}
+
+.table-loading[hidden],
+.table-empty[hidden] {
+  display: none;
+}
+
+.table-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 3.5rem 2rem;
+  color: var(--text-light);
+  font-size: 0.875rem;
+}
+
+.spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid rgba(30, 144, 255, 0.15);
+  border-top-color: var(--blue);
+  border-radius: 50%;
+  animation: spin 0.75s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Scroll wrapper — owns horizontal overflow */
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(30, 144, 255, 0.25) transparent;
+}
+
+.table-wrapper::-webkit-scrollbar {
+  height: 6px;
+}
+.table-wrapper::-webkit-scrollbar-track {
+  background: transparent;
+}
+.table-wrapper::-webkit-scrollbar-thumb {
+  background: rgba(30, 144, 255, 0.25);
+  border-radius: 3px;
+}
+
+/* Table — stays a real table, never display:block */
+.bookings-table {
+  min-width: 1100px;
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.855rem;
+}
+
+/* Sticky header */
+.bookings-table thead {
+  position: sticky;
+  top: 0;
+  background: #f5f9ff;
+  z-index: 2;
+  border-bottom: 1.5px solid var(--admin-border);
+}
+
+.bookings-table th {
+  padding: 0.9rem 1.1rem;
+  text-align: left;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--text-light);
+  white-space: nowrap;
+}
+
+.sort-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  background: none;
+  border: none;
+  font-family: "Poppins", sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--text-light);
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.2s ease;
+}
+
+.sort-btn:hover {
+  color: var(--blue);
+}
+.sort-btn.asc .sort-icon::after {
+  content: "A1";
+}
+.sort-btn.desc .sort-icon::after {
+  content: "Z9";
+}
+
+.bookings-table tbody tr {
+  border-bottom: 1px solid rgba(30, 144, 255, 0.06);
+  transition: background 0.15s ease;
+}
+
+.bookings-table tbody tr:nth-child(even) {
+  background: var(--admin-stripe);
+}
+.bookings-table tbody tr:hover {
+  background: rgba(30, 144, 255, 0.05);
+}
+
+.bookings-table td {
+  padding: 0.9rem 1.1rem;
+  color: var(--text-mid);
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.col-id {
+  font-family: "Courier New", monospace;
+  font-size: 0.78rem;
+  color: var(--text-light);
+}
+.td-name {
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+/* Status badges */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.28rem 0.75rem;
+  border-radius: 50px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: capitalize;
+  white-space: nowrap;
+}
+
+.status-badge--pending {
+  background: var(--status-pending-bg);
+  color: var(--status-pending);
+}
+.status-badge--confirmed {
+  background: var(--status-confirmed-bg);
+  color: var(--status-confirmed);
+}
+.status-badge--cancelled {
+  background: var(--status-cancelled-bg);
+  color: var(--status-cancelled);
+}
+
+.status-badge::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  flex-shrink: 0;
+}
+
+.col-actions {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.action-btn {
+  font-family: "Poppins", sans-serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 0.35rem 0.8rem;
+  border-radius: 6px;
+  border: 1.5px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-left: 0.4rem;
+}
+
+.action-btn--confirm {
+  color: var(--green-dark);
+  border-color: rgba(0, 196, 154, 0.3);
+  background: rgba(0, 196, 154, 0.06);
+}
+
+.action-btn--confirm:hover {
+  background: rgba(0, 196, 154, 0.15);
+  border-color: var(--green);
+}
+
+.action-btn--cancel {
+  color: var(--status-cancelled);
+  border-color: rgba(239, 68, 68, 0.25);
+  background: rgba(239, 68, 68, 0.05);
+}
+
+.action-btn--cancel:hover {
+  background: rgba(239, 68, 68, 0.12);
+  border-color: var(--status-cancelled);
+}
+
+/* =========================================
+   PAGINATION
+========================================= */
+.table-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0;
+  flex-wrap: wrap;
+}
+
+.page-btn {
+  font-family: "Poppins", sans-serif;
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 0.5rem 1.1rem;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid rgba(30, 144, 255, 0.2);
+  background: var(--admin-surface);
+  color: var(--blue);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.page-btn:hover:not(:disabled) {
+  background: var(--blue);
+  color: var(--white);
+  border-color: var(--blue);
+}
+
+.page-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.page-numbers {
+  display: flex;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+}
+
+.page-number {
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid rgba(30, 144, 255, 0.15);
+  background: var(--admin-surface);
+  font-family: "Poppins", sans-serif;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-mid);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.page-number:hover {
+  border-color: var(--blue);
+  color: var(--blue);
+}
+
+.page-number.active {
+  background: var(--blue);
+  border-color: var(--blue);
+  color: var(--white);
+}
+
+/* =========================================
+   TABLET  768px – 1023px
+========================================= */
+@media (max-width: 1023px) and (min-width: 768px) {
+  :root {
+    --admin-sidebar-w: 200px;
+  }
+  .admin-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .stat-card-value {
+    font-size: 1.5rem;
+  }
+  .admin-main {
+    gap: 1.4rem;
+  }
+}
+
+/* =========================================
+   MOBILE  <=767px
+   Sidebar slides in as a drawer
+========================================= */
+@media (max-width: 767px) {
+  /* Sidebar off-screen */
+  .sidebar {
+    transform: translateX(-100%);
+  }
+
+  /* Sidebar open */
+  .sidebar.active {
+    transform: translateX(0);
+  }
+
+  /* No margin offset — sidebar is an overlay */
+  .admin-content-wrap {
+    margin-left: 0;
+  }
+
+  /* Show topbar + hamburger */
+  .admin-topbar {
+    display: flex;
+  }
+  .menu-toggle {
+    display: flex;
+  }
+
+  .admin-main {
+    padding: 1.25rem 1rem 3rem;
+    gap: 1.1rem;
+  }
+
+  /* Stats */
+  .admin-stats {
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+  }
+  .stat-card {
+    padding: 1rem;
+    gap: 0.8rem;
+  }
+  .stat-card-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+  }
+  .stat-card-icon svg {
+    width: 16px;
+    height: 16px;
+  }
+  .stat-card-label {
+    font-size: 0.68rem;
+  }
+  .stat-card-value {
+    font-size: 1.3rem;
+  }
+
+  /* Header */
+  .dashboard-header {
+    padding: 1.1rem;
+  }
+  .dashboard-header-top {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.15rem;
+    margin-bottom: 1rem;
+  }
+  .dashboard-title {
+    font-size: 1.15rem;
+  }
+
+  /* Filters */
+  .filters {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  .filter-group,
+  .filter-group--search {
+    flex: none;
+    min-width: 100%;
+    width: 100%;
+  }
+  .filter-reset {
+    width: 100%;
+    text-align: center;
+    align-self: stretch;
+  }
+
+  /* Table */
+  .bookings-table {
+    font-size: 0.8rem;
+  }
+  .bookings-table th {
+    padding: 0.7rem 0.85rem;
+    font-size: 0.67rem;
+  }
+  .bookings-table td {
+    padding: 0.75rem 0.85rem;
+  }
+  .action-btn {
+    font-size: 0.72rem;
+    padding: 0.28rem 0.6rem;
+  }
+
+  /* Pagination */
+  .page-btn {
+    font-size: 0.78rem;
+    padding: 0.45rem 0.85rem;
+  }
+  .page-number {
+    width: 30px;
+    height: 30px;
+    font-size: 0.78rem;
+  }
+}
+
+/* =========================================
+   NARROW MOBILE  <=420px
+========================================= */
+@media (max-width: 420px) {
+  .stat-card {
+    padding: 0.85rem 0.75rem;
+  }
+  .stat-card-value {
+    font-size: 1.15rem;
+  }
+  .admin-logo-tag {
+    display: none;
+  }
+
+  .admin-stats {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+}
+
+/* SERVICES CSS FOR ADMIN */
+/* =========================================
+   services-admin.css
+   Extends admin.css — only defines patterns
+   that don't already exist there.
+   All tokens (:root variables), .sidebar,
+   .admin-main, .dashboard-header, .filter-*,
+   .action-btn, .spinner, .table-loading /
+   .table-empty come from admin.css.
+========================================= */
+
+/* =========================================
+   PAGE HEADER ROW
+========================================= */
+.svc-page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+/* "Add Service" toggle button — matches .page-btn style */
+.svc-toggle-form-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.6rem 1.25rem;
+  font-family: "Poppins", sans-serif;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--white);
+  background: var(--blue);
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    box-shadow 0.2s ease;
+  white-space: nowrap;
+}
+
+.svc-toggle-form-btn svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.svc-toggle-form-btn:hover {
+  background: var(--blue-dark);
+  box-shadow: 0 4px 14px rgba(30, 144, 255, 0.28);
+}
+
+/* =========================================
+   ADD SERVICE FORM PANEL
+========================================= */
+.svc-form-panel {
+  /* Uses .dashboard-header card styling from admin.css */
+}
+
+.svc-form-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.svc-section-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  letter-spacing: -0.015em;
+}
+
+.svc-form-close {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: 1.5px solid var(--admin-border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  color: var(--text-light);
+  transition: all 0.2s ease;
+}
+
+.svc-form-close svg {
+  width: 15px;
+  height: 15px;
+}
+
+.svc-form-close:hover {
+  border-color: var(--status-cancelled);
+  color: var(--status-cancelled);
+  background: var(--status-cancelled-bg);
+}
+
+/* Feedback banners */
+.svc-feedback[hidden] {
+  display: none;
+}
+
+.svc-feedback svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.svc-feedback--error {
+  background: var(--status-cancelled-bg);
+  color: var(--status-cancelled);
+  border: 1px solid rgba(239, 68, 68, 0.25);
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.855rem;
+  font-weight: 500;
+  margin-bottom: 1.25rem;
+}
+
+/* Form layout rows */
+.svc-form-row {
+  display: flex;
+  gap: 1.25rem;
+  margin-bottom: 1.1rem;
+}
+
+.svc-form-row--2col {
+  flex-direction: row;
+}
+
+.svc-field {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem 1rem;
+  flex: 1;
+  min-width: 0;
+}
+
+/* filter-label already styled in admin.css — inherited */
+
+.svc-field-hint {
+  font-size: 0.72rem;
+  color: var(--text-light);
+  margin-top: 0.2rem;
+}
+
+/* Textarea — matches .filter-input look */
+.svc-textarea {
+  font-family: "Poppins", sans-serif;
+  font-size: 0.875rem;
+  color: var(--text-dark);
+  background: var(--bg);
+  border: 1.5px solid rgba(30, 144, 255, 0.15);
+  border-radius: var(--radius-sm);
+  padding: 0.6rem 0.9rem;
+  outline: none;
+  width: 100%;
+  resize: vertical;
+  line-height: 1.6;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.svc-textarea:focus {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px rgba(30, 144, 255, 0.1);
+  background: var(--white);
+}
+
+.svc-textarea::placeholder {
+  color: var(--text-light);
+  font-size: 0.855rem;
+}
+
+/* Image upload */
+.svc-upload-wrap {
+  position: relative;
+  border: 1.5px dashed rgba(30, 144, 255, 0.25);
+  border-radius: var(--radius-sm);
+  background: var(--bg);
+  overflow: hidden;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+
+.svc-upload-wrap:hover {
+  border-color: var(--blue);
+}
+
+.svc-file-input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.svc-upload-ui {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 1.5rem;
+  color: var(--text-light);
+  font-size: 0.82rem;
+  font-weight: 500;
+  text-align: center;
+}
+
+.svc-upload-ui svg {
+  width: 28px;
+  height: 28px;
+  color: rgba(30, 144, 255, 0.4);
+}
+
+.svc-upload-preview {
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
+  display: block;
+}
+
+/* Required asterisk */
+.svc-required {
+  color: var(--status-cancelled);
+  margin-left: 1px;
+}
+.svc-required-note {
+  font-size: 0.72rem;
+  color: var(--text-light);
+}
+
+/* Form action row */
+.svc-form-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--admin-border);
+  margin-top: 0.5rem;
+}
+
+/* Submit button — green, matches hero CTA pattern */
+.svc-submit-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.65rem 1.5rem;
+  font-family: "Poppins", sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--white);
+  background: var(--green);
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    box-shadow 0.2s ease;
+  white-space: nowrap;
+}
+
+.svc-submit-btn:hover {
+  background: var(--green-dark);
+  box-shadow: 0 4px 14px rgba(0, 196, 154, 0.3);
+}
+
+.svc-submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* Inline spinner for submit loading state */
+.svc-spinner {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: var(--white);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  vertical-align: middle;
+}
+
+/* =========================================
+   SERVICES GRID
+========================================= */
+.svc-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+/* =========================================
+   SERVICE CARD
+========================================= */
+.svc-card {
+  background: var(--admin-surface);
+  border: 1px solid var(--admin-border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 2px 12px rgba(30, 144, 255, 0.05);
+  transition: box-shadow 0.25s ease;
+}
+
+.svc-card:hover {
+  box-shadow: 0 6px 24px rgba(30, 144, 255, 0.1);
+}
+
+/* Image */
+.svc-card-img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  display: block;
+  background: var(--bg);
+  flex-shrink: 0;
+}
+
+/* Placeholder when no image */
+.svc-card-img-placeholder {
+  width: 100%;
+  height: 160px;
+  background: linear-gradient(135deg, #dbeeff, #e8f7f2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.svc-card-img-placeholder svg {
+  width: 36px;
+  height: 36px;
+  color: rgba(30, 144, 255, 0.3);
+}
+
+/* Card body */
+.svc-card-body {
+  padding: 1.25rem 1.25rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  flex: 1;
+}
+
+.svc-card-name {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  letter-spacing: -0.015em;
+}
+
+/* FOR / WHAT / OUTCOME blocks */
+.svc-card-block {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.svc-card-block-label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-light);
+}
+
+.svc-card-block-label--for {
+  color: var(--blue);
+}
+.svc-card-block-label--what {
+  color: var(--text-light);
+}
+.svc-card-block-label--outcome {
+  color: var(--green-dark);
+}
+
+.svc-card-block-text {
+  font-size: 0.835rem;
+  line-height: 1.6;
+  color: var(--text-mid);
+}
+
+/* Card footer — CTA + delete */
+.svc-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.85rem 1.25rem;
+  border-top: 1px solid var(--admin-border);
+  margin-top: auto;
+}
+
+/* Delete button — same look as .action-btn--cancel */
+.svc-delete-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.4rem 0.85rem;
+  font-family: "Poppins", sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--status-cancelled);
+  background: var(--status-cancelled-bg);
+  border: 1.5px solid rgba(239, 68, 68, 0.25);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  -webkit-border-radius: var(--radius-sm);
+  -moz-border-radius: var(--radius-sm);
+  -ms-border-radius: var(--radius-sm);
+  -o-border-radius: var(--radius-sm);
+}
+
+.svc-delete-btn:hover {
+  background: rgba(239, 68, 68, 0.12);
+  border-color: var(--status-cancelled);
+}
+
+.svc-delete-btn svg,
+.svc-book-btn svg {
+  width: 13px;
+  height: 13px;
+  flex-shrink: 0;
+}
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+@media (max-width: 1023px) {
+  .svc-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 767px) {
+  .svc-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .svc-form-row--2col {
+    flex-direction: column;
+  }
+
+  .svc-form-row--1col {
+    flex-direction: column;
+  }
+
+  .svc-page-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .svc-toggle-form-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .svc-form-actions {
+    flex-direction: column-reverse;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .svc-submit-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* Modal css */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.hidden {
+  display: none;
+}
+
+.modal-content {
+  background: #ebfeff;
+  padding: 20px;
+  border-radius: 8px;
+  width: 300px;
+  text-align: center;
+}
+
+.modal-content p {
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+  font-weight: bold;
+}
+
+.modal-content span {
+  font-weight: bold;
+  font-size: 0.9rem;
+  color: red;
+}
+
+.modal-actions {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.modal-actions button {
+  font-family: "Poppins", sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0.4rem 0.95rem;
+  outline: none;
+  border: none;
+  margin-top: 0.9rem;
+  white-space: nowrap;
+  font-weight: bold;
+  font-family: poppins;
+  border-radius: var(--radius-sm);
+  -webkit-border-radius: var(--radius-sm);
+  -moz-border-radius: var(--radius-sm);
+  -ms-border-radius: var(--radius-sm);
+  -o-border-radius: var(--radius-sm);
+  transition: all 0.2s ease;
+}
+
+/* Toast container */
+.svc-toast {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  background: var(--status-confirmed);
+  color: var(--bg);
+  padding: 14px 20px;
+  border-radius: 8px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  z-index: 9999;
+  transition: transform 0.4s ease;
+  transform: translate(-50%, -120%);
+}
+
+/* Visible state */
+.svc-toast.show {
+  top: 1.56rem;
+  transform: translate(-50%, 20px);
+}
+
+/* Content */
+.svc-toast-content {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* Icon */
+.svc-toast-icon {
+  width: 20px;
+  height: 20px;
+  stroke: white;
+  stroke-width: 3;
+  fill: none;
+}
+
+.svc-toast-delete {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  background: var(--status-cancelled);
+  color: var(--bg);
+  padding: 14px 20px;
+  border-radius: 8px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  z-index: 9999;
+  transition: transform 0.4s ease;
+  transform: translate(-50%, -120%);
+}
+
+.svc-toast-delete.show {
+  top: 1.56rem;
+  transform: translate(-50%, 20px);
+}
+
+.svc-toast-error {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  background: var(--status-pending);
+  color: var(--bg);
+  padding: 14px 20px;
+  border-radius: 8px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  z-index: 9999;
+  transition: transform 0.4s ease;
+  transform: translate(-50%, -120%);
+}
+
+.svc-toast-error.show {
+  top: 1.56rem;
+  transform: translate(-50%, 20px);
+}
+
+/* =========================================
+   admin-dentists.css
+   Loads AFTER admin.css + services-admin.css.
+   Only defines:
+     1. Dentist card grid + card layout
+        (avatar-based, different from service card)
+     2. Confirmation modal
+   Everything else (sidebar, topbar, form fields,
+   svc-* utilities, tokens, loading states)
+   is inherited from the two parent stylesheets.
+========================================= */
+
+/* =========================================
+   DENTISTS GRID
+   4 columns desktop → 3 tablet → 2 mid →
+   1 mobile. Narrower cards than service cards
+   because dentist cards are more compact.
+========================================= */
+.dnt-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.25rem;
+}
+
+/* =========================================
+   DENTIST CARD
+========================================= */
+.dnt-card {
+  background: var(--admin-surface);
+  border: 1px solid var(--admin-border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 2px 12px rgba(30, 144, 255, 0.05);
+  transition:
+    box-shadow 0.25s ease,
+    transform 0.2s ease;
+}
+
+.dnt-card:hover {
+  box-shadow: 0 6px 24px rgba(30, 144, 255, 0.1);
+  transform: translateY(-2px);
+}
+
+/* --- Card header: avatar + name/role --- */
+.dnt-card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 1.1rem 1.1rem 0.9rem;
+  border-bottom: 1px solid var(--admin-border);
+}
+
+/* Avatar circle */
+.dnt-avatar {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  border: 2px solid rgba(30, 144, 255, 0.15);
+  background: var(--bg);
+  display: block;
+}
+
+/* Fallback placeholder when no image */
+.dnt-avatar-placeholder {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #dbeeff, #e8f7f2);
+  border: 2px solid rgba(30, 144, 255, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.dnt-avatar-placeholder svg {
+  width: 22px;
+  height: 22px;
+  color: rgba(30, 144, 255, 0.4);
+}
+
+/* Name + role text block */
+.dnt-card-identity {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-width: 0;
+}
+
+.dnt-card-name {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dnt-card-role {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--blue);
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* --- Card body: bio --- */
+.dnt-card-body {
+  padding: 0.85rem 1.1rem;
+  flex: 1;
+}
+
+.dnt-card-bio {
+  font-size: 0.82rem;
+  line-height: 1.65;
+  color: var(--text-mid);
+  /* Clamp to 3 lines */
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* --- Card footer: delete button only --- */
+.dnt-card-footer {
+  padding: 0.75rem 1.1rem;
+  border-top: 1px solid var(--admin-border);
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* Delete uses svc-delete-btn from services-admin.css */
+
+/* --- Avatar preview in form (circular crop) --- */
+.dnt-avatar-preview {
+  width: 100px !important;
+  height: 100px !important;
+  border-radius: 50% !important;
+  object-fit: cover !important;
+  display: block !important;
+  margin: 0.75rem auto !important;
+}
+
+/* =========================================
+   TOAST NOTIFICATION
+   Global, position-fixed, auto-dismisses
+========================================= */
+.dnt-toast {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.85rem 1.15rem;
+  border-radius: var(--radius-sm);
+  font-family: "Poppins", sans-serif;
+  font-size: 0.855rem;
+  font-weight: 500;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  z-index: 500;
+  max-width: 340px;
+  /* Slide up from bottom */
+  animation: toastIn 0.25s ease forwards;
+}
+
+.dnt-toast svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.dnt-toast--success {
+  background: var(--admin-surface);
+  color: var(--green-dark);
+  border-left: 4px solid var(--green);
+}
+
+.dnt-toast--error {
+  background: var(--admin-surface);
+  color: var(--status-cancelled);
+  border-left: 4px solid var(--status-cancelled);
+}
+
+.dnt-toast--exit {
+  animation: toastOut 0.25s ease forwards;
+}
+
+@keyframes toastIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes toastOut {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}
+
+/* =========================================
+   CONFIRMATION MODAL
+========================================= */
+.dnt-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 400;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  /* Fade in */
+  animation: fadeIn 0.2s ease;
+}
+
+.dnt-modal-backdrop[hidden] {
+  display: none;
+}
+
+.dnt-modal {
+  background: var(--admin-surface);
+  border-radius: var(--radius);
+  padding: 1.75rem 1.75rem 1.5rem;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  /* Slide up */
+  animation: modalIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes modalIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.dnt-modal-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+/* Warning icon circle */
+.dnt-modal-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--status-cancelled-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--status-cancelled);
+}
+
+.dnt-modal-icon svg {
+  width: 18px;
+  height: 18px;
+}
+
+.dnt-modal-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  letter-spacing: -0.015em;
+}
+
+.dnt-modal-body {
+  font-size: 0.875rem;
+  line-height: 1.65;
+  color: var(--text-mid);
+}
+
+.dnt-modal-body-1 {
+  color: var(--admin-nav-bg);
+}
+
+.dnt-modal-body-2 {
+  color: var(--status-cancelled);
+}
+
+.dnt-modal-error {
+  margin: 0; /* override svc-feedback margin */
+}
+
+.dnt-modal-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.65rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--admin-border);
+}
+
+/* Cancel — ghost style */
+.dnt-modal-cancel {
+  padding: 0.55rem 1.1rem;
+  font-family: "Poppins", sans-serif;
+  font-size: 0.855rem;
+  font-weight: 600;
+  color: var(--text-mid);
+  background: transparent;
+  border: 1.5px solid var(--admin-border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.dnt-modal-cancel:hover {
+  border-color: var(--blue);
+  color: var(--blue);
+}
+
+/* Confirm — red destructive */
+.dnt-modal-confirm {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.55rem 1.25rem;
+  font-family: "Poppins", sans-serif;
+  font-size: 0.855rem;
+  font-weight: 600;
+  color: var(--white);
+  background: var(--status-cancelled);
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.dnt-modal-confirm:hover {
+  background: #d63030;
+  box-shadow: 0 4px 14px rgba(239, 68, 68, 0.3);
+}
+
+.dnt-modal-confirm:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+@media (max-width: 1280px) {
+  .dnt-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 1023px) {
+  .dnt-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 767px) {
+  .dnt-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .dnt-modal {
+    padding: 1.25rem;
+  }
+
+  .dnt-modal-actions {
+    flex-direction: column-reverse;
+    align-items: stretch;
+  }
+
+  .dnt-modal-cancel,
+  .dnt-modal-confirm {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .dnt-toast {
+    left: 1rem;
+    right: 1rem;
+    max-width: none;
+    bottom: 1rem;
+  }
+}
+
+/* =========================================
+   ROLE BADGES
+========================================= */
+.adm-role-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.22rem 0.7rem;
+  border-radius: 50px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  line-height: 1.4;
+}
+
+/* admin — blue (informational, standard) */
+.adm-role-badge--admin {
+  background: var(--blue-faint);
+  color: var(--blue);
+  border: 1px solid rgba(30, 144, 255, 0.2);
+}
+
+/* super_admin — green (elevated, distinguished) */
+.adm-role-badge--super-admin {
+  background: var(--status-confirmed-bg);
+  color: var(--green-dark);
+  border: 1px solid rgba(0, 196, 154, 0.25);
+}
+
+/* =========================================
+   ADMIN TABLE
+   Inherits .bookings-table styles.
+   These rules only handle specifics that
+   differ from the bookings table.
+========================================= */
+
+/* Email cell — same weight as td-name in bookings */
+.adm-table .adm-email {
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+/* Created date — lighter than primary content */
+.adm-table .adm-date {
+  font-size: 0.82rem;
+  color: var(--text-light);
+}
+
+/* Restrict table min-width — admin table has
+   fewer columns than bookings so doesn't need 1100px */
+.adm-table {
+  min-width: 560px;
+}
+
+/* =========================================
+   CREATE ADMIN MODAL EXTRAS
+   .dnt-modal handles base structure.
+   These rules extend only what differs.
+========================================= */
+
+/* Wider than the delete confirmation modal */
+.adm-create-modal {
+  max-width: 500px;
+}
+
+/* Modal header: title + close button side by side */
+.adm-create-modal .dnt-modal-header {
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+/* Subtitle below modal title */
+.adm-modal-subtitle {
+  font-size: 0.82rem;
+  color: var(--text-light);
+  margin-top: 0.15rem;
+  font-weight: 400;
+}
+
+/* X close button — top right of modal */
+.adm-modal-x {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background: none;
+  border: 1.5px solid var(--admin-border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  color: var(--text-light);
+  transition: all 0.2s ease;
+  margin-top: 0.1rem;
+}
+
+.adm-modal-x svg {
+  width: 14px;
+  height: 14px;
+}
+
+.adm-modal-x:hover {
+  border-color: var(--status-cancelled);
+  color: var(--status-cancelled);
+  background: var(--status-cancelled-bg);
+}
+
+/* Form fields inside the create modal */
+.adm-form-field {
+  margin-bottom: 1rem;
+}
+
+.adm-form-field:last-of-type {
+  margin-bottom: 0;
+}
+
+/* Action row at the bottom of the create form */
+.adm-create-actions {
+  margin-top: 1.4rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--admin-border);
+}
+
+/* =========================================
+   DELETE MODAL — EMAIL HIGHLIGHT
+========================================= */
+.adm-delete-email {
+  display: inline-block;
+  margin-top: 0.25rem;
+  font-size: 0.9rem;
+  color: var(--text-dark);
+  font-weight: 700;
+  word-break: break-all;
+}
+
+/* =========================================
+   EMPTY / ERROR STATE ICON
+   Sits above the message text in .table-empty
+========================================= */
+.adm-state-icon {
+  width: 36px;
+  height: 36px;
+  color: rgba(30, 144, 255, 0.3);
+  margin-bottom: 0.25rem;
+}
+
+.adm-state-sub {
+  font-size: 0.82rem;
+  color: var(--text-light);
+  margin-top: 0.2rem;
+}
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+@media (max-width: 767px) {
+  /* Create modal goes full-width on mobile */
+  .adm-create-modal {
+    max-width: 100%;
+  }
+
+  /* Actions stack on mobile */
+  .adm-create-actions {
+    flex-direction: column-reverse;
+    align-items: stretch;
+  }
+
+  .adm-create-actions .dnt-modal-cancel,
+  .adm-create-actions .svc-submit-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}

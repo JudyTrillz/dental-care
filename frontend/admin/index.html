@@ -1,0 +1,378 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard | Dental Clinic</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet" />
+    <link rel="stylesheet" href="css/admin.css" />
+
+    <script src="./js/auth-guard.js"></script>
+  </head>
+  <body>
+    <!-- Overlay — closes sidebar on outside tap (mobile) -->
+    <div class="admin-nav-overlay" id="adminNavOverlay" aria-hidden="true"></div>
+
+    <!-- ==============================
+       SIDEBAR NAVIGATION
+  ================================= -->
+    <aside class="sidebar" id="sidebar" aria-label="Admin navigation">
+      <!-- Logo -->
+      <div class="admin-logo">
+        <span class="admin-logo-icon" aria-hidden="true">✦</span>
+        DentalCare <span class="admin-logo-tag">Admin</span>
+      </div>
+
+      <nav role="navigation" aria-label="Primary admin navigation">
+        <ul class="admin-nav-links" id="adminNavLinks">
+          <li class="admin-nav-item active">
+            <a href="#" class="admin-nav-link" aria-current="page">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                aria-hidden="true">
+                <rect x="3" y="3" width="7" height="7" rx="1" />
+                <rect x="14" y="3" width="7" height="7" rx="1" />
+                <rect x="3" y="14" width="7" height="7" rx="1" />
+                <rect x="14" y="14" width="7" height="7" rx="1" />
+              </svg>
+              Dashboard
+            </a>
+          </li>
+
+          <li class="admin-nav-item">
+            <a href="services.html" class="admin-nav-link super-admin-only">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                aria-hidden="true">
+                <path
+                  d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+              </svg>
+              Services
+            </a>
+          </li>
+          <li class="admin-nav-item">
+            <a href="dentists.html" class="admin-nav-link super-admin-only">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                aria-hidden="true">
+                <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
+                <circle cx="9" cy="7" r="4" />
+                <path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" />
+              </svg>
+              Dentists
+            </a>
+          </li>
+          <li class="admin-nav-item">
+            <a href="admin.html" class="admin-nav-link super-admin-only">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                aria-hidden="true">
+                <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
+                <circle cx="9" cy="7" r="4" />
+                <path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" />
+              </svg>
+              Admins
+            </a>
+          </li>
+          <li class="admin-nav-item admin-nav-item--logout">
+            <a href="#" id="logout-btn" class="admin-nav-link admin-nav-link--logout">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                aria-hidden="true">
+                <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9" />
+              </svg>
+              Logout
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </aside>
+
+    <!-- ==============================
+       MAIN CONTENT AREA
+  ================================= -->
+
+    <!-- Success Notification -->
+    <div id="successToast" class="svc-toast">
+      <div class="svc-toast-content">
+        <svg class="svc-toast-icon" viewBox="0 0 24 24">
+          <path d="M20 6L9 17l-5-5" />
+        </svg>
+        <span>Service Added Successfully</span>
+      </div>
+    </div>
+
+    <!-- Deleted Notification -->
+    <div id="deleteToast" class="svc-toast-delete">
+      <div class="svc-toast-content">
+        <svg class="svc-toast-icon" viewBox="0 0 24 24">
+          <path d="M20 6L9 17l-5-5" />
+        </svg>
+        <span>Service Deleted Successfully</span>
+      </div>
+    </div>
+
+    <div id="errorToast" class="svc-toast-error">
+      <div class="svc-toast-content">
+        <svg class="svc-toast-icon" viewBox="0 0 24 24">
+          <path d="M6 6l12 12M6 18L18 6" />
+        </svg>
+        <span id="errorToastText">Something went wrong. Please try again.</span>
+      </div>
+    </div>
+
+    <div class="admin-content-wrap">
+      <!-- Mobile top bar (hamburger lives here) -->
+      <div class="admin-topbar" role="banner">
+        <button
+          class="menu-toggle"
+          id="menu-toggle"
+          aria-label="Toggle navigation menu"
+          aria-expanded="false"
+          aria-controls="sidebar">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </button>
+        <span class="topbar-title">DentalCare Admin</span>
+      </div>
+
+      <main class="admin-main" id="adminMain">
+        <!-- Summary stat cards -->
+        <div class="admin-stats" aria-label="Booking summary">
+          <div class="stat-card">
+            <div class="stat-card-icon stat-card-icon--blue" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path
+                  d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+            </div>
+            <div class="stat-card-body">
+              <p class="stat-card-label">Total Bookings</p>
+              <p class="stat-card-value" id="stat-total">—</p>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card-icon stat-card-icon--yellow" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10" />
+                <path d="M12 6v6l4 2" />
+              </svg>
+            </div>
+            <div class="stat-card-body">
+              <p class="stat-card-label">Pending</p>
+              <p class="stat-card-value" id="stat-pending">—</p>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card-icon stat-card-icon--green" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 11.08V12a10 10 0 11-5.93-9.14" />
+                <path d="M22 4L12 14.01l-3-3" />
+              </svg>
+            </div>
+            <div class="stat-card-body">
+              <p class="stat-card-label">Confirmed</p>
+              <p class="stat-card-value" id="stat-confirmed">—</p>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card-icon stat-card-icon--red" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10" />
+                <path d="M15 9l-6 6M9 9l6 6" />
+              </svg>
+            </div>
+            <div class="stat-card-body">
+              <p class="stat-card-label">Cancelled</p>
+              <p class="stat-card-value" id="stat-cancelled">—</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Page header + filters -->
+        <header class="dashboard-header">
+          <div class="dashboard-header-top">
+            <h1 class="dashboard-title">Bookings</h1>
+            <p class="dashboard-sub" id="dashboard-count">Loading bookings…</p>
+          </div>
+
+          <!-- Filter + search controls -->
+          <div class="filters" role="search" aria-label="Filter bookings">
+            <div class="filter-group">
+              <label for="filter-date" class="filter-label">Date</label>
+              <input
+                type="date"
+                id="filter-date"
+                class="filter-input"
+                aria-label="Filter by date" />
+            </div>
+            <div class="filter-group">
+              <label for="filter-dentist" class="filter-label">Dentist</label>
+              <select
+                id="filter-dentist"
+                class="filter-select"
+                aria-label="Filter by dentist">
+                <option value="">All Dentists</option>
+              </select>
+            </div>
+            <div class="filter-group">
+              <label for="filter-status" class="filter-label">Status</label>
+              <select
+                id="filter-status"
+                class="filter-select"
+                aria-label="Filter by status">
+                <option value="">All Statuses</option>
+                <option value="pending">Pending</option>
+                <option value="confirmed">Confirmed</option>
+                <option value="cancelled">Cancelled</option>
+              </select>
+            </div>
+            <div class="filter-group filter-group--search">
+              <label for="search-patient" class="filter-label">Search</label>
+              <div class="search-wrap">
+                <svg
+                  class="search-icon"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  aria-hidden="true">
+                  <circle cx="11" cy="11" r="8" />
+                  <path d="M21 21l-4.35-4.35" />
+                </svg>
+                <input
+                  type="search"
+                  id="search-patient"
+                  class="filter-input filter-input--search"
+                  placeholder="Patient name or email…"
+                  aria-label="Search by patient name or email"
+                  autocomplete="off" />
+              </div>
+            </div>
+            <button
+              class="filter-reset"
+              id="filter-reset"
+              type="button"
+              aria-label="Clear all filters">
+              Clear
+            </button>
+          </div>
+        </header>
+
+        <!-- Bookings table -->
+        <section class="table-container" aria-label="Bookings list">
+          <!-- Loading state -->
+          <div
+            class="table-loading"
+            id="tableLoading"
+            aria-live="polite"
+            aria-busy="true">
+            <div class="spinner" aria-hidden="true"></div>
+            <p>Fetching bookings…</p>
+          </div>
+
+          <!-- Empty state -->
+          <div class="table-empty" id="tableEmpty" hidden>
+            <p>No bookings match your current filters.</p>
+            <button class="filter-reset" id="filter-reset-empty" type="button">
+              Clear filters
+            </button>
+          </div>
+
+          <!-- ✦ Scroll wrapper — owns overflow-x, table stays a real table -->
+          <div class="table-wrapper">
+            <table
+              class="bookings-table"
+              id="bookingsTable"
+              aria-label="Patient bookings">
+              <thead>
+                <tr>
+                  <th scope="col" class="col-id">
+                    <button
+                      class="sort-btn"
+                      data-col="id"
+                      aria-label="Sort by Booking ID">
+                      Booking ID <span class="sort-icon" aria-hidden="true">↕</span>
+                    </button>
+                  </th>
+                  <th scope="col">
+                    <button
+                      class="sort-btn"
+                      data-col="patientName"
+                      aria-label="Sort by Patient Name">
+                      Patient Name <span class="sort-icon" aria-hidden="true">↕</span>
+                    </button>
+                  </th>
+                  <th scope="col">Phone</th>
+                  <th scope="col">Email</th>
+                  <th scope="col">
+                    <button
+                      class="sort-btn"
+                      data-col="dentist"
+                      aria-label="Sort by Dentist">
+                      Dentist <span class="sort-icon" aria-hidden="true">↕</span>
+                    </button>
+                  </th>
+                  <th scope="col">Service</th>
+                  <th scope="col">
+                    <button class="sort-btn" data-col="date" aria-label="Sort by Date">
+                      Date <span class="sort-icon" aria-hidden="true">↕</span>
+                    </button>
+                  </th>
+                  <th scope="col">Start</th>
+                  <th scope="col">End</th>
+                  <th scope="col">
+                    <button
+                      class="sort-btn"
+                      data-col="status"
+                      aria-label="Sort by Status">
+                      Status <span class="sort-icon" aria-hidden="true">↕</span>
+                    </button>
+                  </th>
+                  <th scope="col" class="col-actions">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="bookings-body">
+                <!-- JS injects rows here via GET /api/bookings -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Pagination -->
+        <nav
+          class="table-pagination"
+          id="tablePagination"
+          aria-label="Bookings pagination">
+          <button class="page-btn" id="page-prev" aria-label="Previous page" disabled>
+            ← Prev
+          </button>
+          <div class="page-numbers" id="pageNumbers" aria-live="polite"></div>
+          <button class="page-btn" id="page-next" aria-label="Next page">Next →</button>
+        </nav>
+      </main>
+    </div>
+    <!-- /.admin-content-wrap -->
+
+    <script type="module" src="./js/admin.js"></script>
+    <script src="./js/nav.js"></script>
+  </body>
+</html>

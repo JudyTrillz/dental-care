@@ -9,8 +9,61 @@
      - Booking form with hash preselect
 ========================================= */
 
+import { apiFetch } from "../admin/js/apiClient.js";
+
+import { showErrorToast, showSuccessToast } from "../admin/js/toast.js";
+
+let wasOffline = !navigator.onLine;
+
+window.addEventListener("offline", () => {
+  wasOffline = true;
+  showErrorToast("No internet connection. Please check your internet and try again");
+});
+
+window.addEventListener("online", () => {
+  if (wasOffline) {
+    showSuccessToast("Internet connection restored. Reloading...");
+    setTimeout(() => location.reload(), 1000);
+  }
+  wasOffline = false;
+});
+
 (function () {
   "use strict";
+
+  const serviceUI = {
+    Cosmetic: {
+      icon: "✨",
+    },
+
+    Preventive: {
+      icon: "🪥",
+    },
+
+    Restorative: {
+      icon: "🦷",
+    },
+
+    Surgical: {
+      icon: "🔧",
+    },
+
+    Orthodontic: {
+      icon: "🪛",
+    },
+
+    Implant: {
+      icon: "🦴",
+    },
+
+    Emergency: {
+      icon: "🚨",
+    },
+
+    Pediatric: {
+      icon: "🧸",
+    },
+  };
 
   /* =========================================
      1. Navbar & Sticky Scroll
@@ -65,23 +118,6 @@
       window.scrollTo({ top, behavior: "smooth" });
     });
   });
-
-  /* =========================================
-     4. Scroll Reveal — Intersection Observer
-  ========================================== */
-  const revealObserver = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("visible");
-          revealObserver.unobserve(entry.target);
-        }
-      });
-    },
-    { threshold: 0.15, rootMargin: "0px 0px -40px 0px" },
-  );
-
-  document.querySelectorAll(".reveal").forEach((el) => revealObserver.observe(el));
 
   /* =========================================
      5. Testimonials Slider
@@ -192,14 +228,6 @@
     };
 
     /* -----------------------------
-       Helper: Scroll & Preselect Service
-    ----------------------------- */
-    const goToBooking = (serviceId) => {
-      if (serviceSelect) serviceSelect.value = serviceId;
-      form.scrollIntoView({ behavior: "smooth" });
-    };
-
-    /* -----------------------------
        On page load — handle hash
     ----------------------------- */
     window.addEventListener("DOMContentLoaded", () => {
@@ -211,27 +239,64 @@
 
         if (serviceId) {
           goToBooking(serviceId);
-
-          // ✅ Clean the URL after using it
-          history.replaceState(null, null, window.location.pathname);
         }
       }
-    });
 
-    /* -----------------------------
-       On service button click
-    ----------------------------- */
-    document.querySelectorAll(".service-button").forEach((btn) => {
-      btn.addEventListener("click", (e) => {
-        e.preventDefault();
-        const href = btn.getAttribute("href");
-        if (href.includes("service=")) {
-          const serviceId = href.split("service=")[1];
-          goToBooking(serviceId);
-          window.history.pushState({}, "", href); // update URL
+      /* -----------------------------
+      On service button click (Using Delegation)
+      ----------------------------- */
+      document.addEventListener("click", (e) => {
+        // Check if the clicked element (or its parent) is a service button
+        const btn = e.target.closest(".service-button");
+
+        if (btn) {
+          e.preventDefault();
+          const href = btn.getAttribute("href");
+
+          if (href.includes("service=")) {
+            const serviceId = href.split("service=")[1];
+            goToBooking(serviceId);
+            window.history.pushState({}, "", href);
+          }
         }
       });
     });
+
+    /* -----------------------------
+       !! Helper: Scroll & Preselect Service
+    ----------------------------- */
+    const goToBooking = (serviceId) => {
+      // 1. Disable browser scroll-memory for this session
+      if ("scrollRestoration" in history) {
+        history.scrollRestoration = "manual";
+      }
+
+      // 2. Preselect the service
+      if (serviceSelect) {
+        const trySetValue = () => {
+          const optionExists = Array.from(serviceSelect.options).some(
+            (opt) => opt.value === serviceId,
+          );
+
+          if (optionExists) {
+            serviceSelect.value = serviceId;
+          } else {
+            setTimeout(trySetValue, 100); // retry until options are loaded
+          }
+        };
+
+        trySetValue();
+      }
+
+      // 3. Scroll to the form
+      form.scrollIntoView({ behavior: "smooth" });
+
+      // 4. Clean the URL completely after a tiny delay
+      // (This ensures the scroll completes before the URL resets)
+      setTimeout(() => {
+        history.replaceState(null, null, " ");
+      }, 500);
+    };
 
     /* -----------------------------
        Time slot selection
@@ -329,18 +394,78 @@
     /* -----------------------------
        Fetch Dentists
     ----------------------------- */
-    fetch("https://dental-care--ojudy007.replit.app/api/dentists")
-      .then((res) => res.json())
-      .then((dentists) =>
+    let dentistServerDown = false;
+
+    async function loadDentists() {
+      try {
+        const res = await fetch("http://localhost:5000/api/public/dentists");
+
+        if (!res.ok) throw new Error("Failed to fetch dentists");
+
+        const data = await res.json();
+        const dentists = Array.isArray(data.data) ? data.data : [];
+
+        dentistSelect.innerHTML = `<option value="" disabled selected>Choose your dentist</option>`;
+
         dentists.forEach((d) => {
           const option = document.createElement("option");
           option.value = d.id;
           option.textContent = d.name;
           dentistSelect.appendChild(option);
-        }),
-      )
-      .catch(() => showNotification("Failed to load dentists"));
+        });
 
+        dentistServerDown = false;
+      } catch (err) {
+        console.error("Dentists fetch failed:", err);
+
+        if (!dentistServerDown) {
+          dentistServerDown = true;
+          showNotification("Unable to load dentists. Retrying...");
+        }
+
+        setTimeout(loadDentists, 5000);
+      }
+    }
+
+    loadDentists();
+
+    /* -----------------------------
+       Fetch Services
+    ----------------------------- */
+    let serviceServerDown = false;
+
+    async function loadServicesForForm() {
+      try {
+        const res = await fetch("http://localhost:5000/api/public/services");
+
+        if (!res.ok) throw new Error("Failed to fetch services");
+
+        const data = await res.json();
+        const services = Array.isArray(data.data) ? data.data : [];
+
+        serviceSelect.innerHTML = `<option value="" disabled selected>Choose the treatment you need</option>`;
+
+        services.forEach((s) => {
+          const option = document.createElement("option");
+          option.value = s.id;
+          option.textContent = `${s.name} — ${s.duration || ""} mins`;
+          serviceSelect.appendChild(option);
+        });
+
+        serviceServerDown = false;
+      } catch (err) {
+        console.error("Services fetch failed:", err);
+
+        if (!serviceServerDown) {
+          serviceServerDown = true;
+          showNotification("Unable to load services. Retrying...");
+        }
+
+        setTimeout(loadServicesForForm, 5000);
+      }
+    }
+
+    loadServicesForForm();
     /* -----------------------------
        Time format helper
     ----------------------------- */
@@ -407,14 +532,11 @@
         submitBtn.disabled = true;
         submitBtn.textContent = "Processing...";
 
-        const response = await fetch(
-          "https://dental-care--ojudy007.replit.app/api/bookings",
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload),
-          },
-        );
+        const response = await fetch("http://localhost:5000/api/bookings", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
         const data = await response.json();
 
         if (!response.ok) throw new Error(data.error || "Booking failed");
@@ -433,7 +555,7 @@
         }, 3000);
       } catch (err) {
         console.error(err);
-        showNotification("Server error. Try again.");
+        showNotification(err.message);
         submitBtn.disabled = false;
         submitBtn.textContent = "Confirm Booking";
       }
@@ -483,4 +605,96 @@
       }
     });
   })();
+
+  let serverDown = false;
+
+  function renderHomepageServices() {
+    const container = document.querySelector(".services-grid");
+
+    if (!container) return;
+
+    async function loadHomepageServices() {
+      const container = document.querySelector(".services-grid");
+      if (!container) return;
+
+      try {
+        const res = await apiFetch("http://localhost:5000/api/public/services");
+
+        if (!res.success) {
+          throw new Error(res.message || "Failed to load services");
+        }
+
+        const services = res.data;
+
+        container.innerHTML = "";
+
+        services.slice(0, 4).forEach((s, index) => {
+          const meta = serviceUI[s.category] || {};
+          const icon = meta.icon || "🦷";
+
+          const card = document.createElement("article");
+          card.className = "service-card reveal";
+          card.style.setProperty("--delay", `${index * 0.1}s`);
+
+          card.innerHTML = `
+        <div class="service-card-top">
+          <span class="service-icon">${icon}</span>
+          <span class="service-duration">${s.duration || ""} mins</span>
+        </div>
+
+        <h3 class="service-name">${s.name}</h3>
+
+        <p class="service-description">
+          ${s.forWho ? s.forWho : "No description available"}
+        </p>
+
+        <a href="#book?service=${s.id}" class="service-button">
+          Book this service
+        </a>
+      `;
+
+          container.appendChild(card);
+          revealObserver.observe(card);
+        });
+      } catch (err) {
+        console.error("Failed to load services", err);
+
+        container.innerHTML = `
+      <div style="grid-column: 1 / -1; text-align: center; padding: 40px;">
+        <p style="color:#ff4d4f; font-size:16px; font-weight:bold;">
+          Unable to load services. Please check your connection.
+        </p>
+      </div>
+    `;
+
+        // 🔴 IMPORTANT: retry after delay
+        setTimeout(loadHomepageServices, 5000);
+      }
+    }
+
+    // initial load
+    loadHomepageServices();
+  }
+
+  renderHomepageServices();
+
+  /* =========================================
+     4. Scroll Reveal — Intersection Observer
+  ========================================== */
+  const revealObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    },
+    {
+      threshold: 0.15,
+      rootMargin: "0px 0px 0px 0px",
+    },
+  );
+
+  document.querySelectorAll(".reveal").forEach((el) => revealObserver.observe(el));
 })();
