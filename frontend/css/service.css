@@ -21,6 +21,43 @@
   width: 100% !important;
 }
 
+/* Content */
+.svc-toast-content {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* Icon */
+.svc-toast-icon {
+  width: 20px;
+  height: 20px;
+  stroke: white;
+  stroke-width: 3;
+  fill: none;
+}
+
+.svc-toast-error {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  background: #f59e0b;
+  color: var(--bg);
+  padding: 14px 20px;
+  border-radius: 8px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  z-index: 9999;
+  transition: transform 0.4s ease;
+  transform: translate(-50%, -120%);
+}
+
+.svc-toast-error.show {
+  top: 1.56rem;
+  transform: translate(-50%, 20px);
+}
+
 .services-hero {
   position: relative;
   background: var(--bg);

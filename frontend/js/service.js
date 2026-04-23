@@ -16,6 +16,7 @@
   const filterPills = document.querySelectorAll(".filter-pill");
   const allCards = document.querySelectorAll(".svc-card");
   const revealElements = document.querySelectorAll(".reveal");
+  const API_BASE = "http://localhost:5000/api";
 
   /* =========================================
      Sticky nav: add .scrolled on scroll
@@ -30,6 +31,7 @@
      Scroll Reveal — Intersection Observer
      Adds .visible when element enters viewport
   ========================================== */
+
   const revealObserver = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
@@ -39,10 +41,17 @@
         }
       });
     },
-    { threshold: 0.1, rootMargin: "0px 0px -40px 0px" },
+    {
+      threshold: 0.1,
+      rootMargin: "0px 0px -40px 0px",
+    },
   );
 
-  revealElements.forEach((el) => revealObserver.observe(el));
+  function observeReveals() {
+    document.querySelectorAll(".reveal:not(.visible)").forEach((el) => {
+      revealObserver.observe(el);
+    });
+  }
 
   /* =========================================
      Category filter
@@ -50,33 +59,25 @@
   ========================================== */
   filterPills.forEach((pill) => {
     pill.addEventListener("click", () => {
+      if (!servicesData.length) return;
+
       const filter = pill.dataset.filter;
 
-      // Update active pill
       filterPills.forEach((p) => p.classList.remove("active"));
       pill.classList.add("active");
 
-      // Show/hide cards
-      allCards.forEach((card) => {
-        const cat = card.dataset.category;
-        if (filter === "all" || cat === filter) {
-          card.classList.remove("hidden");
-          card.style.display = "block";
-          // Re-observe if not yet revealed
-          if (!card.classList.contains("visible")) {
-            revealObserver.observe(card);
-          }
-        } else {
-          card.classList.add("hidden");
-          card.style.display = "none";
-        }
-      });
+      let filtered;
+
+      if (filter === "all") {
+        filtered = servicesData;
+      } else {
+        filtered = servicesData.filter((s) => s.category.toLowerCase() === filter);
+      }
+
+      renderServices(filtered);
     });
   });
 
-  /* =========================================
-     Active nav link based on current page
-  ========================================== */
   /* =========================================
    Active nav link based on current page
 ========================================= */
@@ -97,4 +98,141 @@
   //       }
   //     });
   //   });
+
+  function showErrorToast(message) {
+    const toast = document.getElementById("errorToast");
+    const text = document.getElementById("errorToastText");
+
+    if (!toast || !text) return;
+
+    text.textContent = message;
+    toast.classList.add("show");
+
+    clearTimeout(toast._timeout);
+
+    toast._timeout = setTimeout(() => {
+      toast.classList.remove("show");
+    }, 4000);
+  }
+
+  function hideErrorToast() {
+    const toast = document.getElementById("errorToast");
+    if (!toast) return;
+
+    toast.classList.remove("show");
+  }
+
+  let serverDown = false;
+
+  async function fetchServices() {
+    if (!grid) return;
+
+    try {
+      const res = await fetch("http://localhost:5000/api/public/services");
+
+      if (!res.ok) throw new Error("Server error");
+
+      const data = await res.json();
+      const services = Array.isArray(data.data) ? data.data : [];
+
+      // ✅ clear grid before render
+      grid.innerHTML = "";
+
+      servicesData = services;
+
+      renderServices(servicesData);
+
+      serverDown = false;
+    } catch (err) {
+      console.error("Services fetch failed:", err);
+
+      // ❗ only update UI once (avoid flicker)
+      if (!serverDown) {
+        serverDown = true;
+
+        grid.innerHTML = `
+        <div style="grid-column: 1 / -1; text-align: center; padding: 40px;">
+          <p style="color:#ff4d4f; font-size:16px; font-weight:bold;">
+            Services unavailable. Please try again.
+          </p>
+        </div>
+      `;
+      }
+    }
+  }
+
+  fetchServices();
+
+  setInterval(() => {
+    if (serverDown) {
+      fetchServices();
+    }
+  }, 5000);
+
+  const grid = document.getElementById("servicesGrid");
+
+  function getIcon(category) {
+    switch (category) {
+      case "Cosmetic":
+        return "✨";
+      case "Preventive":
+        return "🪥";
+      case "Restorative":
+        return "🦷";
+      case "Surgical":
+        return "🔪";
+      default:
+        return "🦷";
+    }
+  }
+
+  function renderServices(list) {
+    if (!grid) return;
+
+    grid.innerHTML = "";
+
+    list.forEach((s, index) => {
+      const article = document.createElement("article");
+      article.className = "svc-card reveal";
+      article.style.setProperty("--delay", `${index * 0.05}s`);
+      article.dataset.category = s.category.toLowerCase();
+
+      article.innerHTML = `
+      <div class="svc-img-wrap">
+        <img src="http://localhost:5000/uploads/${s.image}" alt="${s.name}" loading="lazy" />
+        <span class="svc-category-tag">${s.category}</span>
+      </div>
+
+      <div class="svc-body">
+        <h3 class="svc-name">${s.name}</h3>
+
+        <p class="svc-for">
+          <span class="svc-for-label">For</span>
+          ${s.forWho}
+        </p>
+
+        <p class="svc-what">
+          ${s.what}
+        </p>
+
+        <p class="svc-outcome">
+          <span class="svc-outcome-label">Outcome</span>
+          ${s.outcome}
+        </p>
+
+        <a href="../index.html#bookingForm?service=${s.id}" class="svc-cta">
+          Book this treatment
+        </a>
+      </div>
+    `;
+
+      grid.appendChild(article);
+    });
+
+    observeReveals();
+  }
+
+  let servicesData = [];
+
+  fetchServices();
 })();

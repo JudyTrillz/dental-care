@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Login | DentalCare</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet" />
+    <link rel="stylesheet" href="css/admin.css" />
+    <link rel="stylesheet" href="css/login.css" />
+  </head>
+  <body>
+    <!-- Animated background particles (CSS-driven, aria-hidden) -->
+    <div class="login-particles" aria-hidden="true">
+      <span class="particle"></span>
+      <span class="particle"></span>
+      <span class="particle"></span>
+      <span class="particle"></span>
+      <span class="particle"></span>
+      <span class="particle"></span>
+      <span class="particle"></span>
+      <span class="particle"></span>
+      <span class="particle"></span>
+      <span class="particle"></span>
+      <span class="particle"></span>
+      <span class="particle"></span>
+    </div>
+
+    <!-- Decorative blobs -->
+    <div class="login-blob login-blob--1" aria-hidden="true"></div>
+    <div class="login-blob login-blob--2" aria-hidden="true"></div>
+    <div class="login-blob login-blob--3" aria-hidden="true"></div>
+
+    <main class="login-wrap">
+      <!-- Rotating glow ring behind the card -->
+      <div class="login-glow-ring" aria-hidden="true"></div>
+
+      <div class="login-card" role="main">
+        <!-- ── Brand header ── -->
+        <header class="login-brand">
+          <span class="login-brand-icon" aria-hidden="true">✦</span>
+          <span class="login-brand-name">DentalCare</span>
+          <span class="login-brand-tag">Admin</span>
+        </header>
+
+        <div class="login-body">
+          <div class="login-heading-group">
+            <h1 class="login-title">Welcome back</h1>
+            <p class="login-subtitle">Sign in to your admin dashboard</p>
+          </div>
+
+          <!-- Inline error banner -->
+          <div
+            class="login-error"
+            id="loginError"
+            hidden
+            role="alert"
+            aria-live="assertive">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              aria-hidden="true">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="8" x2="12" y2="12" />
+              <line x1="12" y1="16" x2="12.01" y2="16" />
+            </svg>
+            <span id="loginErrorText"></span>
+          </div>
+
+          <form id="loginForm" novalidate>
+            <!-- Email -->
+            <div class="login-field login-field--1">
+              <label class="login-label" for="loginEmail">Email address</label>
+              <input
+                type="email"
+                id="loginEmail"
+                name="email"
+                class="login-input"
+                placeholder="Enter admin email"
+                required
+                aria-required="true"
+                aria-describedby="loginError" />
+            </div>
+
+            <!-- Password -->
+            <div class="login-field login-field--2">
+              <label class="login-label" for="loginPassword">Password</label>
+              <div class="login-input-wrap">
+                <input
+                  type="password"
+                  id="loginPassword"
+                  name="password"
+                  class="login-input"
+                  placeholder="Enter your password"
+                  required
+                  aria-required="true" />
+                <button
+                  type="button"
+                  class="login-eye"
+                  id="togglePassword"
+                  aria-label="Show password"
+                  aria-pressed="false">
+                  <svg
+                    class="eye-icon eye-icon--show"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    aria-hidden="true">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                    <circle cx="12" cy="12" r="3" />
+                  </svg>
+                  <svg
+                    class="eye-icon eye-icon--hide"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    aria-hidden="true"
+                    hidden>
+                    <path
+                      d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24" />
+                    <line x1="1" y1="1" x2="23" y2="23" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- Submit -->
+            <button type="submit" class="login-submit login-field--3" id="loginSubmit">
+              <span class="login-submit-label">Sign in</span>
+              <span class="login-submit-loading" hidden aria-hidden="true">
+                <span class="login-spinner"></span>
+                Signing in…
+              </span>
+            </button>
+          </form>
+        </div>
+
+        <!-- Footer note -->
+        <p class="login-footer-note">This area is restricted to authorized staff only.</p>
+      </div>
+    </main>
+
+    <script type="module" src="./js/admin-login.js"></script>
+  </body>
+</html>

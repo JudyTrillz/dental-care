@@ -1,0 +1,396 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dentists | DentalCare Admin</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet" />
+    <!-- Core admin design system -->
+    <link rel="stylesheet" href="css/admin.css" />
+
+    <script src="./js/auth-guard.js"></script>
+  </head>
+  <body>
+    <!-- Sidebar overlay (mobile) -->
+    <div class="admin-nav-overlay" id="adminNavOverlay" aria-hidden="true"></div>
+
+    <!-- ==============================
+       DELETE CONFIRMATION MODAL
+  ================================= -->
+    <div
+      class="dnt-modal-backdrop"
+      id="deleteModalBackdrop"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="deleteModalTitle"
+      hidden>
+      <div class="dnt-modal">
+        <div class="dnt-modal-header">
+          <div class="dnt-modal-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="8" x2="12" y2="12" />
+              <line x1="12" y1="16" x2="12.01" y2="16" />
+            </svg>
+          </div>
+          <h2 class="dnt-modal-title" id="deleteModalTitle">Delete Dentist</h2>
+        </div>
+        <p class="dnt-modal-body" id="deleteModalBody">
+          Are you sure you want to delete <strong id="deleteModalName"></strong>? This
+          cannot be undone.
+        </p>
+        <div
+          class="dnt-modal-error svc-feedback svc-feedback--error"
+          id="deleteModalError"
+          hidden
+          role="alert"></div>
+        <div class="dnt-modal-actions">
+          <button class="dnt-modal-cancel" id="deleteModalCancel" type="button">
+            Cancel
+          </button>
+          <button class="dnt-modal-confirm" id="deleteModalConfirm" type="button">
+            <span class="dnt-confirm-label">Delete</span>
+            <span class="dnt-confirm-loading" hidden aria-hidden="true">
+              <span class="svc-spinner"></span> Deleting…
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==============================
+       SIDEBAR
+  ================================= -->
+    <aside class="sidebar" id="sidebar" aria-label="Admin navigation">
+      <div class="admin-logo">
+        <span class="admin-logo-icon" aria-hidden="true">✦</span>
+        DentalCare <span class="admin-logo-tag">Admin</span>
+      </div>
+      <nav role="navigation" aria-label="Primary admin navigation">
+        <ul class="admin-nav-links" id="adminNavLinks">
+          <li class="admin-nav-item">
+            <a href="index.html" class="admin-nav-link">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                aria-hidden="true">
+                <rect x="3" y="3" width="7" height="7" rx="1" />
+                <rect x="14" y="3" width="7" height="7" rx="1" />
+                <rect x="3" y="14" width="7" height="7" rx="1" />
+                <rect x="14" y="14" width="7" height="7" rx="1" />
+              </svg>
+              Dashboard
+            </a>
+          </li>
+
+          <li class="admin-nav-item">
+            <a href="services.html" class="admin-nav-link super-admin-only">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                aria-hidden="true">
+                <path
+                  d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+              </svg>
+              Services
+            </a>
+          </li>
+          <li class="admin-nav-item active">
+            <a
+              href="dentists.html"
+              class="admin-nav-link super-admin-only"
+              aria-current="page">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                aria-hidden="true">
+                <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
+                <circle cx="9" cy="7" r="4" />
+                <path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" />
+              </svg>
+              Dentists
+            </a>
+          </li>
+          <li class="admin-nav-item">
+            <a href="admin.html" class="admin-nav-link super-admin-only">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                aria-hidden="true">
+                <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
+                <circle cx="9" cy="7" r="4" />
+                <path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" />
+              </svg>
+              Admins
+            </a>
+          </li>
+          <li class="admin-nav-item admin-nav-item--logout">
+            <a href="#" id="logout-btn" class="admin-nav-link admin-nav-link--logout">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                aria-hidden="true">
+                <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9" />
+              </svg>
+              Logout
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </aside>
+
+    <!-- ==============================
+       MAIN CONTENT
+  ================================= -->
+    <div class="admin-content-wrap">
+      <!-- Mobile top bar -->
+      <div class="admin-topbar" role="banner">
+        <button
+          class="menu-toggle"
+          id="menu-toggle"
+          aria-label="Toggle navigation menu"
+          aria-expanded="false"
+          aria-controls="sidebar">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </button>
+        <span class="topbar-title">DentalCare Admin</span>
+      </div>
+
+      <main class="admin-main">
+        <!-- ============================
+           PAGE HEADER
+      ============================= -->
+        <div class="svc-page-header">
+          <div>
+            <h1 class="dashboard-title">Dentists</h1>
+            <p class="dashboard-sub" id="dnt-count">Loading dentists…</p>
+          </div>
+          <button
+            class="svc-toggle-form-btn"
+            id="toggleFormBtn"
+            type="button"
+            aria-expanded="false"
+            aria-controls="addDentistPanel">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              aria-hidden="true">
+              <path d="M12 5v14M5 12h14" />
+            </svg>
+            Add Dentist
+          </button>
+        </div>
+
+        <!-- Success Notification -->
+        <div id="successToast" class="svc-toast">
+          <div class="svc-toast-content">
+            <svg class="svc-toast-icon" viewBox="0 0 24 24">
+              <path d="M20 6L9 17l-5-5" />
+            </svg>
+            <span>Service Added Successfully</span>
+          </div>
+        </div>
+
+        <!-- Deleted Notification -->
+        <div id="deleteToast" class="svc-toast-delete">
+          <div class="svc-toast-content">
+            <svg class="svc-toast-icon" viewBox="0 0 24 24">
+              <path d="M20 6L9 17l-5-5" />
+            </svg>
+            <span>Service Deleted Successfully</span>
+          </div>
+        </div>
+
+        <div id="errorToast" class="svc-toast-error">
+          <div class="svc-toast-content">
+            <svg class="svc-toast-icon" viewBox="0 0 24 24">
+              <path d="M6 6l12 12M6 18L18 6" />
+            </svg>
+            <span id="errorToastText">Something went wrong. Please Try again</span>
+          </div>
+        </div>
+
+        <!-- ============================
+           ADD DENTIST FORM
+      ============================= -->
+        <section
+          class="svc-form-panel"
+          id="addDentistPanel"
+          aria-label="Add new dentist"
+          hidden>
+          <div class="dashboard-header">
+            <div class="svc-form-header">
+              <h2 class="svc-section-title">Add New Dentist</h2>
+              <button
+                class="svc-form-close"
+                id="closeFormBtn"
+                type="button"
+                aria-label="Close form">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.5"
+                  aria-hidden="true">
+                  <path d="M18 6L6 18M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+
+            <div
+              class="svc-feedback svc-feedback--error"
+              id="formError"
+              hidden
+              role="alert"></div>
+
+            <form id="addDentistForm" novalidate>
+              <!-- Image upload -->
+              <div class="svc-form-row">
+                <div class="svc-field">
+                  <label class="filter-label" for="dntImage">
+                    Profile Photo <span class="svc-required" aria-hidden="true">*</span>
+                  </label>
+                  <div class="svc-upload-wrap">
+                    <input
+                      type="file"
+                      id="dntImage"
+                      name="image"
+                      accept="image/*"
+                      class="svc-file-input"
+                      required
+                      aria-required="true"
+                      aria-describedby="dntImageHint" />
+                    <div class="svc-upload-ui" id="dntUploadUi" aria-hidden="true">
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.5">
+                        <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
+                        <polyline points="17 8 12 3 7 8" />
+                        <line x1="12" y1="3" x2="12" y2="15" />
+                      </svg>
+                      <span>Click to upload a profile photo</span>
+                    </div>
+                    <img
+                      class="svc-upload-preview dnt-avatar-preview"
+                      id="dntUploadPreview"
+                      src=""
+                      alt="Preview"
+                      hidden />
+                  </div>
+                  <p class="svc-field-hint" id="dntImageHint">
+                    JPG, PNG, WebP or AVIF. Square images work best.
+                  </p>
+                </div>
+              </div>
+
+              <!-- Name + Role in 2-col row -->
+              <div class="svc-form-row svc-form-row--2col">
+                <div class="svc-field">
+                  <label class="filter-label" for="dntName">
+                    Doctor Name <span class="svc-required" aria-hidden="true">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    id="dntName"
+                    name="name"
+                    class="filter-input"
+                    placeholder="e.g. Dr. Amaka Eze"
+                    required
+                    maxlength="80"
+                    aria-required="true" />
+                </div>
+                <div class="svc-field">
+                  <label class="filter-label" for="dntRole">
+                    Role / Specialty
+                    <span class="svc-required" aria-hidden="true">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    id="dntRole"
+                    name="role"
+                    class="filter-input"
+                    placeholder="e.g. Orthodontist"
+                    required
+                    maxlength="80"
+                    aria-required="true" />
+                </div>
+              </div>
+
+              <!-- Bio -->
+              <div class="svc-form-row">
+                <div class="svc-field">
+                  <label class="filter-label" for="dntBio">
+                    Bio <span class="svc-required" aria-hidden="true">*</span>
+                  </label>
+                  <textarea
+                    id="dntBio"
+                    name="bio"
+                    class="svc-textarea"
+                    rows="3"
+                    placeholder="e.g. Manages braces and alignment cases with a talent for explaining treatment timelines clearly."
+                    required
+                    maxlength="400"
+                    aria-required="true"></textarea>
+                  <p class="svc-field-hint">
+                    Keep it under 2–3 sentences. Shown on the patient-facing About page.
+                  </p>
+                </div>
+              </div>
+
+              <!-- Submit -->
+              <div class="svc-form-actions">
+                <p class="svc-required-note">
+                  <span class="svc-required">*</span> Required fields
+                </p>
+                <button type="submit" class="svc-submit-btn" id="addDentistSubmit">
+                  <span class="dnt-submit-label">Add Dentist</span>
+                  <span class="dnt-submit-loading" hidden aria-hidden="true">
+                    <span class="svc-spinner"></span> Saving…
+                  </span>
+                </button>
+              </div>
+            </form>
+          </div>
+        </section>
+
+        <!-- ============================
+           DENTISTS GRID
+      ============================= -->
+        <section aria-label="Dentists list">
+          <div class="table-loading" id="dntLoading" aria-live="polite" aria-busy="true">
+            <div class="spinner" aria-hidden="true"></div>
+            <p>Loading dentists…</p>
+          </div>
+
+          <div class="table-empty" id="dntEmpty" hidden>
+            <p>No dentists yet. Add your first team member above.</p>
+          </div>
+
+          <div class="dnt-grid" id="dntGrid" aria-label="All dentists"></div>
+        </section>
+      </main>
+    </div>
+    <!-- /.admin-content-wrap -->
+
+    <script type="module" src="js/admin-dentist.js"></script>
+    <script src="./js/nav.js"></script>
+  </body>
+</html>

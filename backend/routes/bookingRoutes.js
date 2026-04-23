@@ -1,9 +1,36 @@
 const express = require("express");
 const router = express.Router();
 
-const { createBooking, getBookings } = require("../controllers/bookingControllers");
+const verifyToken = require("../middleware/authMiddleware");
+const { requireRole } = require("../middleware/roleMiddleware");
+const { loginLimiter } = require("../middleware/rateLimiter");
 
-router.post("/", createBooking);
-router.get("/", getBookings);
+const {
+  createBooking,
+  getBookings,
+  updateBookingStatus,
+} = require("../controllers/bookingControllers");
+
+/* =========================
+   PUBLIC (BUT CONTROLLED)
+========================= */
+
+// Create booking (must be rate limited)
+router.post("/", loginLimiter, createBooking);
+
+/* =========================
+   ADMIN ONLY
+========================= */
+
+// Get all bookings
+router.get("/", verifyToken, requireRole(["admin", "super_admin"]), getBookings);
+
+// Update booking status
+router.patch(
+  "/:id",
+  verifyToken,
+  requireRole(["admin", "super_admin"]),
+  updateBookingStatus,
+);
 
 module.exports = router;
