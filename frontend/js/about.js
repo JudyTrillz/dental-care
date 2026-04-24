@@ -30,35 +30,29 @@
     });
   }
 
-  /* ------------------------------------------
-     Sticky nav: .scrolled on scroll
-  ------------------------------------------ */
   const handleScroll = () => {
     navbar.classList.toggle("scrolled", window.scrollY > 20);
   };
   window.addEventListener("scroll", handleScroll, { passive: true });
   handleScroll();
 
-  /* ------------------------------------------
-     Smooth scroll for on-page anchor links
-  ------------------------------------------ */
   document.querySelectorAll('a[href^="#"]').forEach((link) => {
     link.addEventListener("click", (e) => {
       const targetId = link.getAttribute("href");
       if (targetId === "#") return;
+
       const target = document.querySelector(targetId);
       if (!target) return;
+
       e.preventDefault();
+
       const top =
         target.getBoundingClientRect().top + window.pageYOffset - navbar.offsetHeight;
+
       window.scrollTo({ top, behavior: "smooth" });
     });
   });
 
-  /* ------------------------------------------
-     Scroll Reveal — Intersection Observer
-     Targets .reveal (same system as homepage)
-  ------------------------------------------ */
   const revealObserver = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
@@ -71,5 +65,7 @@
     { threshold: 0.12, rootMargin: "0px 0px -40px 0px" },
   );
 
-  document.querySelectorAll(".reveal").forEach((el) => revealObserver.observe(el));
+  document.querySelectorAll(".reveal").forEach((el) => {
+    revealObserver.observe(el);
+  });
 })();

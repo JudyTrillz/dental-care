@@ -11,7 +11,7 @@ import { API_BASE } from "./config.js";
   "use strict";
 
   /* ── Config ── */
-  const AUTH_ENDPOINT = `${API_BASE}/api/auth/login`;
+  const AUTH_ENDPOINT = "/api/auth/login";
   const TOKEN_KEY = "adminToken";
   const DASHBOARD_URL = "index.html"; // relative to /pages/
 

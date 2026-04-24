@@ -147,7 +147,7 @@ import { API_BASE } from "./config.js";
     showLoading(true);
 
     try {
-      const res = await apiFetch(`${API_BASE}/api/services`);
+      const res = await apiFetch("/api/services");
 
       if (!res.success) {
         throw new Error(res.message || "Failed to load services");
@@ -316,7 +316,7 @@ import { API_BASE } from "./config.js";
 
       formData.append("image", file);
 
-      const res = await apiFetch(`${API_BASE}/api/services`, {
+      const res = await apiFetch("/api/services", {
         method: "POST",
         body: formData, // or { name, price } depending on your form
       });

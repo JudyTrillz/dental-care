@@ -13,21 +13,19 @@ async function checkServer() {
   checkingServer = true;
 
   try {
-    const res = await fetch(`${API_BASE}/api/public/services`, {
+    const res = await fetch(`${API_BASE}/api/health`, {
       method: "GET",
       cache: "no-store",
     });
 
     if (!res.ok) throw new Error("Server error");
 
-    // ✅ SERVER RECOVERED
     if (serverDown) {
       serverDown = false;
       showSuccessToast("Server restored. Reloading...");
       setTimeout(() => location.reload(), 1000);
     }
   } catch (err) {
-    // ❗ Only show once
     if (!serverDown && !isOffline) {
       serverDown = true;
       showErrorToast("Server unavailable. Trying to reconnect...");
@@ -36,7 +34,6 @@ async function checkServer() {
 
   checkingServer = false;
 }
-
 /* =========================
    INTERNET HANDLERS
 ========================= */
@@ -52,7 +49,7 @@ function handleOnline() {
   isOffline = false;
 
   showSuccessToast("Internet restored. Reloading...");
-  setTimeout(() => location.reload(), 1000);
+  setTimeout(() => location.reload(), 2000);
 }
 
 /* =========================
@@ -75,5 +72,5 @@ export function initConnectionManager() {
     if (!isOffline) {
       checkServer();
     }
-  }, 5000);
+  }, 15000);
 }

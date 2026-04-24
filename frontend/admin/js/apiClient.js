@@ -40,7 +40,7 @@ export async function apiFetch(endpoint, options = {}) {
 
 export async function validateSession() {
   try {
-    const res = await apiFetch(`${API_BASE}/api/auth/me`);
+    const res = await apiFetch("/api/auth/me");
 
     if (res.status === 401 || res.status === 403) {
       throw new Error("Invalid session");

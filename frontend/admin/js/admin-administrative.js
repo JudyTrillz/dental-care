@@ -10,6 +10,7 @@
    admin-dentists.js
 ========================================= */
 import { apiFetch, validateSession } from "./apiClient.js";
+import { API_BASE } from "./config.js";
 
 import "../js/connectionManager.js";
 
@@ -30,9 +31,9 @@ import "../js/connectionManager.js";
      CONFIG — change endpoints here only
   ========================================= */
   const API = {
-    list: "/api/auth/admins",
-    create: "/api/auth/create-admin",
-    delete: (id) => `/api/auth/delete-admin/${encodeURIComponent(id)}`,
+    list: `${API_BASE}/api/auth/admins`,
+    create: `${API_BASE}/api/auth/create-admin`,
+    delete: (id) => `${API_BASE}/api/auth/delete-admin/${encodeURIComponent(id)}`,
   };
 
   /* =========================================

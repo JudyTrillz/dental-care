@@ -17,7 +17,12 @@ import { API_BASE } from "./config.js";
   const isValid = await validateSession();
   if (!isValid) return;
 
-  const user = JSON.parse(localStorage.getItem("adminUser") || {});
+  const user = JSON.parse(localStorage.getItem("adminUser") || "{}");
+
+  if (!user || !user.role) {
+    window.location.href = "./login.html";
+    return;
+  }
 
   if (user.role !== "super_admin") {
     window.location.href = "index.html";
@@ -34,9 +39,9 @@ import { API_BASE } from "./config.js";
      CONFIG — change endpoints here only
   ========================================= */
   const API = {
-    list: `${API_BASE}/api/dentists`,
-    create: `${API_BASE}/api/dentists`,
-    delete: (id) => `${API_BASE}/api/dentists/${encodeURIComponent(id)}`,
+    list: "/api/dentists",
+    create: "/api/dentists",
+    delete: (id) => `/api/dentists/${encodeURIComponent(id)}`,
   };
 
   /* =========================================
@@ -249,7 +254,7 @@ import { API_BASE } from "./config.js";
     try {
       dentists = await api.fetchAll();
     } catch (err) {
-      console.warn("[Dentists] API unavailable — using mock data.", err.message);
+      console.error("[Dentists] Load failed:", err.message);
     }
 
     renderGrid();
@@ -411,6 +416,8 @@ import { API_BASE } from "./config.js";
 
   // Activate Delete toast
   function showDeleteToast(message = "Service Deleted Successfully") {
+    const deleteToast = document.getElementById("deleteToast");
+
     if (!deleteToast) return;
 
     deleteToast.querySelector("span").textContent = message;
