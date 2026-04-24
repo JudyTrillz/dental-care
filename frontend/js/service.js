@@ -131,10 +131,11 @@ import { API_BASE } from "./config.js";
     try {
       const res = await apiFetch("/api/public/services");
 
-      if (!res.ok) throw new Error("Server error");
+      if (!res.success) {
+        throw new Error(res.message || "Failed to fetch services");
+      }
 
-      const data = await res.json();
-      const services = Array.isArray(data.data) ? data.data : [];
+      const dentists = Array.isArray(res.data) ? res.data : [];
 
       // ✅ clear grid before render
       grid.innerHTML = "";
