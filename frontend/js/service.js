@@ -198,7 +198,7 @@ import { apiFetch } from "../admin/js/apiClient.js";
 
       article.innerHTML = `
       <div class="svc-img-wrap">
-        <img src="http://localhost:5000/uploads/${s.image}" alt="${s.name}" loading="lazy" />
+        <img src="${API_BASE}/uploads/${s.image}" alt="${s.name}" loading="lazy" />
         <span class="svc-category-tag">${s.category}</span>
       </div>
 
