@@ -1,4 +1,4 @@
-const db = require("../config/firebase");
+const db = require("../backend/config/firebase");
 const { FieldValue } = require("firebase-admin").firestore;
 
 const auditLog = async ({

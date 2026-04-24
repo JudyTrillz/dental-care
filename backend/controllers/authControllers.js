@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
-const db = require("../config/firebase");
+const db = require("../config/firebase.js");
 const auditLog = require("../utils/auditLogger.js");
 
 /* ── Config ── */
