@@ -3,8 +3,8 @@
    Handles: sticky nav, mobile menu, scroll reveal,
    category filter, and active nav link
 ========================================= */
-import { API_BASE } from "../admin/js/config.js";
 import { apiFetch } from "../admin/js/apiClient.js";
+import { API_BASE } from "./config.js";
 
 (function () {
   "use strict";
@@ -129,7 +129,7 @@ import { apiFetch } from "../admin/js/apiClient.js";
     if (!grid) return;
 
     try {
-      const res = await apiFetch(`${API_BASE}/api/public/services`);
+      const res = await apiFetch("/api/public/services");
 
       if (!res.ok) throw new Error("Server error");
 
