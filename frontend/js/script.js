@@ -398,7 +398,7 @@ window.addEventListener("online", () => {
 
     async function loadDentists() {
       try {
-        const res = await apiFetch("/api/public/dentists");
+        const res = await apiFetch(`${API_BASE}/api/public/dentists`);
         if (!res.ok) throw new Error("Failed to fetch dentists");
 
         const data = await res.json();
@@ -435,7 +435,7 @@ window.addEventListener("online", () => {
 
     async function loadServicesForForm() {
       try {
-        const res = await apiFetch("/api/public/services");
+        const res = await apiFetch(`${API_BASE}/api/public/services`);
         if (!res.ok) throw new Error("Failed to fetch services");
 
         const data = await res.json();
@@ -530,7 +530,7 @@ window.addEventListener("online", () => {
         submitBtn.disabled = true;
         submitBtn.textContent = "Processing...";
 
-        const response = await apiFetch("/api/bookings", {
+        const response = await apiFetch(`${API_BASE}/api/bookings`, {
           method: "POST",
           body: payload,
         });

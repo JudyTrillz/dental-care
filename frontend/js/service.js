@@ -129,7 +129,7 @@ import { apiFetch } from "../admin/js/apiClient.js";
     if (!grid) return;
 
     try {
-      const res = await apiFetch("/api/public/services");
+      const res = await apiFetch(`${API_BASE}/api/public/services`);
 
       if (!res.ok) throw new Error("Server error");
 
