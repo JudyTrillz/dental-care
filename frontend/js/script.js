@@ -399,10 +399,12 @@ window.addEventListener("online", () => {
     async function loadDentists() {
       try {
         const res = await apiFetch("/api/public/dentists");
-        if (!res.ok) throw new Error("Failed to fetch dentists");
 
-        const data = await res.json();
-        const dentists = Array.isArray(data.data) ? data.data : [];
+        if (!res.success) {
+          throw new Error(res.message || "Failed to fetch dentists");
+        }
+
+        const dentists = Array.isArray(res.data) ? res.data : [];
 
         dentistSelect.innerHTML = `<option value="" disabled selected>Choose your dentist</option>`;
 
@@ -436,9 +438,11 @@ window.addEventListener("online", () => {
     async function loadServicesForForm() {
       try {
         const res = await apiFetch("/api/public/services");
-        if (!res.ok) throw new Error("Failed to fetch services");
 
-        const data = await res.json();
+        if (!res.success) {
+          throw new Error(res.message || "Failed to fetch services");
+        }
+
         const services = Array.isArray(data.data) ? data.data : [];
 
         serviceSelect.innerHTML = `<option value="" disabled selected>Choose the treatment you need</option>`;
@@ -530,14 +534,14 @@ window.addEventListener("online", () => {
         submitBtn.disabled = true;
         submitBtn.textContent = "Processing...";
 
-        const response = await apiFetch("/api/bookings", {
+        const res = await apiFetch("/api/bookings", {
           method: "POST",
           body: payload,
         });
-        const data = await response.json();
 
-        if (!response.ok) throw new Error(data.error || "Booking failed");
-
+        if (!res.success) {
+          throw new Error(res.message || "Booking failed");
+        }
         showNotification("Booking confirmed!", "success");
         submitBtn.textContent = "✓ Confirmed";
 
