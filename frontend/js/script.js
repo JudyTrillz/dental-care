@@ -443,7 +443,7 @@ window.addEventListener("online", () => {
           throw new Error(res.message || "Failed to fetch services");
         }
 
-        const services = Array.isArray(data.data) ? data.data : [];
+        const services = Array.isArray(res.data) ? res.data : [];
 
         serviceSelect.innerHTML = `<option value="" disabled selected>Choose the treatment you need</option>`;
 
