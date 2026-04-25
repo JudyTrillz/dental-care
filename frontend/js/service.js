@@ -135,7 +135,7 @@ import { API_BASE } from "./config.js";
         throw new Error(res.message || "Failed to fetch services");
       }
 
-      const dentists = Array.isArray(res.data) ? res.data : [];
+      const services = Array.isArray(res.data) ? res.data : [];
 
       // ✅ clear grid before render
       grid.innerHTML = "";
