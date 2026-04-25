@@ -41,7 +41,9 @@
 
   /* ── Config — matches login.js ── */
   const TOKEN_KEY = "adminToken";
-  const LOGIN_URL = "/frontend/admin/login.html"; // relative to /pages/
+  const USER_KEY = "adminUser";
+  const REFRESH_KEY = "refreshToken";
+  const LOGIN_URL = "./login.html";
 
   /* =========================================
      AUTH GUARD — runs synchronously on load
@@ -100,5 +102,21 @@
      backend requires token verification:
        headers: { 'Authorization': `Bearer ${window.__adminToken}` }
   ========================================= */
+
+  window.addEventListener("pageshow", (event) => {
+    console.log("[AuthGuard] pageshow fired", {
+      persisted: event.persisted,
+      token: localStorage.getItem(TOKEN_KEY),
+      user: localStorage.getItem(USER_KEY),
+    });
+
+    const token = localStorage.getItem(TOKEN_KEY);
+    const user = localStorage.getItem(USER_KEY);
+
+    if (!token || !user) {
+      window.location.replace(LOGIN_URL);
+    }
+  });
+
   window.__adminToken = token;
 })();
