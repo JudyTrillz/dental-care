@@ -84,16 +84,23 @@
     const token = localStorage.getItem("adminToken");
     const user = JSON.parse(localStorage.getItem("adminUser"));
 
-    // If no token → force login
+    // No auth → force login
     if (!token || !user) {
-      window.location.href = "./login.html";
+      window.location.replace("./login.html");
       return;
     }
 
-    // Optional: expose user globally for UI logic
+    const requiredRole = document.body.dataset.requiredRole;
+
+    // Page requires a specific role
+    if (requiredRole && user.role !== requiredRole) {
+      window.location.replace("./index.html");
+      return;
+    }
+
+    // Expose globally for UI logic
     window.currentUser = user;
   })();
-
   /* =========================================
      OPTIONAL — expose token for API calls
      Page-specific scripts can read:
