@@ -3,18 +3,25 @@
 
   if (!user) return;
 
+  // Hide super admin items properly (hide the whole nav item)
   if (user.role !== "super_admin") {
     document.querySelectorAll(".super-admin-only").forEach((el) => {
-      el.style.display = "none";
+      const navItem = el.closest(".admin-nav-item");
+      if (navItem) {
+        navItem.style.display = "none";
+      }
     });
   }
 
-  // Optional: highlight active link safely
+  // Active link handling (keep as-is but make it safer)
   const links = document.querySelectorAll(".admin-nav-link");
   const currentPage = window.location.pathname.split("/").pop();
 
   links.forEach((link) => {
-    if (link.getAttribute("href") === currentPage) {
+    const href = link.getAttribute("href");
+    if (!href) return;
+
+    if (href === currentPage) {
       link.parentElement.classList.add("active");
       link.setAttribute("aria-current", "page");
     }

@@ -222,7 +222,10 @@
           </li>
 
           <li class="admin-nav-item">
-            <a href="services.html" class="admin-nav-link">
+            <a
+              href="services.html"
+              class="admin-nav-link super-admin-only"
+              data-required-role="super_admin">
               <svg
                 viewBox="0 0 24 24"
                 fill="none"
@@ -237,7 +240,10 @@
           </li>
 
           <li class="admin-nav-item">
-            <a href="dentists.html" class="admin-nav-link">
+            <a
+              href="dentists.html"
+              class="admin-nav-link super-admin-only"
+              data-required-role="super_admin">
               <svg
                 viewBox="0 0 24 24"
                 fill="none"
@@ -254,7 +260,11 @@
 
           <!-- Admin Management — active -->
           <li class="admin-nav-item active">
-            <a href="admins.html" class="admin-nav-link" aria-current="page">
+            <a
+              data-required-role="super_admin"
+              href="admins.html"
+              class="admin-nav-link super-admin-only"
+              aria-current="page">
               <svg
                 viewBox="0 0 24 24"
                 fill="none"
