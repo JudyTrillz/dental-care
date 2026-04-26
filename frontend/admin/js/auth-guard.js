@@ -81,25 +81,22 @@
   }
 
   (function () {
-    const token = localStorage.getItem("adminToken");
-    const user = JSON.parse(localStorage.getItem("adminUser"));
+    function applyRoleRestrictions() {
+      const user = JSON.parse(localStorage.getItem("adminUser"));
+      if (!user) return;
 
-    // No auth → force login
-    if (!token || !user) {
-      window.location.replace("./login.html");
-      return;
+      if (user.role !== "super_admin") {
+        document.querySelectorAll(".super-admin-only").forEach((el) => {
+          el.style.display = "none";
+        });
+      }
     }
 
-    const requiredRole = document.body?.dataset?.requiredRole;
-
-    // Page requires a specific role
-    if (requiredRole && user.role !== requiredRole) {
-      window.location.replace("./index.html");
-      return;
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", applyRoleRestrictions);
+    } else {
+      applyRoleRestrictions();
     }
-
-    // Expose globally for UI logic
-    window.currentUser = user;
   })();
   /* =========================================
      OPTIONAL — expose token for API calls
