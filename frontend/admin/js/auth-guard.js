@@ -90,7 +90,7 @@
       return;
     }
 
-    const requiredRole = document.body.dataset.requiredRole;
+    const requiredRole = document.body?.dataset?.requiredRole;
 
     // Page requires a specific role
     if (requiredRole && user.role !== requiredRole) {
