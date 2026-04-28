@@ -7,6 +7,7 @@
     <link
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
       rel="stylesheet" />
+
     <link rel="stylesheet" href="./css/admin.css" />
   </head>
   <body>
@@ -203,96 +204,7 @@
         DentalCare <span class="admin-logo-tag">Admin</span>
       </div>
       <nav role="navigation" aria-label="Primary admin navigation">
-        <ul class="admin-nav-links" id="adminNavLinks">
-          <li class="admin-nav-item">
-            <a href="index.html" class="admin-nav-link">
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                aria-hidden="true">
-                <rect x="3" y="3" width="7" height="7" rx="1" />
-                <rect x="14" y="3" width="7" height="7" rx="1" />
-                <rect x="3" y="14" width="7" height="7" rx="1" />
-                <rect x="14" y="14" width="7" height="7" rx="1" />
-              </svg>
-              Dashboard
-            </a>
-          </li>
-
-          <li class="admin-nav-item">
-            <a
-              href="services.html"
-              class="admin-nav-link super-admin-only"
-              data-required-role="super_admin">
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                aria-hidden="true">
-                <path
-                  d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-              </svg>
-              Services
-            </a>
-          </li>
-
-          <li class="admin-nav-item">
-            <a
-              href="dentists.html"
-              class="admin-nav-link super-admin-only"
-              data-required-role="super_admin">
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                aria-hidden="true">
-                <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
-                <circle cx="9" cy="7" r="4" />
-                <path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" />
-              </svg>
-              Dentists
-            </a>
-          </li>
-
-          <!-- Admin Management — active -->
-          <li class="admin-nav-item active">
-            <a
-              data-required-role="super_admin"
-              href="admins.html"
-              class="admin-nav-link super-admin-only"
-              aria-current="page">
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                aria-hidden="true">
-                <circle cx="12" cy="8" r="4" />
-                <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
-                <path d="M18 14l2 2 4-4" stroke-linecap="round" stroke-linejoin="round" />
-              </svg>
-              Admins
-            </a>
-          </li>
-
-          <li class="admin-nav-item admin-nav-item--logout">
-            <a href="#" id="logout-btn" class="admin-nav-link admin-nav-link--logout">
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                aria-hidden="true">
-                <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9" />
-              </svg>
-              Logout
-            </a>
-          </li>
-        </ul>
+        <ul class="admin-nav-links" id="adminNavLinks"></ul>
       </nav>
     </aside>
 
@@ -415,9 +327,9 @@
       </main>
     </div>
     <!-- /.admin-content-wrap -->
-
-    <script type="module" src="./js/auth-guard.js"></script>
+    <script src="./js/auth-guard.js"></script>
     <script type="module" src="./js/nav.js"></script>
     <script type="module" src="./js/admin-administrative.js"></script>
+
   </body>
 </html>
