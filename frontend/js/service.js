@@ -3,6 +3,8 @@
    Handles: sticky nav, mobile menu, scroll reveal,
    category filter, and active nav link
 ========================================= */
+import { apiFetch } from "../admin/js/apiClient.js";
+import { API_BASE } from "./config.js";
 
 (function () {
   "use strict";
@@ -16,7 +18,6 @@
   const filterPills = document.querySelectorAll(".filter-pill");
   const allCards = document.querySelectorAll(".svc-card");
   const revealElements = document.querySelectorAll(".reveal");
-  const API_BASE = "http://localhost:5000/api";
 
   /* =========================================
      Sticky nav: add .scrolled on scroll
@@ -128,12 +129,13 @@
     if (!grid) return;
 
     try {
-      const res = await fetch("http://localhost:5000/api/public/services");
+      const res = await apiFetch("/api/public/services");
 
-      if (!res.ok) throw new Error("Server error");
+      if (!res.success) {
+        throw new Error(res.message || "Failed to fetch services");
+      }
 
-      const data = await res.json();
-      const services = Array.isArray(data.data) ? data.data : [];
+      const services = Array.isArray(res.data) ? res.data : [];
 
       // ✅ clear grid before render
       grid.innerHTML = "";
@@ -160,8 +162,6 @@
       }
     }
   }
-
-  fetchServices();
 
   setInterval(() => {
     if (serverDown) {
@@ -199,7 +199,7 @@
 
       article.innerHTML = `
       <div class="svc-img-wrap">
-        <img src="http://localhost:5000/uploads/${s.image}" alt="${s.name}" loading="lazy" />
+        <img src="${API_BASE}/uploads/${s.image}" alt="${s.name}" loading="lazy" />
         <span class="svc-category-tag">${s.category}</span>
       </div>
 

@@ -11,6 +11,7 @@
 
 import { apiFetch, validateSession } from "./apiClient.js";
 import "../js/connectionManager.js";
+import { API_BASE } from "./config.js";
 
 (async function () {
   "use strict";
@@ -114,18 +115,7 @@ import "../js/connectionManager.js";
     showLoading(true);
 
     try {
-      const res = await apiFetch("http://localhost:5000/api/bookings", {
-        headers: {
-          Authorization: `Bearer ${window.__adminToken}`,
-        },
-      });
-
-      if (res.status === 401) {
-        // Token invalid or expired
-        localStorage.removeItem("adminToken");
-        window.location.replace("./login.html");
-        return;
-      }
+      const res = await apiFetch("/api/bookings");
 
       if (!res.success) {
         throw new Error(res.message || "Failed to load bookings");
@@ -137,7 +127,6 @@ import "../js/connectionManager.js";
         throw new Error("Invalid bookings data from server");
       }
 
-      // Normalize keys to match your table & filters
       allBookings = data.map((b) => ({
         id: b.id || b.bookingId || "",
         patientName: b.patientName || b.fullName || "",
@@ -153,10 +142,7 @@ import "../js/connectionManager.js";
       }));
     } catch (err) {
       console.error("[Admin] Bookings fetch failed:", err);
-
-      // ❌ NO MOCK FALLBACK IN PRODUCTION
       allBookings = [];
-
       showCancelToast?.(err.message || "Failed to load bookings");
     }
 
@@ -405,7 +391,7 @@ import "../js/connectionManager.js";
     btn.textContent = action === "confirm" ? "Confirming..." : "Cancelling...";
 
     try {
-      const res = await apiFetch(`http://localhost:5000/api/bookings/${id}`, {
+      const res = await apiFetch(`/api/bookings/${id}`, {
         method: "PATCH",
         body: { status: newStatus }, // ✅ FIXED HERE
       });

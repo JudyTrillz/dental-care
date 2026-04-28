@@ -9,6 +9,7 @@
 ========================================= */
 import { apiFetch, validateSession } from "./apiClient.js";
 import "../js/connectionManager.js";
+import { API_BASE } from "./config.js";
 
 (async function () {
   "use strict";
@@ -16,7 +17,12 @@ import "../js/connectionManager.js";
   const isValid = await validateSession();
   if (!isValid) return;
 
-  const user = JSON.parse(localStorage.getItem("adminUser") || {});
+  const user = JSON.parse(localStorage.getItem("adminUser") || "{}");
+
+  if (!user || !user.role) {
+    window.location.href = "./login.html";
+    return;
+  }
 
   if (user.role !== "super_admin") {
     window.location.href = "index.html";
@@ -32,12 +38,10 @@ import "../js/connectionManager.js";
   /* =========================================
      CONFIG — change endpoints here only
   ========================================= */
-  const API_BASE = "http://localhost:5000";
-
   const API = {
-    list: `${API_BASE}/api/dentists`,
-    create: `${API_BASE}/api/dentists`,
-    delete: (id) => `${API_BASE}/api/dentists/${encodeURIComponent(id)}`,
+    list: "/api/dentists",
+    create: "/api/dentists",
+    delete: (id) => `/api/dentists/${encodeURIComponent(id)}`,
   };
 
   /* =========================================
@@ -111,7 +115,7 @@ import "../js/connectionManager.js";
         name: d.name,
         role: d.role,
         bio: d.bio,
-        image: d.image ? `http://localhost:5000/uploads/${d.image}` : "",
+        image: d.image ? `${API_BASE}/uploads/${d.image}` : "",
       }));
     },
 
@@ -136,7 +140,7 @@ import "../js/connectionManager.js";
         name: created.name,
         role: created.role,
         bio: created.bio,
-        image: created.image ? `http://localhost:5000/uploads/${created.image}` : "",
+        image: created.image ? `${API_BASE}/uploads/${created.image}` : "",
       };
     },
 
@@ -250,7 +254,7 @@ import "../js/connectionManager.js";
     try {
       dentists = await api.fetchAll();
     } catch (err) {
-      console.warn("[Dentists] API unavailable — using mock data.", err.message);
+      console.error("[Dentists] Load failed:", err.message);
     }
 
     renderGrid();
@@ -412,6 +416,8 @@ import "../js/connectionManager.js";
 
   // Activate Delete toast
   function showDeleteToast(message = "Service Deleted Successfully") {
+    const deleteToast = document.getElementById("deleteToast");
+
     if (!deleteToast) return;
 
     deleteToast.querySelector("span").textContent = message;

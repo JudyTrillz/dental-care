@@ -8,8 +8,8 @@
      - Testimonials slider
      - Booking form with hash preselect
 ========================================= */
-
 import { apiFetch } from "../admin/js/apiClient.js";
+import { API_BASE } from "./config.js";
 
 import { showErrorToast, showSuccessToast } from "../admin/js/toast.js";
 
@@ -398,12 +398,13 @@ window.addEventListener("online", () => {
 
     async function loadDentists() {
       try {
-        const res = await fetch("http://localhost:5000/api/public/dentists");
+        const res = await apiFetch("/api/public/dentists");
 
-        if (!res.ok) throw new Error("Failed to fetch dentists");
+        if (!res.success) {
+          throw new Error(res.message || "Failed to fetch dentists");
+        }
 
-        const data = await res.json();
-        const dentists = Array.isArray(data.data) ? data.data : [];
+        const dentists = Array.isArray(res.data) ? res.data : [];
 
         dentistSelect.innerHTML = `<option value="" disabled selected>Choose your dentist</option>`;
 
@@ -436,12 +437,13 @@ window.addEventListener("online", () => {
 
     async function loadServicesForForm() {
       try {
-        const res = await fetch("http://localhost:5000/api/public/services");
+        const res = await apiFetch("/api/public/services");
 
-        if (!res.ok) throw new Error("Failed to fetch services");
+        if (!res.success) {
+          throw new Error(res.message || "Failed to fetch services");
+        }
 
-        const data = await res.json();
-        const services = Array.isArray(data.data) ? data.data : [];
+        const services = Array.isArray(res.data) ? res.data : [];
 
         serviceSelect.innerHTML = `<option value="" disabled selected>Choose the treatment you need</option>`;
 
@@ -532,15 +534,14 @@ window.addEventListener("online", () => {
         submitBtn.disabled = true;
         submitBtn.textContent = "Processing...";
 
-        const response = await fetch("http://localhost:5000/api/bookings", {
+        const res = await apiFetch("/api/bookings", {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload),
+          body: payload,
         });
-        const data = await response.json();
 
-        if (!response.ok) throw new Error(data.error || "Booking failed");
-
+        if (!res.success) {
+          throw new Error(res.message || "Booking failed");
+        }
         showNotification("Booking confirmed!", "success");
         submitBtn.textContent = "✓ Confirmed";
 
@@ -618,7 +619,7 @@ window.addEventListener("online", () => {
       if (!container) return;
 
       try {
-        const res = await apiFetch("http://localhost:5000/api/public/services");
+        const res = await apiFetch("/api/public/services");
 
         if (!res.success) {
           throw new Error(res.message || "Failed to load services");
