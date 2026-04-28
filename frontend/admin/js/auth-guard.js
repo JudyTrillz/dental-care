@@ -34,18 +34,6 @@
   window.__adminToken = token;
   window.currentUser = user;
 
-  // LOGOUT HANDLER
-  function wireLogout() {
-    const btn = document.getElementById("logoutBtn");
-    if (!btn) return;
-
-    btn.addEventListener("click", () => {
-      localStorage.removeItem(TOKEN_KEY);
-      localStorage.removeItem(USER_KEY);
-      window.location.replace(LOGIN_URL);
-    });
-  }
-
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", wireLogout);
   } else {
