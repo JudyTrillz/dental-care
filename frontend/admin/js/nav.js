@@ -73,3 +73,14 @@ function renderAdminNav() {
 }
 
 renderAdminNav();
+
+// LOGOUT HANDLER
+const logoutBtn = document.getElementById("logoutBtn");
+
+if (logoutBtn) {
+  logoutBtn.addEventListener("click", () => {
+    localStorage.removeItem("adminToken");
+    localStorage.removeItem("adminUser");
+    window.location.replace("./login.html");
+  });
+}
