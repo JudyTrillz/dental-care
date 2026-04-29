@@ -56,7 +56,7 @@ function renderAdminNav() {
 
   const logoutItem = `
     <li class="admin-nav-item admin-nav-item--logout">
-      <a href="#" id="logoutBtn" class="admin-nav-link admin-nav-link--logout">
+      <a href="./login.html" id="logoutBtn" class="admin-nav-link admin-nav-link--logout">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
           <path d="M10 17l1 1 4-4" />
           <path d="M4 4h11a2 2 0 012 2v3" />
