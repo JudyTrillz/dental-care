@@ -73,8 +73,6 @@ import { API_BASE } from "./config.js";
         body: { email, password },
       });
 
-      console.log("LOGIN RESPONSE:", response);
-
       /* =========================
        HANDLE API ERROR
     ========================= */

@@ -55,6 +55,9 @@ import { API_BASE } from "./config.js";
   let sortCol = "date";
   let sortDir = "desc"; // 'asc' | 'desc'
 
+  let lastBookingCount = 0;
+  let pollingInterval = null;
+
   /* =========================================
      A. SIDEBAR TOGGLE (hamburger)
      Uses #menu-toggle + #sidebar per spec.
@@ -140,6 +143,14 @@ import { API_BASE } from "./config.js";
         endTime: b.endTime || "",
         status: (b.status || "pending").toLowerCase(),
       }));
+
+      const newCount = allBookings.length;
+
+      if (lastBookingCount > 0 && newCount > lastBookingCount) {
+        showSuccessToast("New booking received");
+      }
+
+      lastBookingCount = newCount;
     } catch (err) {
       console.error("[Admin] Bookings fetch failed:", err);
       allBookings = [];
@@ -487,6 +498,10 @@ import { API_BASE } from "./config.js";
       document.body.classList.remove("no-scroll");
       document.body.style.overflow = "";
 
+      if (pollingInterval) {
+        clearInterval(pollingInterval);
+      }
+
       window.location.replace("./login.html");
     });
   }
@@ -529,4 +544,8 @@ import { API_BASE } from "./config.js";
 
   /* ---- Boot ---- */
   fetchBookings();
+
+  pollingInterval = setInterval(() => {
+    fetchBookings();
+  }, 15000);
 })();
