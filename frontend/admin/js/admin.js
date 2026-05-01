@@ -321,9 +321,25 @@ import { API_BASE } from "./config.js";
   });
 
   function sortFiltered() {
+    const statusPriority = {
+      pending: 1,
+      confirmed: 2,
+      cancelled: 3,
+    };
+
     filtered.sort((a, b) => {
+      // Always prioritize status first
+      const statusA = statusPriority[a.status] || 99;
+      const statusB = statusPriority[b.status] || 99;
+
+      if (statusA !== statusB) {
+        return statusA - statusB;
+      }
+
+      // Then sort within same status group using selected column
       const va = (a[sortCol] || "").toString().toLowerCase();
       const vb = (b[sortCol] || "").toString().toLowerCase();
+
       return sortDir === "asc"
         ? va.localeCompare(vb, undefined, { numeric: true })
         : vb.localeCompare(va, undefined, { numeric: true });
