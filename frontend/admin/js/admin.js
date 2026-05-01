@@ -114,8 +114,10 @@ import { API_BASE } from "./config.js";
      Falls back to mock data in development
      if the API isn't available yet.
   ========================================= */
-  async function fetchBookings() {
-    showLoading(true);
+  async function fetchBookings(showLoader = true) {
+    if (showLoader) {
+      showLoading(true);
+    }
 
     try {
       const res = await apiFetch("/api/bookings");
@@ -158,7 +160,7 @@ import { API_BASE } from "./config.js";
     }
 
     populateDentistFilter();
-    applyFilters();
+    applyFilters(showLoader);
     updateStats();
     showLoading(false);
   }
@@ -226,7 +228,7 @@ import { API_BASE } from "./config.js";
   /* =========================================
      D. FILTERS
   ========================================= */
-  function applyFilters() {
+  function applyFilters(resetPage = true) {
     const date = filterDate.value;
     const dentist = filterDentist.value.toLowerCase();
     const status = filterStatus.value.toLowerCase();
@@ -245,7 +247,9 @@ import { API_BASE } from "./config.js";
     });
 
     sortFiltered();
-    currentPage = 1;
+    if (resetPage) {
+      currentPage = 1;
+    }
     render();
   }
 
@@ -546,6 +550,6 @@ import { API_BASE } from "./config.js";
   fetchBookings();
 
   pollingInterval = setInterval(() => {
-    fetchBookings();
+    fetchBookings(false);
   }, 15000);
 })();
